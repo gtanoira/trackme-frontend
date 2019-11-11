@@ -1,0 +1,21 @@
+mat-card-title {
+  font-size: 16px;
+}
+
+.mat-input-element {
+  padding-left: 7px;
+}
+
+.mat-select {
+  padding-left: 7px;
+}
+
+.radio-group-visibility {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.wrapper {
+  height: 280px;
+  max-height: calc(100% - 19px);
+}

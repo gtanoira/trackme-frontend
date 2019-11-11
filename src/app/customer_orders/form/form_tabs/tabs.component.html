@@ -1,0 +1,302 @@
+<mat-tab-group
+  name="appTabsGroup"
+  fxFlex
+  (selectedIndexChange)="changeTab($event)"
+  [formGroup]="formData">
+
+  <!-- EVENTS tabs  -->
+  <mat-tab
+    label="Events"
+    isActive="true">
+    <app-custorder-events
+      [orderId]="orderId"
+      [formData]="formData">
+    </app-custorder-events>
+  </mat-tab>
+
+  <!-- SHIPPER tab  -->
+  <mat-tab
+    label="Shipper">
+    <div
+      fxLayout="column"
+      formGroupName="blkFrom">
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Entity"
+          formControlName="fromEntity"
+          required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Address 1"
+          formControlName="fromAddress1">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Address 2"
+          formControlName="fromAddress2">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="City"
+          formControlName="fromCity">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Zip Code"
+          formControlName="fromZipcode">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="State"
+          formControlName="fromState">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Country"
+          formControlName="fromCountryId"
+          required>
+          <mat-option
+            *ngFor="let country of countryOptions"
+            [value]="country.id">
+            {{ country.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-tab>
+
+  <!--  CONSIGNEE tab -->)
+  <mat-tab
+    label="Consignee">
+    <div
+      class="containerX"
+      fxLayout="column"
+      formGroupName="blkTo">
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Entity"
+          [errorStateMatcher]="matcher"
+          formControlName="toEntity"
+          required>
+        <mat-error *ngIf="formData.controls['blkTo'].controls['toEntity'].hasError('required')">
+          The Consignee Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Address 1"
+          formControlName="toAddress1">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Address 2"
+          formControlName="toAddress2">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="City"
+          formControlName="toCity">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Zip Code"
+          formControlName="toZipcode">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="State"
+          formControlName="toState">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Country"
+          formControlName="toCountryId"
+          required>
+          <mat-option
+            *ngFor="let country of countryOptions"
+            [value]="country.id">
+            {{ country.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-tab>
+
+  <!--  OBSERVATIONS tab -->)
+  <mat-tab
+    label="Observations">
+    <div
+      class="containerX"
+      fxLayout="column"
+      formGroupName="blkGeneral">
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="No. of pieces"
+          formControlName="pieces">
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Observations"
+          rows="15"
+          formControlName="observations">
+        </textarea>
+      </mat-form-field>
+    </div>
+  </mat-tab>
+
+  <!--  OTHER tab -->)
+  <mat-tab
+    label="Other">
+    <div
+      class="containerX"
+      fxLayout="column"
+      formGroupName="blkGeneral">
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="E.T.A."
+          [matDatepicker]="eta"
+          formControlName="eta">
+        <mat-datepicker-toggle matSuffix [for]="eta"></mat-datepicker-toggle>
+        <mat-datepicker #eta></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Delivery date"
+          [matDatepicker]="deliveryDate"
+          formControlName="deliveryDate">
+        <mat-datepicker-toggle matSuffix [for]="deliveryDate"></mat-datepicker-toggle>
+        <mat-datepicker #deliveryDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          placeholder="This order belongs to the company"
+          formControlName="companyId"
+          required>
+          <mat-option
+            *ngFor="let company of companyOptions"
+            [value]="company.id">
+            {{ company.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          formControlName="thirdPartyId"
+          placeholder="Third party to invoice this order"
+          required>
+          <mat-option
+            *ngFor="let customer of customerOptions"
+            [value]="customer.id">
+            {{ customer.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="formData.get('blkGeneral').get('thirdPartyId').hasError('required')">
+          The third-party is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+  </mat-tab>
+
+  <!--  WR & SHIP order's tabs -->)
+  <mat-tab
+    *ngFor="let tab of dynamicTabs"
+    label="{{tab.label}}">
+
+    <!-- TAB label -->
+    <ng-template
+      mat-tab-label>
+      {{tab.label}}&nbsp;&nbsp;
+      <mat-icon
+        *ngIf="tab.remove"
+        class="mini-icon"
+        (click)="removeTab(tab)"
+        svgIcon="delete_red">
+      </mat-icon>
+    </ng-template>
+
+    <!-- TAB component -->
+    <ndc-dynamic
+      [ndcDynamicComponent]="tab.component"
+      [ndcDynamicInputs]="tab.inputs">
+    </ndc-dynamic>
+  </mat-tab>
+
+  <!--  Add SHIPMENT button tab  -->
+  <mat-tab #addShip>
+    <ng-template mat-tab-label>
+      <button
+        style="font-weight: bold"
+        mat-button
+        color="primary"
+        title="Add a new Shipment"
+        (click)="addShipment()">
+        <mat-icon
+          class="mini-icon"
+          svgIcon="add_green">
+        </mat-icon>
+        &nbsp;SH
+      </button>
+    </ng-template>
+  </mat-tab>
+
+  <!--  Add WAREHOUSE RECEIPT button tab  -->
+  <mat-tab #addWR disabled>
+    <ng-template mat-tab-label>
+      <button
+        style="font-weight: bold"
+        mat-button
+        color="primary"
+        title="Add a new WareHouse Receipt"
+        (click)="addWReceipt()">
+        <mat-icon
+          class="mini-icon"
+          svgIcon="add_green">
+        </mat-icon>
+        &nbsp;WR
+      </button>
+    </ng-template>
+  </mat-tab>
+
+</mat-tab-group>

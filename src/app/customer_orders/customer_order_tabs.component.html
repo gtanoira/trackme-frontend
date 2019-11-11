@@ -1,0 +1,54 @@
+<div fxLayout="column" fxFlexFill fxFlex="100">
+<mat-tab-group
+  name="appCOrderRight">
+
+  <!-- TAB header -->
+  <mat-tab
+    id="ppp3"
+    *ngFor="let tab of cOrdersTabs"
+    label="{{tab.label}}" isActive="true">
+
+    <ng-template
+      mat-tab-label>
+      {{tab.label}}&nbsp;&nbsp;
+      <mat-icon
+        (click)="removeTab(tab)"
+        class="mini-button"
+        svgIcon="delete_red">
+      </mat-icon>
+    </ng-template>
+
+    <!-- Component to inject into tab -->
+    <ng-container
+      [ngComponentOutlet]="tab.component",
+      [ndcDynamicInputs]="tab.inputs",
+      [(ndcDynamicOutputs)]="tab.outputs">
+    </ng-container>
+  </mat-tab>
+
+  <!-- BUTTONS to add to the TAB header at most right position-->
+  <!--  Add GRID tab  -->
+  <mat-tab #addGrid>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Add a Grid"
+        (click)="addCOrdersGridTab()">
+        <mat-icon svgIcon="spreadsheet"></mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+
+  <!--  Add CUSTOMER ORDER FORM tab  -->
+  <mat-tab disabled>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Add a new Customer Order"
+        (click)="addCOrdersFormTab()">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
+</div>

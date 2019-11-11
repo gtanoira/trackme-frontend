@@ -1,0 +1,13 @@
+img {
+  width: 300px;
+  height:auto;
+}
+
+.login-error {
+  color: red;
+  margin: auto;
+}
+
+.mat-icon {
+  color: black;
+}

@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+/* Angular prebuild theme */
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/* AG-GRID css */
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-bootstrap.css";
+@import "~ag-grid-community/dist/styles/ag-theme-material.css";
+@import "~ag-grid-community/dist/styles/ag-theme-blue.css";
+
+
+/*  Normalize CSS */
+@import 'normalize.css/normalize.css';
+
+/* **********************************************************************
+   GENERAL
+*/
+html,
+body {
+  width: 100%;
+  max-width: 100vw;
+  font-family: 'Lato', sans-serif;
+}
+
+body {
+  background-color: #e3e3c8;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+/* *************************************************************************************
+    Angular Material customizations
+*/
+.ng-valid[required],
+.ng-valid.required {
+  border-left: 2px solid #42a948; /* green */
+}
+
+.ng-invalid[required] {
+  border-left: 2px solid #a94442; /* red */
+}

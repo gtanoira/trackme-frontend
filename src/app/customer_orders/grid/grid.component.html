@@ -1,0 +1,12 @@
+<ag-grid-angular
+  [ngStyle]="{ height: componentHeight }"
+  class="ag-theme-balham wrapper"
+  #customerOrdersGrid
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [overlayLoadingTemplate]="overlayLoadingTemplate"
+  [rowData]="rowData"
+  [frameworkComponents]="frameworkComponents"
+  (gridReady)="onGridReady($event)"
+  (rowDoubleClicked)="onRowDoubleClicked($event.data.id)">
+</ag-grid-angular>

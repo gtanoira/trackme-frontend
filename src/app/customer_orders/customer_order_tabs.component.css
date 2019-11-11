@@ -1,0 +1,12 @@
+.mat-icon {
+  color: black;
+  width: 18px;
+}
+
+.mat-icon-button, .mat-tab-label {
+  height: 32px!important;
+}
+
+.mini-button {
+  width: 12px;
+}

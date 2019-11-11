@@ -1,0 +1,19 @@
+
+.formMenu {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.mat-icon {
+  color: white;
+  width: 18px;
+}
+
+.mat-input-element {
+  padding-left: 7px;
+}
+
+.mat-select {
+  padding-left: 7px;
+}
