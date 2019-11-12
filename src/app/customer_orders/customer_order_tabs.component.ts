@@ -19,7 +19,7 @@ import { CustomerOrderService } from '../../shared/customer_order.service';
  */
 @Component({
   templateUrl: './customer_order_tabs.component.html',
-  styleUrls:   ['./customer_order_tabs.component.css']
+  styleUrls:   ['./customer_order_tabs.component.scss']
 })
 export class CustomerOrderTabsComponent  {
   @ViewChild(MatTabGroup, {static: false}) tabGroup: MatTabGroup;  // All tabs info that are available in the screen

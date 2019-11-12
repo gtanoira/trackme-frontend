@@ -17,7 +17,7 @@ import { style } from '@angular/animations';
       <i class="text"> {{this.params.loadingMessage}} </i>
     </div>
     `,
-  styleUrls: ['./ag-grid_loading.component.css']
+  styleUrls: ['./ag-grid_loading.component.scss']
 })
 export class AgGridLoadingComponent implements ILoadingOverlayAngularComp {
 

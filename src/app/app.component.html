@@ -1,16 +1,104 @@
-<div class="container">
+<mat-toolbar
+  class="relative"
+  color="primary">
 
-  <header class="mdc-top-app-bar app-bar" id="app-bar">
-    <div class="mdc-top-app-bar__row">
-      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-        <a href="#" class="demo-menu material-icons mdc-top-app-bar__navigation-icon">menu</a>
-        <span class="mdc-top-app-bar__title">Dismissible Drawer</span>
-      </section>
+  <!-- Header -->
+  <header>
+
+    <!-- Title -->
+    <h2>Portal Admin II - <span class="subtitle">{{currentProgramTitle}}</span></h2>
+
+    <!-- Options -->
+    <div>
+
+      <!-- Main Menu (HOME) -->
+      <a
+        mat-button
+        routerLink="/">
+        Home&nbsp;
+        <mat-icon
+          matTooltip="ET phone Home"
+          matTooltipPosition="above"
+          svgIcon="home_main">
+        </mat-icon>
+      </a>
+
+      <!-- Environment Variables -->
+      <a
+        mat-button
+        [matMenuTriggerFor]="menu">
+        Environment&nbsp;
+        <mat-icon
+          matTooltip="See Environment"
+          matTooltipPosition="above"
+          svgIcon="env_info">
+        </mat-icon>
+      </a>
+      <mat-menu #menu="matMenu">
+        <span mat-menu-item>Login: {{ toolbarLoginServer }}</span>
+      </mat-menu>
+
+      <!-- User Name -->
+      <a
+        mat-button>
+        {{ toolbarUser }}&nbsp;
+        <mat-icon
+          matTooltip=[toolbarUser]
+          matTooltipPosition="above"
+          svgIcon="user_toolbar">
+        </mat-icon>
+      </a>
+
+      <!-- Logout -->
+      <a
+        fxFlexAlign="center"
+        class="toolbar-logout"
+        mat-button
+        (click)="authenticationService.logout()">
+        <span fxHide.lt-md>Logout&nbsp;</span>
+        <mat-icon
+          matTooltip="Logout App"
+          matTooltipPosition="above"
+          svgIcon="logout">
+        </mat-icon>
+      </a>
     </div>
+
   </header>
 
+  <!-- Error Message Line -->
+  <div
+    class="absolute"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="8px"
+    [ngClass]="errorLineClasses">
+
+    <!-- Icon Close -->
+    <div
+      fxFlex="0 0 0%"
+      mat-button
+      (click)="errorMessageService.changeErrorMessage('')"
+      matTooltip="Close">
+      <mat-icon
+        svgIcon="close"
+        style="height: 12px;">
+      </mat-icon>
+    </div>
+
+    <!-- Mensaje -->
+    <div fxFlex="1 0 0%">
+      {{ formErrorMessage }}
+    </div>
+  </div>
+
+</mat-toolbar>
+
+<!-- Main Body -->
+<div class="container">
+
   <aside class="mdc-drawer mdc-drawer--dismissible mdc-top-app-bar--fixed-adjust">
-    <div class="mdc-drawer__content">
+    <!-- <div class="mdc-drawer__content">
       <div class="mdc-list">
         <a class="mdc-list-item mdc-list-item--activated" href="#" aria-current="page">
           <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
@@ -25,12 +113,11 @@
           <span class="mdc-list-item__text">Drafts</span>
         </a>
       </div>
-    </div>
+    </div> -->
   </aside>
 
-  <div class="mdc-drawer-app-content mdc-top-app-bar--fixed-adjust">
-    <main class="main-content" id="main-content">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
+  <main class="main-content" id="main-content">
+    <router-outlet></router-outlet>
+  </main>
+
 </div>

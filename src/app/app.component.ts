@@ -2,11 +2,11 @@
   Este componente es el principal del sistema y muestra la página ppal del portal y el
   esquema de menúes
 */
-import { Component, ElementRef, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatMenuModule } from '@angular/material';
 import { MatIconRegistry } from '@angular/material/icon';
-import {MDCDrawer} from '@material/drawer';
-//const drawer = MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
 
 // Services
 import { ErrorMessageService } from '../shared/error-message.service';
@@ -19,7 +19,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnChanges, OnDestroy {
 

@@ -47,7 +47,7 @@ export const MY_FORMATS = {
 @Component({
   selector: 'app-aggrid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.css']
+  styleUrls: ['./grid.component.scss']
 })
 export class COrderGridComponent implements OnInit, AfterViewInit {
 
