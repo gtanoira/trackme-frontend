@@ -14,16 +14,17 @@ import { AuthenticationService } from '../shared/authentication.service';
 
 // Environment
 import { environment } from '../environments/environment';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnChanges, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, OnChanges {
 
-  // Error Messages from the entire APP
+  // Variables messages for entire app
+  public programSubtitle = '';
   public formErrorMessage = '';
   public errorLineClasses = '';
 
@@ -31,14 +32,15 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
   toolbarUser   = '';
   toolbarLoginServer  = '';
   toolbarEnvironment = '';
+
   // Program Title render in screen
-  public currentProgramTitle = 'Home';
-  public errorLine: Subscription;   // Error line
+  private subsProgramSubtitle: Subscription;
+  private errorLine: Subscription;   // Error line
 
   constructor(
-    public authenticationService: AuthenticationService,
+    public  authenticationService: AuthenticationService,
     private domSanitizer: DomSanitizer,
-    private errorMessageService: ErrorMessageService,
+    public  errorMessageService: ErrorMessageService,
     private matIconRegistry: MatIconRegistry
   ) {
 
@@ -52,6 +54,11 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
     this.matIconRegistry.addSvgIcon(
       'add_green',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/add_green.svg')
+    );
+    // Close
+    this.matIconRegistry.addSvgIcon(
+      'add_green',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/close.svg')
     );
     // Data-Table
     this.matIconRegistry.addSvgIcon(
@@ -116,10 +123,9 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
       );
 
     // Subscribe to the currentProgramTitle, to show program's title on the screen
-    this.errorMessageService.currentProgramTitle
-      .subscribe(
-        message => this.currentProgramTitle = message
-      );
+    this.subsProgramSubtitle = this.errorMessageService.currentProgramTitle.subscribe(
+      title => this.programSubtitle = title
+    );
 
     // Subscibir el Toolbar user
     this.authenticationService.currentUser
@@ -160,9 +166,12 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
     // Borrar posible mensaje de error
     this.errorMessageService.changeErrorMessage(null);
+
     // Toolbar
     this.toolbarLoginServer = environment.envData.loginServer;
-    this.toolbarEnvironment = environment.envData.mode;
+
+    // Set Program Title
+    this.errorMessageService.changeAppProgramTitle('Home Page');
   }
 
   ngOnChanges() {
@@ -170,7 +179,9 @@ export class AppComponent implements OnInit, OnChanges, OnDestroy {
     this.errorMessageService.changeAppProgramTitle('Customer Orders');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy () {
+    this.errorLine.unsubscribe();
+    this.subsProgramSubtitle.unsubscribe();
   }
 
 }

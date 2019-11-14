@@ -1,82 +1,71 @@
 <mat-toolbar
-  class="relative"
+  class="header"
   color="primary">
 
-  <!-- Header -->
-  <header>
+  <!-- Title -->
+  <h2>Box Track - <span class="subtitle">{{ programSubtitle }}</span></h2>
 
-    <!-- Title -->
-    <h2>Portal Admin II - <span class="subtitle">{{currentProgramTitle}}</span></h2>
+  <!-- Options -->
+  <div class="header-right">
 
-    <!-- Options -->
-    <div>
+    <!-- Main Menu (HOME) -->
+    <a
+      mat-button
+      routerLink="/">
+      <mat-icon
+        matTooltip="ET phone Home"
+        matTooltipPosition="above"
+        svgIcon="home_main">
+      </mat-icon>
+    </a>
 
-      <!-- Main Menu (HOME) -->
-      <a
-        mat-button
-        routerLink="/">
-        Home&nbsp;
-        <mat-icon
-          matTooltip="ET phone Home"
-          matTooltipPosition="above"
-          svgIcon="home_main">
-        </mat-icon>
-      </a>
+    <!-- Environment Variables -->
+    <a
+      mat-button
+      [matMenuTriggerFor]="menu">
+      <mat-icon
+        matTooltip="See Environment"
+        matTooltipPosition="above"
+        svgIcon="env_info">
+      </mat-icon>
+    </a>
+    <mat-menu #menu="matMenu">
+      <span mat-menu-item>Login: {{ toolbarLoginServer }}</span>
+    </mat-menu>
 
-      <!-- Environment Variables -->
-      <a
-        mat-button
-        [matMenuTriggerFor]="menu">
-        Environment&nbsp;
-        <mat-icon
-          matTooltip="See Environment"
-          matTooltipPosition="above"
-          svgIcon="env_info">
-        </mat-icon>
-      </a>
-      <mat-menu #menu="matMenu">
-        <span mat-menu-item>Login: {{ toolbarLoginServer }}</span>
-      </mat-menu>
+    <!-- User Name -->
+    <a
+      mat-button>
+      {{ toolbarUser }}&nbsp;
+      <mat-icon
+        matTooltip=[toolbarUser]
+        matTooltipPosition="above"
+        svgIcon="user_toolbar">
+      </mat-icon>
+    </a>
 
-      <!-- User Name -->
-      <a
-        mat-button>
-        {{ toolbarUser }}&nbsp;
-        <mat-icon
-          matTooltip=[toolbarUser]
-          matTooltipPosition="above"
-          svgIcon="user_toolbar">
-        </mat-icon>
-      </a>
+    <!-- Logout -->
+    <a
+      class="toolbar-logout"
+      mat-button
+      (click)="authenticationService.logout()">
+      <mat-icon
+        matTooltip="Logout App"
+        matTooltipPosition="above"
+        svgIcon="logout">
+      </mat-icon>
+    </a>
+  </div>
 
-      <!-- Logout -->
-      <a
-        fxFlexAlign="center"
-        class="toolbar-logout"
-        mat-button
-        (click)="authenticationService.logout()">
-        <span fxHide.lt-md>Logout&nbsp;</span>
-        <mat-icon
-          matTooltip="Logout App"
-          matTooltipPosition="above"
-          svgIcon="logout">
-        </mat-icon>
-      </a>
-    </div>
-
-  </header>
+</mat-toolbar>
 
   <!-- Error Message Line -->
   <div
     class="absolute"
-    fxLayout="row"
-    fxLayoutAlign="start center"
-    fxLayoutGap="8px"
     [ngClass]="errorLineClasses">
 
     <!-- Icon Close -->
     <div
-      fxFlex="0 0 0%"
       mat-button
       (click)="errorMessageService.changeErrorMessage('')"
       matTooltip="Close">
@@ -87,12 +76,10 @@
     </div>
 
     <!-- Mensaje -->
-    <div fxFlex="1 0 0%">
+    <div>
       {{ formErrorMessage }}
     </div>
   </div>
-
-</mat-toolbar>
 
 <!-- Main Body -->
 <div class="container">

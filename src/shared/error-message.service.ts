@@ -7,11 +7,11 @@ export class ErrorMessageService {
 
   // Messages: error, warning or info
   private formMessageSubject = new BehaviorSubject('');
-  formCurrentMessage = this.formMessageSubject.asObservable();
+  public  formCurrentMessage = this.formMessageSubject.asObservable();
 
   // Program Title
   private _appProgramTitle = new BehaviorSubject('');
-  currentProgramTitle = this._appProgramTitle.asObservable();
+  public  currentProgramTitle = this._appProgramTitle.asObservable();
 
   constructor() { }
 
