@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
     if (this.authenticationService.currentUserValue) {
       this.router.navigate(['/']);
     }
+
+    // Set subtitle
+    this.errorMessageService.changeAppProgramTitle('Login');
   }
 
   ngOnInit() {
@@ -38,6 +41,8 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    this.errorMessageService.changeErrorMessage('API-9999(E): este es un error para probar la linea de error en la cabecera');
   }
 
   // GETTERS:convenience getter for easy access to form fields

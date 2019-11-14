@@ -3,13 +3,15 @@
   color="primary">
 
   <!-- Title -->
-  <h2>Box Track - <span class="subtitle">{{ programSubtitle }}</span></h2>
+  <h2 class="main-title">Send Box -&nbsp;</h2>
+  <h2 class="subtitle">{{ programSubtitle }}</h2>
 
   <!-- Options -->
   <div class="header-right">
 
     <!-- Main Menu (HOME) -->
     <a
+      class="header-button"
       mat-button
       routerLink="/">
       <mat-icon
@@ -21,6 +23,7 @@
 
     <!-- Environment Variables -->
     <a
+      class="header-button"
       mat-button
       [matMenuTriggerFor]="menu">
       <mat-icon
@@ -35,10 +38,10 @@
 
     <!-- User Name -->
     <a
+      class="header-button"
       mat-button>
-      {{ toolbarUser }}&nbsp;
       <mat-icon
-        matTooltip=[toolbarUser]
+        [matTooltip]="toolbarUser"
         matTooltipPosition="above"
         svgIcon="user_toolbar">
       </mat-icon>
@@ -46,6 +49,7 @@
 
     <!-- Logout -->
     <a
+      class="header-button"
       class="toolbar-logout"
       mat-button
       (click)="authenticationService.logout()">
@@ -59,27 +63,26 @@
 
 </mat-toolbar>
 
-  <!-- Error Message Line -->
+<!-- Error Message Line -->
+<div class="error-absolute"
+  [ngClass]="errorLineClasses">
+
+  <!-- Icon Close -->
   <div
-    class="absolute"
-    [ngClass]="errorLineClasses">
-
-    <!-- Icon Close -->
-    <div
-      mat-button
-      (click)="errorMessageService.changeErrorMessage('')"
-      matTooltip="Close">
-      <mat-icon
-        svgIcon="close"
-        style="height: 12px;">
-      </mat-icon>
-    </div>
-
-    <!-- Mensaje -->
-    <div>
-      {{ formErrorMessage }}
-    </div>
+    mat-button
+    (click)="errorMessageService.changeErrorMessage('')"
+    matTooltip="Close">
+    <mat-icon
+      class="error-close"
+      svgIcon="close">
+    </mat-icon>
   </div>
+
+  <!-- Mensaje -->
+  <div>
+    {{ formErrorMessage }}
+  </div>
+</div>
 
 <!-- Main Body -->
 <div class="container">

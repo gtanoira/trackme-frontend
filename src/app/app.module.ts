@@ -20,6 +20,7 @@ import {
   MatSelectModule,
   MatTabsModule
 } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 
@@ -97,6 +98,7 @@ import { COrderEventsComponent } from './customer_orders/form/events/events.comp
     MatSelectModule,
     MatTabsModule,
     MatToolbarModule,
+    MatTooltipModule,
     ReactiveFormsModule,
     routing,
     // Customer Orders

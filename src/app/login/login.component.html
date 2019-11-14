@@ -1,52 +1,46 @@
 ﻿<!-- Container Right -->
-<div
-  fxLayout="column"
-  fxLayoutAlign="start center">
+<div class="container">
 
   <img src="/assets/images/trackme.png" />
-  <h2>Login</h2>
 
-  <div
-    style="width: 300px;">
-    <form
-      fxLayout="column"
-      [formGroup]="loginForm">
+  <div class="login"
+    [formGroup]="loginForm">
 
-      <!-- Username -->
-      <mat-form-field
-        appearance="outline">
-        <mat-label>User name</mat-label>
-        <input
-          style="width:calc(100% - 24px)"
-          matInput
-          placeholder="Enter your email"
-          formControlName="username" />
-        <mat-icon svgIcon="user_toolbar"></mat-icon>
-      </mat-form-field>
+    <!-- Username -->
+    <mat-form-field
+      appearance="outline">
+      <mat-label>User name</mat-label>
+      <input
+        style="width:calc(100% - 24px)"
+        matInput
+        placeholder="Enter your email"
+        formControlName="username" />
+      <mat-icon svgIcon="user_toolbar"></mat-icon>
+      <mat-error>The <strong>username</strong> is required</mat-error>
+    </mat-form-field>
 
-      <!-- Password -->
-      <mat-form-field
-        appearance="outline">
-        <mat-label>Password</mat-label>
-        <input
-          style="width:calc(100% - 24px)"
-          type="password"
-          matInput
-          placeholder="password"
-          formControlName="password" />
-        <mat-icon svgIcon="user_password"></mat-icon>
-      </mat-form-field>
+    <!-- Password -->
+    <mat-form-field
+      appearance="outline">
+      <mat-label>Password</mat-label>
+      <input
+        style="width:calc(100% - 24px)"
+        type="password"
+        matInput
+        placeholder="password"
+        formControlName="password" />
+      <mat-icon svgIcon="user_password"></mat-icon>
+      <mat-error>The <strong>password</strong> is incorrect</mat-error>
+    </mat-form-field>
 
-      <!-- LOGIN button -->
-      <button
-        style="width: 200px; margin: auto;"
-        [disabled]="loading"
-        mat-raised-button
-        color="primary"
-        (click)="onSubmit()">
-        Login
-      </button>
-      <div *ngIf="error" class="login-error">{{error}}</div>
-    </form>
+    <!-- LOGIN button -->
+    <button
+      [disabled]="loading"
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()">
+      Login
+    </button>
+    <div *ngIf="error" class="login-error">{{error}}</div>
   </div>
 </div>

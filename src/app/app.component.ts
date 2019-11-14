@@ -14,7 +14,7 @@ import { AuthenticationService } from '../shared/authentication.service';
 
 // Environment
 import { environment } from '../environments/environment';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -29,13 +29,15 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
   public errorLineClasses = '';
 
   // Toolbar variables
-  toolbarUser   = '';
-  toolbarLoginServer  = '';
+  toolbarUser = '';
+  toolbarLoginServer = '';
   toolbarEnvironment = '';
 
   // Program Title render in screen
   private subsProgramSubtitle: Subscription;
-  private errorLine: Subscription;   // Error line
+  private subsErrorMessages: Subscription;
+  private subsCurrentUser: Subscription;
+  private subsErrorLine: Subscription;   // Error line
 
   constructor(
     public  authenticationService: AuthenticationService,
@@ -57,7 +59,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     );
     // Close
     this.matIconRegistry.addSvgIcon(
-      'add_green',
+      'close',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/close.svg')
     );
     // Data-Table
@@ -73,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     // EnvironmentInfo
     this.matIconRegistry.addSvgIcon(
       'env_info',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/information.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/info-24px.svg')
     );
     // Form
     this.matIconRegistry.addSvgIcon(
@@ -83,17 +85,17 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     // Home
     this.matIconRegistry.addSvgIcon(
       'home_main',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/home_main.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/home-24px.svg')
     );
     // Logout
     this.matIconRegistry.addSvgIcon(
       'logout',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/logout.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/exit_to_app-24px.svg')
     );
     // Password
     this.matIconRegistry.addSvgIcon(
       'user_password',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/lock.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/lock-24px.svg')
     );
     // Reload
     this.matIconRegistry.addSvgIcon(
@@ -113,50 +115,43 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     // User
     this.matIconRegistry.addSvgIcon(
       'user_toolbar',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/avatar.svg')
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/account_circle-24px.svg')
     );
 
     // Subscribir a los errores del módulo, para que sean mostrados en la pantalla
-    this.errorMessageService.formCurrentMessage
-      .subscribe(
-        message => this.formErrorMessage = message
-      );
+    this.subsErrorMessages = this.errorMessageService.formCurrentMessage.subscribe(
+      message => this.formErrorMessage = message
+    );
 
     // Subscribe to the currentProgramTitle, to show program's title on the screen
     this.subsProgramSubtitle = this.errorMessageService.currentProgramTitle.subscribe(
       title => this.programSubtitle = title
     );
 
-    // Subscibir el Toolbar user
-    this.authenticationService.currentUser
-      .subscribe(
-        user => this.toolbarUser = (user) ? user.fullName : ''
-      );
+    // Subscribe to toolbarUser
+    this.subsCurrentUser = this.authenticationService.currentUser.subscribe(
+      user => this.toolbarUser = (user) ? user.fullName : 'no user'
+    );
 
     // Subscribir a los errores del módulo, para que sean mostrados en la pantalla
-    this.errorLine = this.errorMessageService.formCurrentMessage.subscribe(
+    this.subsErrorLine = this.errorMessageService.formCurrentMessage.subscribe(
       message => {
-        if (message === null || message.trim() === '') {
+        // Check if the error line is open and then close it
+        if (this.formErrorMessage !== null || this.formErrorMessage.trim() !== '') {
 
-          // Cerrar la linea de error
+          // Close error line
           this.errorLineClasses = '';
-
-        } else {
-
-          // Chequear si la linea de error esta abierta o cerrada
-          if (this.formErrorMessage !== null || this.formErrorMessage.trim() !== '') {
-
-            // Cerrar la linea de error
-            this.errorLineClasses = '';
-            setTimeout(() => {
-              this.formErrorMessage = message;
-              this.errorLineClasses = 'fm__open';
-            }, 550);
-          } else {
-            // Abrir la linea de error con el nuevo mensaje
+          setTimeout(() => {
             this.formErrorMessage = message;
-            this.errorLineClasses = 'fm__open';
-          }
+            if (message) {
+              this.errorLineClasses = 'fm__open';
+            }
+          }, 600);
+
+        // Open the error line with the new error message
+        } else {
+          this.formErrorMessage = message;
+          this.errorLineClasses = 'fm__open';
         }
       }
     );
@@ -165,7 +160,7 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit() {
     // Borrar posible mensaje de error
-    this.errorMessageService.changeErrorMessage(null);
+    this.errorMessageService.changeErrorMessage('');
 
     // Toolbar
     this.toolbarLoginServer = environment.envData.loginServer;
@@ -174,14 +169,11 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     this.errorMessageService.changeAppProgramTitle('Home Page');
   }
 
-  ngOnChanges() {
-    // Set Program Title
-    this.errorMessageService.changeAppProgramTitle('Customer Orders');
-  }
-
   ngOnDestroy () {
-    this.errorLine.unsubscribe();
+    this.subsErrorLine.unsubscribe();
     this.subsProgramSubtitle.unsubscribe();
+    this.subsErrorMessages.unsubscribe();
+    this.subsCurrentUser.unsubscribe();
   }
 
 }
