@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Importar componentes
 import { LoginComponent } from './login/login.component';
-import { CustomerOrderTabsComponent } from './customer_orders/customer_order_tabs.component';
+import { CustomerOrderTabsComponent } from './client_order/customer_order_tabs.component';
 import { AuthGuard } from './_guards';
 
 const appRoutes: Routes = [

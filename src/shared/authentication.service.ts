@@ -104,25 +104,14 @@ export class AuthenticationService {
     );
 
     // Authenticate user
-    return getJwtToken
-      .pipe(
-        mergeMap(
-          userId => this.getUserDataFromApi(userId)
-        ),
-        catchError (
-          err => {
-            if (err.statusText === 'Unknown Error') {
-              return throwError(`TRK-0010(E): cannot reach API ${err.url}. Error: ${err.error.message}`);
-            } else {
-              // Check by status code
-              switch (err.status) {
-                case 400: { return throwError('TRK-0012(E): bad request to LOGIN server.'); break; }
-                default: { return throwError('TRK-0011(E): the username or password are incorrect.'); break; }
-              }
-            }
-          }
-        )
-      );
+    return getJwtToken.pipe(
+      map(
+        userId => this.getUserDataFromApi(userId)
+      ),
+      catchError (
+        err => throwError(err)
+      )
+    );
   }
 
   logout() {

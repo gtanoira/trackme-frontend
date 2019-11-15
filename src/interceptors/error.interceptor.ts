@@ -34,16 +34,17 @@ export class ErrorInterceptor implements HttpInterceptor {
               // Print the error message and go to LOGIN
               this.errorMessageService.changeErrorMessage('TRK-0005(E): your session has expired, try login again.');
               this.router.navigate(['/login']);
-              // location.reload(true);
               error = 'TRK-0005(E): your session has expired, try login again.';
 
             // 404: NOT FOUND
             } else if (err.status === 404) {
-              // this.errorMessageService.changeErrorMessage('TRK-0005(E): your session has expired, try login again.');
-              error = `TRK-0007(E): host not found. Error: ${err.message} `;
-              // location.reload(true);
+              if (err.url.indexOf('user_token')) {
+                error = 'TRK-0007(E): the username and/or password are incorrect';
+              } else {
+                error = `TRK-0006(E): there\'s no connection to the host. Error: ${err.message} `;
+              }
 
-            // Chequear la conexión con el host
+            // Unknown: Check host conection
             } else if (err.statusText === 'Unknown Error' || err.status === 0) {
               error = 'TRK-0006(E): there\'s no connection to the host. Error: ' + err.message;
 

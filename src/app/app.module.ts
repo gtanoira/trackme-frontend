@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AgGridModule } from 'ag-grid-angular';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   MAT_DATE_LOCALE,
@@ -55,11 +55,11 @@ import { routing } from './app.routing';
 import { LoginComponent } from './login/login.component';
 
 // Customer Orders Components
-import { CustomerOrderTabsComponent } from './customer_orders/customer_order_tabs.component';
-import { COrderGridComponent } from './customer_orders/grid/grid.component';
-import { COrderFormComponent } from './customer_orders/form/form.component';
-import { COrderFormTabsComponent } from './customer_orders/form/form_tabs/tabs.component';
-import { COrderEventsComponent } from './customer_orders/form/events/events.component';
+import { CustomerOrderTabsComponent } from './client_order/customer_order_tabs.component';
+import { COrderGridComponent } from './client_order/grid/grid.component';
+import { COrderFormComponent } from './client_order/form/form.component';
+import { COrderFormTabsComponent } from './client_order/form/form_tabs/tabs.component';
+import { COrderEventsComponent } from './client_order/form/events/events.component';
 
 @NgModule({
   declarations: [

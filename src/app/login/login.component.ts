@@ -41,12 +41,11 @@ export class LoginComponent implements OnInit {
 
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-
-    this.errorMessageService.changeErrorMessage('API-9999(E): este es un error para probar la linea de error en la cabecera');
   }
 
   // GETTERS:convenience getter for easy access to form fields
-  get lfctrls() { return this.loginForm.controls; }
+  get username() { return this.loginForm.get('username'); }
+  get password() { return this.loginForm.get('password'); }
 
   onSubmit() {
 
@@ -55,25 +54,28 @@ export class LoginComponent implements OnInit {
 
     // Chequear que el FORM sea válido
     if (this.loginForm.invalid) {
+      this.errorMessageService.changeErrorMessage('The username and/or password are incorrect. Please check and try again.');
       return;
     }
 
-    this.loading = true;  // spinning ON
+    // spinning ON
+    this.loading = true;
+
     // Authenticate the user against the LOGIN server and obtain the JWT token and User data
-    this.authenticationService.login(this.lfctrls.username.value, this.lfctrls.password.value)
-      .subscribe(
-        data => {
-          if (data) {
-            this.router.navigate([this.returnUrl]);
-          } else {
-            this.loading = false;
-            this.router.navigate(['/pgmClientOrders']);
-          }
-        },
-        error => {
-          this.errorMessageService.changeErrorMessage(error);
+    this.authenticationService.login(this.username.value, this.password.value).subscribe(
+      data => {
+        if (data) {
+          this.router.navigate([this.returnUrl]);
+        } else {
           this.loading = false;
-          this.router.navigate(['/login']);
-        });
+          this.router.navigate(['/pgmClientOrders']);
+        }
+      },
+      error => {
+        this.errorMessageService.changeErrorMessage(error);
+        this.loading = false;
+        this.router.navigate(['/login']);
+      }
+    );
   }
 }

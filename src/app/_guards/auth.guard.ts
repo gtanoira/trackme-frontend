@@ -23,20 +23,22 @@ export class AuthGuard implements CanActivate {
       // Chequear que la ruta posea un programId para permitr el acceso
       if (route.data.idProgram) {
 
+        // Is HomePage
         if (route.data.idProgram === 'homePage') {
           // Set Program Title
-          this.errorMessageService.changeAppProgramTitle('Home');
+          this.errorMessageService.changeAppProgramTitle('Home Page');
           // Ir a la Home Page o Menú Principal
           return true;
+
+        // Check user access
         } else {
-          // Chequear que el usuario tenga acceso al programa
           if (this.authorizationService.programAccess(route.data.idProgram)) {
-            // YES: has access
+            // YES: user has access
             // Set Program Title
             this.errorMessageService.changeAppProgramTitle(route.data.nameProgram);
             return true;
           } else {
-            // NO: access
+            // NO: user has NO access
             this.errorMessageService.changeErrorMessage(`API-0013(E): you don't have access to this program ${route.data.idProgram}`);
             return false;
           }

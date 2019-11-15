@@ -21,11 +21,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy, OnChanges {
+export class AppComponent implements OnInit, OnDestroy {
 
   // Variables messages for entire app
   public programSubtitle = '';
-  public formErrorMessage = '';
+  public errorMessage = '';
   public errorLineClasses = '';
 
   // Toolbar variables
@@ -118,11 +118,6 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/account_circle-24px.svg')
     );
 
-    // Subscribir a los errores del módulo, para que sean mostrados en la pantalla
-    this.subsErrorMessages = this.errorMessageService.formCurrentMessage.subscribe(
-      message => this.formErrorMessage = message
-    );
-
     // Subscribe to the currentProgramTitle, to show program's title on the screen
     this.subsProgramSubtitle = this.errorMessageService.currentProgramTitle.subscribe(
       title => this.programSubtitle = title
@@ -136,22 +131,15 @@ export class AppComponent implements OnInit, OnDestroy, OnChanges {
     // Subscribir a los errores del módulo, para que sean mostrados en la pantalla
     this.subsErrorLine = this.errorMessageService.formCurrentMessage.subscribe(
       message => {
-        // Check if the error line is open and then close it
-        if (this.formErrorMessage !== null || this.formErrorMessage.trim() !== '') {
+        // Close error line
+        this.errorLineClasses = '';
 
-          // Close error line
-          this.errorLineClasses = '';
+        // Send new error message
+        if (message) {
           setTimeout(() => {
-            this.formErrorMessage = message;
-            if (message) {
-              this.errorLineClasses = 'fm__open';
-            }
-          }, 600);
-
-        // Open the error line with the new error message
-        } else {
-          this.formErrorMessage = message;
-          this.errorLineClasses = 'fm__open';
+            this.errorMessage = message;
+            this.errorLineClasses = 'fm-open';
+          }, 700);
         }
       }
     );

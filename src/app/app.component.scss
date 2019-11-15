@@ -28,7 +28,7 @@
   position: absolute;
   right: 0;
   z-index: 1;
-  max-width: calc(100% - (1em + 16px));
+  max-width: calc(100% - 16px);
   height: 2em;
   background-color: #880303;
   color: white;
@@ -41,7 +41,7 @@
   transition: transform 500ms cubic-bezier(0.46,-0.51, 0.51, 0.93);
 }
 
-.fm__open {
+.fm-open {
   /* Animación para hacer aparecer la linea de error */
   transform: translateX(0%);
   transition: transform 500ms cubic-bezier(0.43,-0.54, 0.58, 1.6)
