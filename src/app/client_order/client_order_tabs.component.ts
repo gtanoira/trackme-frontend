@@ -18,10 +18,11 @@ import { CustomerOrderService } from '../../shared/customer_order.service';
  * It can display these componenet more than once in different tabs
  */
 @Component({
-  templateUrl: './customer_order_tabs.component.html',
-  styleUrls:   ['./customer_order_tabs.component.scss']
+  templateUrl: './client_order_tabs.component.html',
+  styleUrls:   ['./client_order_tabs.component.scss']
 })
-export class CustomerOrderTabsComponent  {
+export class ClientOrderTabsComponent  {
+
   @ViewChild(MatTabGroup, {static: false}) tabGroup: MatTabGroup;  // All tabs info that are available in the screen
   // @ViewChild('addGrid', {static: false}) addGridButton: MatTab;  // Info of the button "add a new grid"
 

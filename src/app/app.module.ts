@@ -29,7 +29,7 @@ import { DynamicModule } from 'ng-dynamic-component';
 
 // Services
 import { AgGridLoadingComponent } from '../shared/spinners/ag_grid/ag-grid_loading.component';
-import { AuthenticationService } from '../shared/authentication.service';
+import { AuthsService } from '../shared/auths.service';
 import { AuxiliarTableService } from '../shared/auxiliar_table.service';
 import { CompanyService } from '../shared/company.service';
 import { CountryService } from '../shared/country.service';
@@ -50,12 +50,13 @@ import { interceptorProviders } from '../interceptors/interceptors';
 // Componentes
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
+import { MainComponent } from './main_menu/main.component';
 
 // Authentication & Authorization
 import { LoginComponent } from './login/login.component';
 
-// Customer Orders Components
-import { CustomerOrderTabsComponent } from './client_order/customer_order_tabs.component';
+// client Orders Components
+import { ClientOrderTabsComponent } from './client_order/client_order_tabs.component';
 import { COrderGridComponent } from './client_order/grid/grid.component';
 import { COrderFormComponent } from './client_order/form/form.component';
 import { COrderFormTabsComponent } from './client_order/form/form_tabs/tabs.component';
@@ -71,8 +72,10 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     ToUppercaseDirective,
     // Authentication & Authorization
     LoginComponent,
-    // Customer Orders
-    CustomerOrderTabsComponent,
+    // Main menu
+    MainComponent,
+    // Client Orders
+    ClientOrderTabsComponent,
     COrderGridComponent,
     COrderFormComponent,
     COrderFormTabsComponent,
@@ -103,7 +106,7 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     routing,
     // Customer Orders
     DynamicModule.withComponents([
-      CustomerOrderTabsComponent,
+      ClientOrderTabsComponent,
       COrderGridComponent,
       COrderFormComponent
     ])
@@ -112,7 +115,7 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     OnlyNumbersDirective,
   ],
   providers: [
-    AuthenticationService,
+    AuthsService,
     AuxiliarTableService,
     CompanyService,
     CountryService,

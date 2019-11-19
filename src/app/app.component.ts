@@ -4,13 +4,11 @@
 */
 import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatMenuModule } from '@angular/material';
 import { MatIconRegistry } from '@angular/material/icon';
 
 // Services
 import { ErrorMessageService } from '../shared/error-message.service';
-import { AuthenticationService } from '../shared/authentication.service';
+import { AuthsService } from '../shared/auths.service';
 
 // Environment
 import { environment } from '../environments/environment';
@@ -40,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private subsErrorLine: Subscription;   // Error line
 
   constructor(
-    public  authenticationService: AuthenticationService,
+    public  authsService: AuthsService,
     private domSanitizer: DomSanitizer,
     public  errorMessageService: ErrorMessageService,
     private matIconRegistry: MatIconRegistry
@@ -124,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     // Subscribe to toolbarUser
-    this.subsCurrentUser = this.authenticationService.currentUser.subscribe(
+    this.subsCurrentUser = this.authsService.currentUser.subscribe(
       user => this.toolbarUser = (user) ? user.fullName : 'no user'
     );
 

@@ -5,14 +5,14 @@ import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 // Services
-import { AuthenticationService } from '../shared/authentication.service';
+import { AuthsService } from '../shared/auths.service';
 import { ErrorMessageService } from '../shared/error-message.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private authsService: AuthsService,
     private errorMessageService: ErrorMessageService,
     private router: Router
   ) { }
@@ -30,7 +30,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             // 401: Unauthorized returned from api
             if (err.status === 401) {
-              this.authenticationService.logout();
+              this.authsService.logout();
               // Print the error message and go to LOGIN
               this.errorMessageService.changeErrorMessage('TRK-0005(E): your session has expired, try login again.');
               this.router.navigate(['/login']);

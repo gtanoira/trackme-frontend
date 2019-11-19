@@ -1,10 +1,9 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
 
 // Services
-import { AuthenticationService } from '../../shared/authentication.service';
+import { AuthsService } from '../../shared/auths.service';
 import { ErrorMessageService } from '../../shared/error-message.service';
 
 @Component({
@@ -12,20 +11,22 @@ import { ErrorMessageService } from '../../shared/error-message.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+
+  // Define variables
   loginForm: FormGroup;
-  loading = false;
-  returnUrl: string;
+  returnUrl: string;  // url to go after login
   error  = '';
+  userId: number;
 
   constructor(
     private route: ActivatedRoute,
-    private authenticationService: AuthenticationService,
+    private authsService: AuthsService,
     private errorMessageService: ErrorMessageService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
     // redirect to home if already logged in
-    if (this.authenticationService.currentUserValue) {
+    if (this.authsService.currentUserValue) {
       this.router.navigate(['/']);
     }
 
@@ -58,22 +59,11 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // spinning ON
-    this.loading = true;
-
     // Authenticate the user against the LOGIN server and obtain the JWT token and User data
-    this.authenticationService.login(this.username.value, this.password.value).subscribe(
-      data => {
-        if (data) {
-          this.router.navigate([this.returnUrl]);
-        } else {
-          this.loading = false;
-          this.router.navigate(['/pgmClientOrders']);
-        }
-      },
+    this.authsService.login(this.username.value, this.password.value).subscribe(
+      userId => this.router.navigate([this.returnUrl]),
       error => {
         this.errorMessageService.changeErrorMessage(error);
-        this.loading = false;
         this.router.navigate(['/login']);
       }
     );

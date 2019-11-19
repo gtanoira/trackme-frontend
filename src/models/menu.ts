@@ -1,4 +1,4 @@
-export interface Menues {
+export interface Menu {
   pgmId: string;
   alias?: string | '??';
   title: string;

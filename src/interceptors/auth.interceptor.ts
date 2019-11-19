@@ -7,19 +7,15 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/c
 import { Observable } from 'rxjs';
 
 // Services
-import { AuthenticationService } from '../shared/authentication.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(
-    private authenticationService: AuthenticationService
-   ) { }
+  constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     // All API calls
-    // if (this.authenticationService.currentUserValue && req.url.includes('/api')) {
     if (req.url.includes('/api')) {
         const token = sessionStorage.getItem('jwtToken');
 

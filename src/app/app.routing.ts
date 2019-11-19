@@ -2,24 +2,33 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Importar componentes
 import { LoginComponent } from './login/login.component';
-import { CustomerOrderTabsComponent } from './client_order/customer_order_tabs.component';
+import { ClientOrderTabsComponent } from './client_order/client_order_tabs.component';
 import { AuthGuard } from './_guards';
+import { MainComponent } from './main_menu/main.component';
 
 const appRoutes: Routes = [
- {
+  // Client's orders
+  {
     path: 'pgmClientOrders',
-    component: CustomerOrderTabsComponent,
+    component: ClientOrderTabsComponent,
     canActivate: [AuthGuard],
     data: {
       idProgram:   'pgmClientOrders',
       nameProgram: 'Customer Orders'
     }
   },
+  // Login
   {
     path: 'login',
     component: LoginComponent
   },
-  // otherwise redirect to Lgin
+  // Main Menu
+  {
+    path: '',
+    component: MainComponent,
+    canActivate: [AuthGuard]
+  },
+  // otherwise redirect to Login
   { path: '**', redirectTo: 'login' }
 ];
 

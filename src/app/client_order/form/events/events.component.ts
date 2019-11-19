@@ -16,7 +16,7 @@ import { SelectOptions } from '../../../../models/select_options';
 
 // Services
 import { AgGridLoadingComponent } from '../../../../shared/spinners/ag_grid/ag-grid_loading.component';
-import { AuthenticationService } from '../../../../shared/authentication.service';
+import { AuthsService } from '../../../../shared/auths.service';
 import { CustomTooltip } from '../../../../shared/custom-tooltip.component';
 import { ErrorMessageService } from '../../../../shared/error-message.service';
 import { EventTypeService } from '../../../../shared/event_type.service';
@@ -82,7 +82,7 @@ export class COrderEventsComponent implements OnInit, AfterViewInit {
   eventFormGroup: FormGroup;
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private authsService: AuthsService,
     private fb: FormBuilder,
     private http: HttpClient,
     private errorMessageService: ErrorMessageService,
@@ -174,7 +174,7 @@ export class COrderEventsComponent implements OnInit, AfterViewInit {
     } else {
 
       // Map data before send
-      const user = this.authenticationService.currentUserValue;
+      const user = this.authsService.currentUserValue;
       const customerOrderEvent = {
         eventTypeId:   this.eventFormGroup.value.eventTypeId,
         userId: user.id,

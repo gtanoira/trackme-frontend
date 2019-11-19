@@ -2,21 +2,19 @@
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 // Services
-import { AuthenticationService } from '../../shared/authentication.service';
-import { AuthorizationService } from '../../shared/authorization.service';
+import { AuthsService } from '../../shared/auths.service';
 import { ErrorMessageService } from '../../shared/error-message.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService,
-    private authorizationService: AuthorizationService,
+    private authsService: AuthsService,
     private errorMessageService: ErrorMessageService
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    const currentUser = this.authenticationService.currentUserValue;
+    const currentUser = this.authsService.currentUserValue;
     // Chequear que el usuario exista
     if (currentUser) {
 
@@ -32,7 +30,7 @@ export class AuthGuard implements CanActivate {
 
         // Check user access
         } else {
-          if (this.authorizationService.programAccess(route.data.idProgram)) {
+          if (this.authsService.programAccess(route.data.idProgram)) {
             // YES: user has access
             // Set Program Title
             this.errorMessageService.changeAppProgramTitle(route.data.nameProgram);

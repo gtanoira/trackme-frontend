@@ -4,5 +4,4 @@
   firstName: string;
   lastName: string;
   fullName?: string;
-  authorizations?: {};
 }
