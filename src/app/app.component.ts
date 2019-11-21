@@ -26,6 +26,10 @@ export class AppComponent implements OnInit, OnDestroy {
   public errorMessage = '';
   public errorLineClasses = '';
 
+  // Define variables for Main Menu
+  public  openClass = '';  // CSS class for toggle between open and close the main menu
+  private isMainMenuOpen = false;  // To open and close the main menu
+
   // Toolbar variables
   toolbarUser = '';
   toolbarLoginServer = '';
@@ -141,7 +145,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     );
-
   }
 
   ngOnInit() {
@@ -162,4 +165,27 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subsCurrentUser.unsubscribe();
   }
 
+  // Open-Close the main menu
+  public showMainMenu() {
+    // Open,Close only if is a user logged in
+    if (this.authsService.currentUserValue) {
+      if (this.isMainMenuOpen) {
+        // Close Main Menu
+        this.openClass = '';
+      } else {
+        // Open Main Menu
+        this.openClass = 'mainmenu-open';
+      }
+      this.isMainMenuOpen = !this.isMainMenuOpen;
+    }
+  }
+
+  // Logout button
+  public logoutBtn() {
+    // Close if the main menu it's open
+    if (this.isMainMenuOpen) { this.showMainMenu(); }
+
+    // Logout user
+    this.authsService.logout();
+  }
 }

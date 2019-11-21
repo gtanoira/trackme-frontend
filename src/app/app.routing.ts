@@ -24,7 +24,7 @@ const appRoutes: Routes = [
   },
   // Main Menu
   {
-    path: '',
+    path: 'main',
     component: MainComponent,
     canActivate: [AuthGuard]
   },

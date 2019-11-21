@@ -1,5 +1,15 @@
-<aside class="main-absolute">
+<div class="container">
+  <!-- User Info -->
+  <div class="user-container">
+    <img class="user-img" src="assets/images/avatar_boy.jpg" alt="" />
+    <div class="user-info">
+      <h3>{{ userInfo.fullName }}</h3>
+      <p class="menuEmail">{{userInfo.email}}</p>
+    </div>
+  </div>
+
+  <!-- Main menu-->
   <ul>
     <li *ngFor="let menu of mainMenu | async">{{menu.title}}</li>
   </ul>
-</aside>
+</div>

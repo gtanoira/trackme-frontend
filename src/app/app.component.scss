@@ -1,6 +1,10 @@
 /* ****************************
  * LAYOUT
 */
+.container {
+  display: flex;
+  flex-direction: row;
+}
 
 .header {
   display: flex;
@@ -30,7 +34,7 @@
   z-index: 1;
   max-width: calc(100% - 16px);
   height: 2em;
-  background-color: #880303;
+  background-color: #B00020; /* #880303; */
   color: white;
   font-size: 1rem;
   padding-left: 8px;
@@ -45,6 +49,41 @@
   /* Animación para hacer aparecer la linea de error */
   transform: translateX(0%);
   transition: transform 500ms cubic-bezier(0.43,-0.54, 0.58, 1.6)
+}
+
+.mainmenu {
+  display: flex;
+  flex-direction: column;
+  width: 256px;
+  height: calc(100vh - 64px - 10vh);
+  background-color: white;
+  /* background: whitesmoke; */
+  position: absolute;
+  z-index: 100;
+  top: 64px;
+  left: 0px;
+  padding: 1rem;
+  opacity: 0;
+  border: 1px solid #BDBDBD;
+  border-style: solid solid solid none;
+  box-shadow: 1px 1px 2px #BDBDBD;
+  transform: translateX(-110%);
+  transition: transform 800ms ease-in-out, opacity 800ms ease-in-out;
+}
+
+.mainmenu-button {
+  width: 32px;
+  margin-right: 1.5rem;
+}
+
+.mainmenu-open {
+  transform: translateX(0%);
+  opacity: 1;
+}
+
+.main-content {
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* ****************************

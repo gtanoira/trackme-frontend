@@ -2,6 +2,18 @@
   class="header"
   color="primary">
 
+  <!-- Main Menu (HOME) -->
+  <a
+    class="mainmenu-button"
+    mat-button
+    (click)="showMainMenu()">
+    <mat-icon
+      matTooltip="Main menu"
+      matTooltipPosition="above"
+      svgIcon="home_main">
+    </mat-icon>
+  </a>
+
   <!-- Title -->
   <h2 class="main-title">Send Box -&nbsp;</h2>
   <h2 class="subtitle">{{ programSubtitle }}</h2>
@@ -13,9 +25,9 @@
     <a
       class="header-button"
       mat-button
-      routerLink="/">
+      (click)="showMainMenu()">
       <mat-icon
-        matTooltip="ET phone Home"
+        matTooltip="Main menu"
         matTooltipPosition="above"
         svgIcon="home_main">
       </mat-icon>
@@ -41,6 +53,7 @@
       class="header-button"
       mat-button>
       <mat-icon
+        [ngStyle]="{'color': (toolbarUser !== 'no user') ? '#06ed06' : 'red' }"
         [matTooltip]="toolbarUser"
         matTooltipPosition="above"
         svgIcon="user_toolbar">
@@ -52,7 +65,7 @@
       class="header-button"
       class="toolbar-logout"
       mat-button
-      (click)="authsService.logout()">
+      (click)="logoutBtn()">
       <mat-icon
         matTooltip="Logout App"
         matTooltipPosition="above"
@@ -63,33 +76,42 @@
 
 </mat-toolbar>
 
-<!-- Error Message Line -->
-<div class="error-absolute"
-  [ngClass]="errorLineClasses">
-
-  <!-- Icon Close -->
-  <div
-    mat-button
-    (click)="errorMessageService.changeErrorMessage('')"
-    matTooltip="Close">
-    <mat-icon
-      class="error-close"
-      svgIcon="close">
-    </mat-icon>
-  </div>
-
-  <!-- Mensaje -->
-  <div>
-    {{ errorMessage }}
-  </div>
-</div>
-
-<!-- Main Body -->
+<!-- Main Structure -->
 <div class="container">
 
-  <app-main-menu></app-main-menu>
+  <!-- Main Menu -->
+  <aside
+    class="mainmenu"
+    [ngClass]="openClass">
+    <app-main-menu></app-main-menu>
+  </aside>
 
+  <!-- Body -->
   <main class="main-content" id="main-content">
+
+    <!-- Error Message Line -->
+    <div
+      class="error-absolute"
+      [ngClass]="errorLineClasses">
+
+    <!-- Icon Close -->
+    <div
+      mat-button
+      (click)="errorMessageService.changeErrorMessage('')"
+      matTooltip="Close">
+      <mat-icon
+        class="error-close"
+        svgIcon="close">
+      </mat-icon>
+    </div>
+
+    <!-- Mensaje -->
+    <div>
+      {{ errorMessage }}
+    </div>
+    </div>
+
+    <!-- Programs -->
     <router-outlet></router-outlet>
   </main>
 

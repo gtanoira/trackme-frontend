@@ -1,0 +1,34 @@
+/* ****************************
+ * LAYOUT
+*/
+.container {
+  padding: 0.5rem;
+}
+
+.user-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid;
+  border-bottom-color: #BDBDBD;
+  padding-bottom: 0.5rem;
+}
+
+.user-img {
+  border-radius: 50%;
+  width: 80px;
+}
+
+/* ****************************
+ * TYPOGRAPHY
+*/
+h3 {
+  margin-bottom: 4px;
+}
+
+.menuEmail {
+  font-size: 0.75em;
+  font-style: italic;
+  color: #BDBDBD;
+}

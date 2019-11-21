@@ -61,7 +61,12 @@ export class LoginComponent implements OnInit {
 
     // Authenticate the user against the LOGIN server and obtain the JWT token and User data
     this.authsService.login(this.username.value, this.password.value).subscribe(
-      userId => this.router.navigate([this.returnUrl]),
+      userId => {
+        if (this.returnUrl === '' || this.returnUrl === '/') {
+          this.router.navigate(['/main']);
+        } else {}
+          this.router.navigate([this.returnUrl]);
+      },
       error => {
         this.errorMessageService.changeErrorMessage(error);
         this.router.navigate(['/login']);
