@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 // Services
 import { AuxiliarTableService } from '../../../shared/auxiliar_table.service';
-import { CustomerOrderService } from '../../../shared/customer_order.service';
+import { OrderService } from '../../../shared/order.service';
 import { EntityService } from '../../../shared/entity.service';
 import { ErrorMessageService } from '../../../shared/error-message.service';
 import { HeightService } from 'src/shared/height.service';
@@ -45,29 +45,29 @@ export const MY_FORMATS = {
 // *********************************************************************
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
+  selector: 'app-client-order-form',
+  templateUrl: './order_form.component.html',
+  styleUrls: ['./order_form.component.scss'],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
   ]
 })
 
-export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentInit {
+export class OrderFormComponent implements OnInit, AfterViewInit, AfterContentInit {
 
   // Input Parameters
   @Input() orderId: number;     // Order no.: (null): new order / (id):order to edit
 
   // Select-Options for fields
   companyOptions: SelectOptions[];
-  customerOptions: SelectOptions[];
+  clientOptions: SelectOptions[];
   // Other fields
   showFromEntityDropDown = false;
   showToEntityDropDown   = false;
 
-  // Customer Order Types Options
-  ordersTypeOptions: SelectOptions[] = this.auxiliarTableService.getCustomerOrderTypes();
+  // Client Order Types Options
+  ordersTypeOptions: SelectOptions[] = this.auxiliarTableService.getClientOrderTypes();
   // Order Status Options
   statusOptions: SelectOptions[] = this.auxiliarTableService.getOrderStatus();
   // Shipment Method
@@ -83,7 +83,7 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
     private http: HttpClient,
     private errorMessageService: ErrorMessageService,
     private auxiliarTableService: AuxiliarTableService,
-    private customerOrderService: CustomerOrderService,
+    private orderService: OrderService,
     private entityService: EntityService,
     private heightService: HeightService,
     private el: ElementRef,
@@ -98,7 +98,7 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
     // FORM data
     if (this.orderId != null) {
       // Read existing order
-      this.customerOrderService.getCustomerOrderByOrderid(this.orderId)
+      this.orderService.getClientOrderByOrderid(this.orderId)
         .subscribe(
           data => {
             // Set the form data with the order
@@ -107,12 +107,12 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
         );
     }
 
-    // Get Customer Options
+    // Get Client Options
     this.entityService.getAllEntitiesByType('cus')
     .subscribe(
       data => {
         // Set the form data with the order
-        this.customerOptions = data.map(row => row);
+        this.clientOptions = data.map(row => row);
       }
     );
   }
@@ -132,7 +132,7 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
 
   ngAfterContentInit() {
     if (this.orderId != null) {
-      this.formData.get('blkGeneral').get('customerId').disable();
+      this.formData.get('blkGeneral').get('clientId').disable();
       this.formData.get('blkGeneral').get('companyId').disable();
     }
   }
@@ -160,7 +160,7 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
         orderNo: ['NEW'],
         custRef: [''],
         orderType: ['P'],
-        customerId: ['', [<any>Validators.required, this.validateCustomerId.bind(this)]],
+        clientId: ['', [<any>Validators.required, this.validateClientId.bind(this)]],
         applicantName: [''],
         orderDate: [(new Date()).toJSON().substring(0, 10), [<any>Validators.required]],
         orderStatus: ['P'],
@@ -221,7 +221,7 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
         orderId: [data.orderId],
         custRef: [data.custRef],
         orderType: [data.orderType],
-        customerId: [data.customerId],
+        clientId: [data.clientId],
         applicantName: [data.applicantName],
         orderDate: [data.orderDate, Validators.required],
         orderStatus: [data.orderStatus],
@@ -273,12 +273,12 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
     }
   }
 
-  // Trigger validation for item blkGeneral.customerID
-  validateCustomerId(control: FormControl): {[s: string]: boolean} {
+  // Trigger validation for item blkGeneral.clientID
+  validateClientId(control: FormControl): {[s: string]: boolean} {
 
-    // Set the customer order's company based on the customer
+    // Set the client order's company based on the client
     if (control.value !== '') {
-      // Find the company Id that this customer belongs to
+      // Find the company Id that this client belongs to
       this.entityService.getEntityByid(control.value)  // http.get<EntityModel>(`/api/entities/${control.value}.json`)
         .subscribe(data => {
           if (data) {
@@ -295,19 +295,19 @@ export class COrderFormComponent implements OnInit, AfterViewInit, AfterContentI
     // Clear message
     this.errorMessageService.changeErrorMessage('');
     // Save order
-    this.customerOrderService.updCustomerOrderById(orderId, this.formData).subscribe(
+    this.orderService.updClientOrderById(orderId, this.formData).subscribe(
       data => {
 
         // Re-set the order for QUERY modality
         if (this.formData.value.formProperties.mode === 'INSERT') {
           this.formData.value.formProperties.mode = 'QUERY';
-          this.formData.get('blkGeneral').get('customerId').disable();
+          this.formData.get('blkGeneral').get('clientId').disable();
           this.formData.get('blkGeneral').get('companyId').disable();
           this.formData.get('blkGeneral').get('orderNo').setValue(data['orderNo']);
           this.orderId = data['id'];
           // Output message
           this.errorMessageService.changeErrorMessage(
-            `The new customer order #${this.orderNo.value} was created succesfuly`
+            `The new client order #${this.orderNo.value} was created succesfuly`
           );
           setTimeout(() => { this.errorMessageService.changeErrorMessage(''); }, 10000);
         } else {

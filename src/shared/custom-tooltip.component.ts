@@ -1,8 +1,8 @@
 import {Component, ViewEncapsulation} from '@angular/core';
-import {ITooltipAngularComp} from "ag-grid-angular";
+import {ITooltipAngularComp} from 'ag-grid-angular';
 
 @Component({
-    selector: 'tooltip-component',
+    selector: 'app-tooltip-component',
     template: `
         <div class="custom-tooltip">
             <p><span>Fecha válida en SAP</span></p>
@@ -36,13 +36,12 @@ import {ITooltipAngularComp} from "ag-grid-angular";
         `
     ]
 })
-export class CustomTooltip implements ITooltipAngularComp {
+export class CustomTooltipComponent implements ITooltipAngularComp {
 
     private params: any;
     public  data: any;
 
     agInit(params): void {
-        console.log('*** PARAMS: ', params);
         this.params = params;
         this.data = params.api.getRowNode(params.rowIndex).data;
         this.data.color = this.params.color || 'white';

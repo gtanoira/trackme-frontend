@@ -1,14 +1,13 @@
-<div fxLayout="column" fxFlexFill fxFlex="100">
 <mat-tab-group
-  name="appCOrderRight">
+  backgroundColor="primary">
 
-  <!-- TAB header -->
+  <!-- Grid & Form components -->
   <mat-tab
-    id="ppp3"
-    *ngFor="let tab of cOrdersTabs"
-    label="{{tab.label}}" isActive="true">
-
+    class="tab-label"
+    *ngFor="let tab of ordersTabs">
+    <!-- Tab label -->
     <ng-template
+
       mat-tab-label>
       {{tab.label}}&nbsp;&nbsp;
       <mat-icon
@@ -26,29 +25,27 @@
     </ng-container>
   </mat-tab>
 
-  <!-- BUTTONS to add to the TAB header at most right position-->
-  <!--  Add GRID tab  -->
+  <!--  Order's grid add button  -->
   <mat-tab #addGrid>
     <ng-template mat-tab-label>
       <button
         mat-icon-button
         title="Add a Grid"
-        (click)="addCOrdersGridTab()">
+        (click)="addClientOrderGridTab()">
         <mat-icon svgIcon="spreadsheet"></mat-icon>
       </button>
     </ng-template>
   </mat-tab>
 
-  <!--  Add CUSTOMER ORDER FORM tab  -->
+  <!--  Order's form add button  -->
   <mat-tab disabled>
     <ng-template mat-tab-label>
       <button
         mat-icon-button
-        title="Add a new Customer Order"
-        (click)="addCOrdersFormTab()">
+        title="Add a new Client Order"
+        (click)="addClientOrderFormTab()">
         <mat-icon svgIcon="form"></mat-icon>
       </button>
     </ng-template>
   </mat-tab>
 </mat-tab-group>
-</div>

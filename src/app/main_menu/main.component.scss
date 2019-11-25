@@ -20,6 +20,12 @@
   width: 80px;
 }
 
+.list-option {
+  margin: 0.75em 0;
+  list-style: none;
+}
+
+
 /* ****************************
  * TYPOGRAPHY
 */
@@ -31,4 +37,11 @@ h3 {
   font-size: 0.75em;
   font-style: italic;
   color: #BDBDBD;
+}
+
+.menu-option {
+  text-decoration: none;
+  text-transform: capitalize;
+  font-weight: 100;
+  color: black;
 }

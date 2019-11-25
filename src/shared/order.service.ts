@@ -1,56 +1,56 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { FormGroup } from '@angular/forms';
 
 // Environment
 import { environment } from '../environments/environment';
 
 // Class Models
-import { CustomerOrderModel } from '../models/customer_order.model';
-import { FormGroup } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { OrderGridModel } from '../models/order_grid.model';
+
 
 @Injectable()
-export class CustomerOrderService {
+export class OrderService {
 
-  // Obtain the Customer Order Id to create a new Tab
-  // This is used in customer_order_tabs.component.ts
-  private cOrderIdTab = new BehaviorSubject(0);
-  cOrderTab = this.cOrderIdTab.asObservable();
+  // Obtain the Client Order Id to create a new Tab
+  // This is used in client_order_tabs.component.ts
+  private orderIdTab = new BehaviorSubject(0);
+  orderTab = this.orderIdTab.asObservable();
 
   constructor(
     private http: HttpClient
   ) { }
 
-  // Emit a new customer order Id to create a new tab
-  addCustomerOrderTab(orderId: number) {
-    this.cOrderIdTab.next(orderId);
+  // Emit a new client order Id to create a new tab
+  addClientOrderTab(orderId: number) {
+    this.orderIdTab.next(orderId);
   }
 
-  // Get all customer orders
-  getAllCustomerOrders():  Observable<CustomerOrderModel[]> {
-    return this.http.get<CustomerOrderModel[]>(
-      `${environment.envData.dataBaseServer}/api/v1/customer_orders.json`
+  // Get all orders for Grid format
+  getOrdersGrid():  Observable<OrderGridModel[]> {
+    return this.http.get<OrderGridModel[]>(
+      `${environment.envData.dataBaseServer}/api/v1/orders/grid.json`
     );
   }
 
-  // Get one customer order by orderId
-  getCustomerOrderByOrderid(orderId: number):  Observable<CustomerOrderModel> {
-    return this.http.get<CustomerOrderModel>(
-      `${environment.envData.dataBaseServer}/api/v1/customer_orders/${(orderId == null) ? 0 : orderId}.json`
+  // Get one client order by orderId
+  getClientOrderByOrderid(orderId: number):  Observable<OrderGridModel> {
+    return this.http.get<OrderGridModel>(
+      `${environment.envData.dataBaseServer}/api/v1/client_orders/${(orderId == null) ? 0 : orderId}.json`
     );
   }
 
-  // Update a customer order by Id
-  updCustomerOrderById(orderId: number, formData: FormGroup): Observable<any> {
+  // Update a client order by Id
+  updClientOrderById(orderId: number, formData: FormGroup): Observable<any> {
 
     // Save form data
     const vformData = formData.value;
     // Map data before send
-    const customerOrder = {
+    const clientOrder = {
       // Order data
       companyId:     vformData.blkGeneral.companyId,
-      customerId:    vformData.blkGeneral.customerId,
+      clientId:    vformData.blkGeneral.clientId,
       orderNo:       vformData.blkGeneral.orderNo,
       orderStatus:   vformData.blkGeneral.orderStatus,
       oldOrderNo:    vformData.blkGeneral.oldOrderNo,
@@ -99,16 +99,16 @@ export class CustomerOrderService {
       /*
           INSERT new Order into the DBase
       */
-      // Add the new customer order in the DBase
-      return this.http.post(`${environment.envData.dataBaseServer}/api/v1/customer_orders.json`, customerOrder);
+      // Add the new client order in the DBase
+      return this.http.post(`${environment.envData.dataBaseServer}/api/v1/client_orders.json`, clientOrder);
 
     } else {
 
       /*
           UPDATE a existing Order to the DBase
       */
-      // Add the new customer order in the DBase
-      return this.http.patch(`${environment.envData.dataBaseServer}/api/v1/customer_orders/${orderId}.json`, customerOrder);
+      // Add the new client order in the DBase
+      return this.http.patch(`${environment.envData.dataBaseServer}/api/v1/client_orders/${orderId}.json`, clientOrder);
     }
 
   }

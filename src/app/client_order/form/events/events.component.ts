@@ -17,7 +17,7 @@ import { SelectOptions } from '../../../../models/select_options';
 // Services
 import { AgGridLoadingComponent } from '../../../../shared/spinners/ag_grid/ag-grid_loading.component';
 import { AuthsService } from '../../../../shared/auths.service';
-import { CustomTooltip } from '../../../../shared/custom-tooltip.component';
+import { CustomTooltipComponent } from '../../../../shared/custom-tooltip.component';
 import { ErrorMessageService } from '../../../../shared/error-message.service';
 import { EventTypeService } from '../../../../shared/event_type.service';
 import { HeightService } from '../../../../shared/height.service';
@@ -119,7 +119,7 @@ export class COrderEventsComponent implements OnInit, AfterViewInit {
     };
     this.frameworkComponents = {
       customLoadingOverlay: AgGridLoadingComponent,
-      customTooltip: CustomTooltip
+      customTooltip: CustomTooltipComponent
     };
     this.loadingOverlayComponent = 'customLoadingOverlay';
     this.loadingOverlayComponentParams = { loadingMessage: 'Loading ...' };

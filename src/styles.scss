@@ -5,6 +5,7 @@
 
 /* AG-GRID css */
 @import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 @import "~ag-grid-community/dist/styles/ag-theme-bootstrap.css";
 @import "~ag-grid-community/dist/styles/ag-theme-material.css";
 @import "~ag-grid-community/dist/styles/ag-theme-blue.css";
@@ -18,12 +19,18 @@
 */
 html,
 body {
+  /* GENERAL */
+  /* background-color: #e3e3c8; */
+  /* WIDTH */
   min-width: 320px;
   max-width: 100vw;
-  font-family: 'Lato', sans-serif;
-  /* background-color: #e3e3c8; */
-  font-size: 16px;
   overflow-x: hidden;
+  /* HEIGHT */
+  min-height: 100vh;
+  margin: 0;
+  /* TYPOGRAPHY */
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
 }
 
 h1,

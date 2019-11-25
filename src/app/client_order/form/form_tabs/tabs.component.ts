@@ -28,14 +28,14 @@ const httpOptions = {
  * @title Tab group with dynamically changing tabs
  */
 @Component({
-  selector: 'app-custorder-tabs',
+  selector: 'app-client-order-form-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: ['./tabs.component.scss']
 })
 export class COrderFormTabsComponent implements OnInit {
   @Input() orderId: number;
   @Input() formData: FormGroup;
-  @Input() customerOptions: SelectOptions[];
+  @Input() clientOptions: SelectOptions[];
 
   // Select-Options for fields
   countryOptions: SelectOptions[];
@@ -69,7 +69,7 @@ export class COrderFormTabsComponent implements OnInit {
         this.countryOptions = data.map(row => row);
       });
 
-    // Load all Warehouse Receipts for the Customer Order
+    // Load all Warehouse Receipts for the client Order
     this.addWRTabs(this.orderId);
   }
 
@@ -84,7 +84,7 @@ export class COrderFormTabsComponent implements OnInit {
         remove: true,
         inputs: {
           orderId: null,
-          customerOrderForm: this.formData
+          clientOrderForm: this.formData
         }
       });
       this.addWRTab.isActive = false;
@@ -93,10 +93,10 @@ export class COrderFormTabsComponent implements OnInit {
     }
   }
 
-  // Get all WR belonging to the customer order <orderId>
-  addWRTabs(customerOrderId: number) {
+  // Get all WR belonging to the client order <orderId>
+  addWRTabs(clientOrderId: number) {
     // Get all WR Nos.
-    this.warehouseReceiptService.getWareHouseReceiptsFromCOrder(customerOrderId)
+    this.warehouseReceiptService.getWareHouseReceiptsFromCOrder(clientOrderId)
       .subscribe(data => {
         for (const wr of data) {
           this.dynamicTabs.push({
@@ -105,7 +105,7 @@ export class COrderFormTabsComponent implements OnInit {
             component: null, //WRFormComponent,
             inputs: {
               orderId: wr.id,
-              customerOrderForm: this.formData
+              clientOrderForm: this.formData
             }
           });
         }

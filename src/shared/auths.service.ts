@@ -45,8 +45,8 @@
 */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, throwError, concat, AsyncSubject } from 'rxjs';
-import { catchError, map, tap, mergeMap, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError, concat, AsyncSubject, of } from 'rxjs';
+import { catchError, map, tap, mergeMap, switchMap, mapTo } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 // Libraries
@@ -70,9 +70,7 @@ export class AuthsService {
   public  currentUser: Observable<User>;
 
   // Define user CACHE variables
-  public  mainMenuCache = new BehaviorSubject<Menu[]>([]);  // Main Menu available
   private userAuthorizationsCache: object;
-  private userInfoCache: object = {};
 
   constructor(
     private errorMessageService: ErrorMessageService,
@@ -81,7 +79,6 @@ export class AuthsService {
   ) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(sessionStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
-    console.log('*** AUTHS CONSTRUCTOR ***');
   }
 
   /* **********************************************************************************
@@ -109,12 +106,10 @@ export class AuthsService {
               firstName:      data.first_name,
               lastName:       data.last_name,
               fullName:       `${data.first_name} ${data.last_name}`,
-              /* authorizations: (data.authorizations === null) ? {} : JSON.parse(data.authorizations) */
             };
 
             // Save the user authorizations into the cache
             this.userAuthorizationsCache = (data.authorizations === null) ? {} : JSON.parse(data.authorizations);
-            console.log('*** set userAuthorizationsCache:', this.userAuthorizationsCache);
 
             // Save user info in the browser session storage, to keep user logged in between page refreshes
             sessionStorage.setItem('currentUser', JSON.stringify(userData));
@@ -129,7 +124,7 @@ export class AuthsService {
   }
 
   // Creates all the main menu options (programs) for the logged user
-  private getMainMenu() {
+  private createMainMenu() {
     return this.http.get<any>(
       `${environment.envData.loginServer}/api/v1/menues.json`
     ).pipe(
@@ -138,11 +133,9 @@ export class AuthsService {
           // Define variables
           let pgmsUser = [];  // All programs the user has access
           const mnuUser = [] as Menu[];  // User main menu with all the info needed
-          console.log('*** getMainMenu - userAuthorizationsCache:', this.userAuthorizationsCache);
 
           // Obtain the ID's of the programs
           pgmsUser = Object.keys(this.userAuthorizationsCache);
-          console.log('*** DBase User menu:', pgmsApp);
 
           // Get rid of all the programs that the user has NO access
           pgmsApp.forEach(
@@ -154,7 +147,7 @@ export class AuthsService {
             }
           );
           // Save and store the main menu in the cache
-          this.mainMenuCache.next(mnuUser);
+          sessionStorage.setItem('mainMenu', JSON.stringify(mnuUser));
         }
       ),
       catchError(
@@ -164,6 +157,11 @@ export class AuthsService {
         }
       )
     );
+  }
+
+  // Retrieves the user main menu
+  public getMainMenu(): Observable<Menu[]> {
+    return of(<Menu[]>JSON.parse(sessionStorage.getItem('mainMenu')));
   }
 
   // LOGIN and user AUTENTICACION against DBase. JWT token.
@@ -197,46 +195,10 @@ export class AuthsService {
       )
     );
 
-    // Creates all the main menu options (programs) for the logged user
-    const getMainMenu = this.http.get<any>(
-      `${environment.envData.loginServer}/api/v1/menues.json`
-    ).pipe(
-      tap(
-        pgmsApp => {
-          // Define variables
-          let pgmsUser = [];  // All programs the user has access
-          const mnuUser = [] as Menu[];  // User main menu with all the info needed
-          console.log('*** getMainMenu - userAuthorizationsCache:', this.userAuthorizationsCache);
-
-          // Obtain the ID's of the programs
-          pgmsUser = Object.keys(this.userAuthorizationsCache);
-          console.log('*** DBase User menu:', pgmsApp);
-
-          // Get rid of all the programs that the user has NO access
-          pgmsApp.forEach(
-            program => {
-              if (pgmsUser.includes(program.pgmId)) {
-                // Has Access
-                mnuUser.push(program);
-              }
-            }
-          );
-          // Save and store the main menu in the cache
-          this.mainMenuCache.next(mnuUser);
-        }
-      ),
-      catchError(
-        error => {
-          // tslint:disable-next-line: max-line-length
-          return throwError(`API-0011(E): error calling http://<loginServer>/api/v1/menues - Error: ${error.message}`);
-        }
-      )
-    );
-
     // Authenticate user
     return getJwtToken.pipe(
       switchMap(userId => this.getUserDataFromApi(userId)),
-      switchMap(userData => this.getMainMenu())
+      switchMap(userData => this.createMainMenu())
     );
   }
 
@@ -244,6 +206,7 @@ export class AuthsService {
     // Remover los datos del usuario del sessionStorage
     sessionStorage.removeItem('currentUser');
     sessionStorage.removeItem('jwtToken');
+    sessionStorage.removeItem('mainMenu');
     this.currentUserSubject.next(null);
     // Set Program Title
     this.errorMessageService.changeAppProgramTitle('Login');
@@ -254,6 +217,26 @@ export class AuthsService {
   /* **********************************************************************************
    * AUTHORIZATIONS methods
   */
+
+  // Check and recreates if necesary user authorizations
+  public existsUserAuths(): Observable<boolean> {
+
+    if (this.userAuthorizationsCache) {
+      // User auths exists
+      return of(true);
+
+    } else {
+      // User auths DOESN't exists, recreat user auths
+      return this.getUserDataFromApi(this.currentUserValue.id).pipe(
+        map(
+         data => true
+        ),
+        catchError(
+        err => of(false)
+        )
+      );
+    }
+  }
 
   // Validate if the user can access a PROGRAM
   public programAccess(programId: string): boolean {

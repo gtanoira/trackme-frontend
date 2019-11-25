@@ -2,7 +2,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 // Importar componentes
 import { LoginComponent } from './login/login.component';
-import { ClientOrderTabsComponent } from './client_order/client_order_tabs.component';
+import { OrderTabsComponent } from './client_order/order_tabs.component';
 import { AuthGuard } from './_guards';
 import { MainComponent } from './main_menu/main.component';
 
@@ -10,11 +10,11 @@ const appRoutes: Routes = [
   // Client's orders
   {
     path: 'pgmClientOrders',
-    component: ClientOrderTabsComponent,
+    component: OrderTabsComponent,
     canActivate: [AuthGuard],
     data: {
       idProgram:   'pgmClientOrders',
-      nameProgram: 'Customer Orders'
+      nameProgram: 'Client Orders'
     }
   },
   // Login
@@ -26,7 +26,12 @@ const appRoutes: Routes = [
   {
     path: 'main',
     component: MainComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: {
+      idProgram: 'main',
+      nameProgram: 'Home'
+    }
+
   },
   // otherwise redirect to Login
   { path: '**', redirectTo: 'login' }

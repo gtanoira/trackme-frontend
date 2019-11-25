@@ -28,12 +28,12 @@ import { MatRadioModule } from '@angular/material/radio';
 import { DynamicModule } from 'ng-dynamic-component';
 
 // Services
-import { AgGridLoadingComponent } from '../shared/spinners/ag_grid/ag-grid_loading.component';
+import { AgGridLoadingComponent } from '../shared/ag-grid_loading.component';
 import { AuthsService } from '../shared/auths.service';
 import { AuxiliarTableService } from '../shared/auxiliar_table.service';
 import { CompanyService } from '../shared/company.service';
 import { CountryService } from '../shared/country.service';
-import { CustomerOrderService } from '../shared/customer_order.service';
+import { OrderService } from '../shared/order.service';
 import { EntityService } from '../shared/entity.service';
 import { ErrorMessageService } from '../shared/error-message.service';
 import { EventTypeService } from '../shared/event_type.service';
@@ -56,9 +56,9 @@ import { MainComponent } from './main_menu/main.component';
 import { LoginComponent } from './login/login.component';
 
 // client Orders Components
-import { ClientOrderTabsComponent } from './client_order/client_order_tabs.component';
-import { COrderGridComponent } from './client_order/grid/grid.component';
-import { COrderFormComponent } from './client_order/form/form.component';
+import { OrderTabsComponent } from './client_order/order_tabs.component';
+import { OrderGridComponent } from './client_order/grid/order_grid.component';
+import { OrderFormComponent } from './client_order/form/order_form.component';
 import { COrderFormTabsComponent } from './client_order/form/form_tabs/tabs.component';
 import { COrderEventsComponent } from './client_order/form/events/events.component';
 
@@ -75,9 +75,9 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     // Main menu
     MainComponent,
     // Client Orders
-    ClientOrderTabsComponent,
-    COrderGridComponent,
-    COrderFormComponent,
+    OrderTabsComponent,
+    OrderGridComponent,
+    OrderFormComponent,
     COrderFormTabsComponent,
     COrderEventsComponent
   ],
@@ -104,11 +104,11 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     MatTooltipModule,
     ReactiveFormsModule,
     routing,
-    // Customer Orders
+    // Client Orders
     DynamicModule.withComponents([
-      ClientOrderTabsComponent,
-      COrderGridComponent,
-      COrderFormComponent
+      OrderTabsComponent,
+      OrderGridComponent,
+      OrderFormComponent
     ])
   ],
   exports: [
@@ -119,7 +119,7 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     AuxiliarTableService,
     CompanyService,
     CountryService,
-    CustomerOrderService,
+    OrderService,
     EntityService,
     ErrorMessageService,
     EventTypeService,

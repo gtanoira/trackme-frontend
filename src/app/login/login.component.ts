@@ -63,9 +63,10 @@ export class LoginComponent implements OnInit {
     this.authsService.login(this.username.value, this.password.value).subscribe(
       userId => {
         if (this.returnUrl === '' || this.returnUrl === '/') {
-          this.router.navigate(['/main']);
-        } else {}
+          this.router.navigate(['/pgmClientOrders']);
+        } else {
           this.router.navigate([this.returnUrl]);
+        }
       },
       error => {
         this.errorMessageService.changeErrorMessage(error);

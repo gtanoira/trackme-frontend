@@ -15,28 +15,28 @@
       Order No. {{ (orderId == null)? 'New' : orderNo.value }}
     </mat-card-title>
 
-    <!-- Customer Id -->
+    <!-- Client Id -->
     <mat-form-field>
       <mat-select
-        formControlName="customerId"
+        formControlName="clientId"
         placeholder="Client"
         required>
         <mat-option
-          *ngFor="let customer of customerOptions"
-          [value]="customer.id">
-          {{ customer.name }}
+          *ngFor="let client of clientOptions"
+          [value]="client.id">
+          {{ client.name }}
         </mat-option>
       </mat-select>
-      <mat-error *ngIf="formData.get('blkGeneral').get('customerId').hasError('required')">
+      <mat-error *ngIf="formData.get('blkGeneral').get('clientId').hasError('required')">
         The client is <strong>required</strong>
       </mat-error>
     </mat-form-field>
 
-    <!-- Customer Reference -->
+    <!-- Client Reference -->
     <mat-form-field>
       <input
         matInput
-        placeholder="Customer Reference"
+        placeholder="Client Reference"
         formControlName="custRef">
     </mat-form-field>
 
@@ -115,18 +115,18 @@
     </button>
   </mat-card>
 
-  <!-- OTHER CUSTOMER ORDER BLOCKS  -->
+  <!-- OTHER CLIENT ORDER BLOCKS  -->
   <mat-card
-    name="appCustomerOrderTabs"
+    name="appClientOrderTabs"
     fxFlex="80%">
 
     <!-- Form Tabs  -->
-    <app-custorder-tabs
+    <app-client-order-form-tabs
       fxFlex
       [orderId]="orderId"
       [formData]="formData"
-      [customerOptions]="customerOptions">
-    </app-custorder-tabs>
+      [clientOptions]="clientOptions">
+    </app-client-order-form-tabs>
   </mat-card>
 
 </div>

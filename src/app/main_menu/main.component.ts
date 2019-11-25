@@ -16,21 +16,18 @@ import { AuthsService } from '../../shared/auths.service';
 export class MainComponent implements OnInit, OnDestroy {
 
   // Define variables
-  public  mainMenu: Observable<Menu[]>;
   private subsUserInfo: Subscription;
   public  userInfo: User;
 
   constructor (
-    private authsService: AuthsService
-  ) {
-    this.mainMenu = this.authsService.mainMenuCache;
+    public authsService: AuthsService
+  ) {}
+
+  ngOnInit() {
     // User Info
     this.subsUserInfo = this.authsService.currentUser.subscribe(
       data => this.userInfo = data
     );
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {

@@ -21,8 +21,8 @@ export class AuxiliarTableService {
     private http: HttpClient
   ) { }
 
-  // Get Customer Order Types Options
-  getCustomerOrderTypes():  SelectOptions[] {
+  // Get Client Order Types Options
+  getClientOrderTypes():  SelectOptions[] {
     return [
       { id: 'P', name: 'PickUp by Company' },
       { id: 'I', name: 'PickUp by Client' },

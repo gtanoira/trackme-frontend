@@ -1,0 +1,15 @@
+<div class="container">
+  <ag-grid-angular
+    style="height: 100%;"
+    class="ag-theme-balham"
+    #OrdersGrid
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [overlayLoadingTemplate]="overlayLoadingTemplate"
+    [loadingOverlayComponent]="loadingOverlayComponent"
+    [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+    [frameworkComponents]="frameworkComponents"
+    (gridReady)="onGridReady($event)"
+    (rowDoubleClicked)="onRowDoubleClicked($event.data.id)">
+  </ag-grid-angular>
+</div>
