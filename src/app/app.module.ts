@@ -55,12 +55,11 @@ import { MainComponent } from './main_menu/main.component';
 // Authentication & Authorization
 import { LoginComponent } from './login/login.component';
 
-// client Orders Components
+// Orders Components
 import { OrderTabsComponent } from './client_order/order_tabs.component';
 import { OrderGridComponent } from './client_order/grid/order_grid.component';
-import { OrderFormComponent } from './client_order/form/order_form.component';
-import { COrderFormTabsComponent } from './client_order/form/form_tabs/tabs.component';
-import { COrderEventsComponent } from './client_order/form/events/events.component';
+// Order Form Components
+import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.component';
 
 @NgModule({
   declarations: [
@@ -74,12 +73,11 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     LoginComponent,
     // Main menu
     MainComponent,
-    // Client Orders
+    // Orders
     OrderTabsComponent,
     OrderGridComponent,
-    OrderFormComponent,
-    COrderFormTabsComponent,
-    COrderEventsComponent
+    // Order Form
+    OrderFormTabsComponent,
   ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent]),
@@ -104,11 +102,11 @@ import { COrderEventsComponent } from './client_order/form/events/events.compone
     MatTooltipModule,
     ReactiveFormsModule,
     routing,
-    // Client Orders
+    // Orders (dynamic's component))
     DynamicModule.withComponents([
       OrderTabsComponent,
       OrderGridComponent,
-      OrderFormComponent
+      OrderFormTabsComponent
     ])
   ],
   exports: [

@@ -4,4 +4,5 @@
   firstName: string;
   lastName: string;
   fullName?: string;
+  companyId: number;
 }

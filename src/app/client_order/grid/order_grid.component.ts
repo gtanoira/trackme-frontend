@@ -69,6 +69,18 @@ export class OrderGridComponent implements OnInit {
     // Define columns of the ag-grid
     this.columnDefs = [
       {
+        headerName: 'Company',
+        field: 'companyName',
+        filter: 'agTextColumnFilter',
+        width: 100
+      }, {
+        headerName: 'Type',
+        headerTooltip: 'Order\'s type',
+        valueGetter: function(params) {
+           return (params.data.type === 'WarehouseReceipt') ? 'IN->WR' : 'OUT<-SH';
+        },
+        width: 88
+      }, {
         headerName: 'Order No.',
         field: 'orderNo',
         filter: 'agTextColumnFilter',
@@ -77,13 +89,6 @@ export class OrderGridComponent implements OnInit {
       }, {
         field: 'id',
         hide: true
-      }, {
-        headerName: 'Type',
-        headerTooltip: 'Order\'s type',
-        valueGetter: function(params) {
-           return (params.data.type === 'WarehouseReceipt') ? 'IN' : 'OUT';
-        },
-        width: 50
       }, {
         headerName: 'Client',
         field: 'clientName',
@@ -143,7 +148,7 @@ export class OrderGridComponent implements OnInit {
   ngOnInit() {
   }
 
-  // Ajustar las columnas del grid
+  // Adjust the columns size of the grid
   autoSizeAllColumns() {
     const allColumnIds = [];
     this.gridColumnApi.getAllColumns().forEach((column) => {
@@ -157,19 +162,20 @@ export class OrderGridComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
 
-    // Spinner
+    // >Show s pinner
     this.gridApi.showLoadingOverlay();
 
-    // Get all client orders data
+    // Get all orders data
     this.orderService.getOrdersGrid()
       .subscribe(
         data => this.gridApi.setRowData(data)
       );
   }
 
-  // Create a new client order tab and allow editing
-  onRowDoubleClicked(orderId) {
-    this.orderService.addClientOrderTab(orderId);
+  // Edit an order (WR or SH) and put it in a new tab
+  onRowDoubleClicked(rowData) {
+    console.log('*** DATA:', rowData);
+    //this.orderService.editOrder(orderId);
   }
 
 }

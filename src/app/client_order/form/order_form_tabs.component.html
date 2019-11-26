@@ -1,17 +1,71 @@
 <mat-tab-group
-  name="appTabsGroup"
-  fxFlex
-  (selectedIndexChange)="changeTab($event)"
   [formGroup]="formData">
 
-  <!-- EVENTS tabs  -->
+  <!-- GENERAL tab  -->
   <mat-tab
-    label="Events"
-    isActive="true">
-    <app-custorder-events
-      [orderId]="orderId"
-      [formData]="formData">
-    </app-custorder-events>
+    label="Shipper">
+    <div
+      fxLayout="column"
+      formGroupName="blkFrom">
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Entity"
+          formControlName="fromEntity"
+          required>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Address 1"
+          formControlName="fromAddress1">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <textarea
+          matInput
+          placeholder="Address 2"
+          formControlName="fromAddress2">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="City"
+          formControlName="fromCity">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Zip Code"
+          formControlName="fromZipcode">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="State"
+          formControlName="fromState">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-select
+          placeholder="Country"
+          formControlName="fromCountryId"
+          required>
+          <mat-option
+            *ngFor="let country of countryOptions"
+            [value]="country.id">
+            {{ country.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </mat-tab>
 
   <!-- SHIPPER tab  -->
@@ -153,6 +207,16 @@
     </div>
   </mat-tab>
 
+  <!-- EVENTS tab  -->
+  <mat-tab
+    label="Events"
+    isActive="true">
+    <app-custorder-events
+      [orderId]="orderId"
+      [formData]="formData">
+    </app-custorder-events>
+  </mat-tab>
+
   <!--  OBSERVATIONS tab -->)
   <mat-tab
     label="Observations">
@@ -237,66 +301,6 @@
       </mat-form-field>
 
     </div>
-  </mat-tab>
-
-  <!--  WR & SHIP order's tabs -->)
-  <mat-tab
-    *ngFor="let tab of dynamicTabs"
-    label="{{tab.label}}">
-
-    <!-- TAB label -->
-    <ng-template
-      mat-tab-label>
-      {{tab.label}}&nbsp;&nbsp;
-      <mat-icon
-        *ngIf="tab.remove"
-        class="mini-icon"
-        (click)="removeTab(tab)"
-        svgIcon="delete_red">
-      </mat-icon>
-    </ng-template>
-
-    <!-- TAB component -->
-    <ndc-dynamic
-      [ndcDynamicComponent]="tab.component"
-      [ndcDynamicInputs]="tab.inputs">
-    </ndc-dynamic>
-  </mat-tab>
-
-  <!--  Add SHIPMENT button tab  -->
-  <mat-tab #addShip>
-    <ng-template mat-tab-label>
-      <button
-        style="font-weight: bold"
-        mat-button
-        color="primary"
-        title="Add a new Shipment"
-        (click)="addShipment()">
-        <mat-icon
-          class="mini-icon"
-          svgIcon="add_green">
-        </mat-icon>
-        &nbsp;SH
-      </button>
-    </ng-template>
-  </mat-tab>
-
-  <!--  Add WAREHOUSE RECEIPT button tab  -->
-  <mat-tab #addWR disabled>
-    <ng-template mat-tab-label>
-      <button
-        style="font-weight: bold"
-        mat-button
-        color="primary"
-        title="Add a new WareHouse Receipt"
-        (click)="addWReceipt()">
-        <mat-icon
-          class="mini-icon"
-          svgIcon="add_green">
-        </mat-icon>
-        &nbsp;WR
-      </button>
-    </ng-template>
   </mat-tab>
 
 </mat-tab-group>

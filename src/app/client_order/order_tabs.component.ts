@@ -4,10 +4,14 @@ import { MatTabGroup } from '@angular/material';
 
 // App Components
 import { OrderGridComponent } from './grid/order_grid.component';
-import { OrderFormComponent } from './form/order_form.component';
+import { OrderFormTabsComponent } from './form/order_form_tabs.component';
 
 // Services
 import { OrderService } from '../../shared/order.service';
+import { Subscriber } from 'rxjs';
+
+// Models
+import { OrderTabIdModel } from '../../models/order_tab_id.model';
 
 /**
  * Client Orders TAB manager
@@ -33,7 +37,17 @@ export class OrderTabsComponent  {
 
   constructor (
     private orderService: OrderService,
-  ) {}
+  ) {
+
+    // Set a subscriber to create a new tab each time a user double-clicks a row in a grid
+    this.orderService.orderTab.subscribe(
+      orderData => {
+        if (orderData) {
+          this.addOrderFormTab(orderData);
+        }
+      }
+    );
+  }
 
   // Add a new Client Order Grid tab
   addClientOrderGridTab() {
@@ -52,11 +66,11 @@ export class OrderTabsComponent  {
   }
 
   // Add a new Client Order Form tab
-  addClientOrderFormTab(orderId: number = null) {
+  addOrderFormTab(orderData: OrderTabIdModel = null) {
     this.ordersTabs.push({
-      label: `Order`,
-      component: OrderFormComponent,
-      inputs: { orderId },
+      label: orderData ? orderData['tabId'] : 'NEW',
+      component: OrderFormTabsComponent,
+      inputs: { orderData },
       outputs: {}
     });
 

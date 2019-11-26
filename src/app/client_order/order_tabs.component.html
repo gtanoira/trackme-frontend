@@ -3,11 +3,8 @@
 
   <!-- Grid & Form components -->
   <mat-tab
-    class="tab-label"
     *ngFor="let tab of ordersTabs">
-    <!-- Tab label -->
     <ng-template
-
       mat-tab-label>
       {{tab.label}}&nbsp;&nbsp;
       <mat-icon
@@ -37,15 +34,30 @@
     </ng-template>
   </mat-tab>
 
-  <!--  Order's form add button  -->
-  <mat-tab disabled>
-    <ng-template mat-tab-label>
+  <!--  Warehouse Receipt add button  -->
+  <mat-tab>
+    <ng-template mat-tab-label class="wrShAlign">
+      WR&nbsp;
       <button
         mat-icon-button
         title="Add a new Client Order"
-        (click)="addClientOrderFormTab()">
+        (click)="addOrderFormTab()">
         <mat-icon svgIcon="form"></mat-icon>
       </button>
     </ng-template>
   </mat-tab>
+
+  <!--  Shipment add button  -->
+  <mat-tab>
+    <ng-template mat-tab-label class="wrShAlign">
+      SH&nbsp;
+      <button
+        mat-icon-button
+        title="Add a new Client Order"
+        (click)="addOrderFormTab()">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+    </ng-template>
+  </mat-tab>
+
 </mat-tab-group>

@@ -101,11 +101,12 @@ export class AuthsService {
           // Read the user data and store them in the sessionStorage
           try {
             const userData = {
-              id:             data.id,
-              email:          data.email,
-              firstName:      data.first_name,
-              lastName:       data.last_name,
-              fullName:       `${data.first_name} ${data.last_name}`,
+              id: data.id,
+              email: data.email,
+              firstName: data.first_name,
+              lastName: data.last_name,
+              fullName: `${data.first_name} ${data.last_name}`,
+              companyId: data.company_id
             };
 
             // Save the user authorizations into the cache
@@ -238,6 +239,9 @@ export class AuthsService {
     }
   }
 
+  /* ******************************************************
+   * PROGRAM schema authorizations
+  */
   // Validate if the user can access a PROGRAM
   public programAccess(programId: string): boolean {
 
@@ -272,6 +276,9 @@ export class AuthsService {
     return retorno;
   }
 
+  /* ******************************************************
+   * COMPONENT schema (of a program) authorizations
+  */
   // Esta rutina determina si se permite el acceso a un componente dentro de un programa
   public componentAccess(programId: string, componentId: string): boolean {
     // Asignar TRUE, ya que siempre se tiene acceso TOTAL al menos que
@@ -339,6 +346,20 @@ export class AuthsService {
       }
     }
     return retorno;
+  }
+
+  /* ******************************************************
+   * COMPANY schema authorizations
+  */
+  // Get all the company's id the user can access
+  public getAllowCompanies(): number[] {
+    const companies: number[] = this.userAuthorizationsCache['companiesAllow'] ? this.userAuthorizationsCache['companiesAllow'] : [];
+
+    if (!companies) {
+      companies.push(this.currentUserValue.companyId);
+    }
+
+    return companies;
   }
 
 }

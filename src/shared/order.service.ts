@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 
 // Environment
@@ -8,23 +8,24 @@ import { environment } from '../environments/environment';
 
 // Class Models
 import { OrderGridModel } from '../models/order_grid.model';
-
+import { OrderTabIdModel } from '../models/order_tab_id.model';
 
 @Injectable()
 export class OrderService {
 
-  // Obtain the Client Order Id to create a new Tab
-  // This is used in client_order_tabs.component.ts
-  private orderIdTab = new BehaviorSubject(0);
-  orderTab = this.orderIdTab.asObservable();
+  // Obtain the order Id to create a new Tab
+  // This is used in order_tabs.component.ts
+  private orderIdTab = new Subject<OrderTabIdModel>();
+  public  orderTab = this.orderIdTab.asObservable();
 
   constructor(
     private http: HttpClient
   ) { }
 
-  // Emit a new client order Id to create a new tab
-  addClientOrderTab(orderId: number) {
-    this.orderIdTab.next(orderId);
+  // Edit a order and place it in a new tab
+  editOrder(orderData: OrderTabIdModel) {
+    // This next() send the orderData to the order_tabs.component and creates a new tab
+    this.orderIdTab.next(orderData);
   }
 
   // Get all orders for Grid format
