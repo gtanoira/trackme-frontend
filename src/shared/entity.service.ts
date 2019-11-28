@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 
 // Class Models
-import { EntityModel } from '../models/entity.model';
+import { ClientModel } from '../models/client.model';
 
 @Injectable()
 export class EntityService {
@@ -17,17 +17,17 @@ export class EntityService {
     private http: HttpClient
   ) { }
 
-  // Get one entity by Id
-  getEntityByid(entityId: number | string):  Observable<EntityModel> {
-    return this.http.get<EntityModel>(
-      `${environment.envData.loginServer}/api/v1/entities/${(entityId == null) ? 0 : entityId}.json`
+  // Get one client by Id
+  getEntityByid(entityId: number | string):  Observable<ClientModel> {
+    return this.http.get<ClientModel>(
+      `${environment.envData.loginServer}/api/v1/clients/${(entityId == null) ? 0 : entityId}.json`
     );
   }
 
   // Get all entites by type
-  getAllEntitiesByType(typeId: string):  Observable<EntityModel[]> {
-    return this.http.get<EntityModel[]>(
-      `${environment.envData.loginServer}/api/v1/entities/type/${(typeId == null) ? 0 : typeId}.json`
+  getAllClients():  Observable<ClientModel[]> {
+    return this.http.get<ClientModel[]>(
+      `${environment.envData.loginServer}/api/v1/clients.json`
     );
   }
 

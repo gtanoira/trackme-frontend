@@ -48,10 +48,12 @@ p {
 .ng-valid[required],
 .ng-valid.required {
   border-left: 2px solid #42a948; /* green */
+  padding-left: 5px;
 }
 
 .ng-invalid[required] {
   border-left: 2px solid #a94442; /* red */
+  padding-left: 5px;
 }
 
 /* *************************************************************************************

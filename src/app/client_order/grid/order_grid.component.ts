@@ -174,8 +174,7 @@ export class OrderGridComponent implements OnInit {
 
   // Edit an order (WR or SH) and put it in a new tab
   onRowDoubleClicked(rowData) {
-    console.log('*** DATA:', rowData);
-    //this.orderService.editOrder(orderId);
+    this.orderService.editOrder(rowData);
   }
 
 }

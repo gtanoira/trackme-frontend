@@ -1,0 +1,111 @@
+<!-- GENERAL block -->
+<div
+  [formGroup]="formData">
+
+  <h2 class="block-title">
+    Order No. {{ (orderId == null)? 'New' : orderNo.value }}
+  </h2>
+
+  <div
+    class="container-formData"
+    formGroupName="general">
+
+    <!-- Client -->
+    <mat-form-field>
+      <mat-select
+        formControlName="clientId"
+        placeholder="Client"
+        required>
+        <mat-option
+          *ngFor="let client of clientOptions"
+          [value]="client.id">
+          {{ client.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error>The client is <strong>required</strong></mat-error>
+    </mat-form-field>
+
+    <!-- Client Reference -->
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Client Purchase Order"
+        formControlName="clientRef">
+    </mat-form-field>
+
+    <!-- Order Type -->
+    <mat-form-field>
+      <mat-select
+        placeholder="Order type"
+        formControlName="orderType"
+        required>
+        <mat-option
+          *ngFor="let order of ordersTypeOptions"
+          [value]="order.id">
+          {{ order.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Applicant Name -->
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Applicant name"
+        formControlName="applicantName">
+    </mat-form-field>
+
+    <!-- Order Date -->
+    <mat-form-field>
+      <input
+        matInput
+        placeholder="Order date"
+        [matDatepicker]="orderDatetime"
+        formControlName="orderDatetime"
+        required>
+      <mat-datepicker-toggle matSuffix [for]="orderDatetime"></mat-datepicker-toggle>
+      <mat-datepicker #orderDatetime></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Shipment Method -->
+    <mat-form-field>
+      <mat-select
+        formControlName="shipmentMethod"
+        placeholder="Shipment Method">
+        <!-- [errorStateMatcher]="matcher"> -->
+        <mat-option
+          *ngFor="let method of shipmentOptions"
+          [value]="method.id">
+          {{ method.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- INCOTERM -->
+    <mat-form-field>
+      <mat-select
+        formControlName="incoterm"
+        placeholder="Incoterm">
+        <!-- [errorStateMatcher]="matcher"> -->
+        <mat-option
+          *ngFor="let method of incotermOptions"
+          [value]="method.id">
+          {{ method.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Button SAVE -->
+    <button
+      [disabled]="formData.invalid"
+      mat-raised-button
+      color="primary"
+      title="Save Order"
+      color=primary
+      (click)="saveOrder(orderId)">
+      Save &nbsp;
+      <mat-icon svgIcon="save"></mat-icon>
+    </button>
+g
+  </div>
+</div>

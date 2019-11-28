@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabGroup } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 // App Components
 import { OrderGridComponent } from './grid/order_grid.component';
@@ -8,7 +9,6 @@ import { OrderFormTabsComponent } from './form/order_form_tabs.component';
 
 // Services
 import { OrderService } from '../../shared/order.service';
-import { Subscriber } from 'rxjs';
 
 // Models
 import { OrderTabIdModel } from '../../models/order_tab_id.model';
@@ -26,27 +26,34 @@ import { OrderTabIdModel } from '../../models/order_tab_id.model';
   templateUrl: './order_tabs.component.html',
   styleUrls:   ['./order_tabs.component.scss']
 })
-export class OrderTabsComponent  {
+export class OrderTabsComponent implements OnDestroy  {
 
   // All tabs info that are available in the screen
   @ViewChild(MatTabGroup, {static: false}) tabGroup: MatTabGroup;
 
-  // Define OrdersTabs[]: stores all the tab components the user opens.
+  // Define OrdersTabs[]: stores all the tab components the user opens: WR or SH
   public ordersTabs = [];
   tabSelected = new FormControl(0);   // Info of the tab selected by clicking on it
+
+  // Define Subscription
+  private subsOrderData: Subscription;
 
   constructor (
     private orderService: OrderService,
   ) {
 
     // Set a subscriber to create a new tab each time a user double-clicks a row in a grid
-    this.orderService.orderTab.subscribe(
+    this.subsOrderData = this.orderService.orderTab.subscribe(
       orderData => {
         if (orderData) {
           this.addOrderFormTab(orderData);
         }
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.subsOrderData.unsubscribe();
   }
 
   // Add a new Client Order Grid tab
@@ -68,7 +75,7 @@ export class OrderTabsComponent  {
   // Add a new Client Order Form tab
   addOrderFormTab(orderData: OrderTabIdModel = null) {
     this.ordersTabs.push({
-      label: orderData ? orderData['tabId'] : 'NEW',
+      label: orderData ? orderData.tabId : 'NEW',
       component: OrderFormTabsComponent,
       inputs: { orderData },
       outputs: {}

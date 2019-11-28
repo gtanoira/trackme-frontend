@@ -60,6 +60,7 @@ import { OrderTabsComponent } from './client_order/order_tabs.component';
 import { OrderGridComponent } from './client_order/grid/order_grid.component';
 // Order Form Components
 import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.component';
+import { OrderFormGeneralComponent } from './client_order/form/general/order_form_general.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.comp
     OrderGridComponent,
     // Order Form
     OrderFormTabsComponent,
+    OrderFormGeneralComponent
   ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent]),

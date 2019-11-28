@@ -1,306 +1,74 @@
 <mat-tab-group
-  [formGroup]="formData">
+  backgroundColor="accent">
+
+  <h2 *ngIf="dataAvailable">
+    Order No. {{ orderNo.value }}
+  </h2>
+
 
   <!-- GENERAL tab  -->
-  <mat-tab
-    label="Shipper">
-    <div
-      fxLayout="column"
-      formGroupName="blkFrom">
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Entity"
-          formControlName="fromEntity"
-          required>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Address 1"
-          formControlName="fromAddress1">
-        </textarea>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Address 2"
-          formControlName="fromAddress2">
-        </textarea>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="City"
-          formControlName="fromCity">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Zip Code"
-          formControlName="fromZipcode">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="State"
-          formControlName="fromState">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select
-          placeholder="Country"
-          formControlName="fromCountryId"
-          required>
-          <mat-option
-            *ngFor="let country of countryOptions"
-            [value]="country.id">
-            {{ country.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+  <mat-tab #general>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Edit General data">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+      General
+    </ng-template>
+    <!-- General Component -->
+    <app-order-form-general
+      *ngIf="dataAvailable"
+      [formData]="formData">
+    </app-order-form-general>
   </mat-tab>
 
   <!-- SHIPPER tab  -->
-  <mat-tab
-    label="Shipper">
-    <div
-      fxLayout="column"
-      formGroupName="blkFrom">
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Entity"
-          formControlName="fromEntity"
-          required>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Address 1"
-          formControlName="fromAddress1">
-        </textarea>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Address 2"
-          formControlName="fromAddress2">
-        </textarea>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="City"
-          formControlName="fromCity">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Zip Code"
-          formControlName="fromZipcode">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="State"
-          formControlName="fromState">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select
-          placeholder="Country"
-          formControlName="fromCountryId"
-          required>
-          <mat-option
-            *ngFor="let country of countryOptions"
-            [value]="country.id">
-            {{ country.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+  <mat-tab #shipper>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Edit Shipper data">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+      Shipper
+    </ng-template>
   </mat-tab>
 
   <!--  CONSIGNEE tab -->)
-  <mat-tab
-    label="Consignee">
-    <div
-      class="containerX"
-      fxLayout="column"
-      formGroupName="blkTo">
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Entity"
-          [errorStateMatcher]="matcher"
-          formControlName="toEntity"
-          required>
-        <mat-error *ngIf="formData.controls['blkTo'].controls['toEntity'].hasError('required')">
-          The Consignee Name is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Address 1"
-          formControlName="toAddress1">
-        </textarea>
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Address 2"
-          formControlName="toAddress2">
-        </textarea>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="City"
-          formControlName="toCity">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Zip Code"
-          formControlName="toZipcode">
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="State"
-          formControlName="toState">
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select
-          placeholder="Country"
-          formControlName="toCountryId"
-          required>
-          <mat-option
-            *ngFor="let country of countryOptions"
-            [value]="country.id">
-            {{ country.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
+  <mat-tab #consignee>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Edit Consignee data">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+      Consignee
+    </ng-template>
   </mat-tab>
 
   <!-- EVENTS tab  -->
-  <mat-tab
-    label="Events"
-    isActive="true">
-    <app-custorder-events
-      [orderId]="orderId"
-      [formData]="formData">
-    </app-custorder-events>
-  </mat-tab>
-
-  <!--  OBSERVATIONS tab -->)
-  <mat-tab
-    label="Observations">
-    <div
-      class="containerX"
-      fxLayout="column"
-      formGroupName="blkGeneral">
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="No. of pieces"
-          formControlName="pieces">
-      </mat-form-field>
-
-      <mat-form-field>
-        <textarea
-          matInput
-          placeholder="Observations"
-          rows="15"
-          formControlName="observations">
-        </textarea>
-      </mat-form-field>
-    </div>
+  <mat-tab #events>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Edit Events data">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+      Events
+    </ng-template>
   </mat-tab>
 
   <!--  OTHER tab -->)
-  <mat-tab
-    label="Other">
-    <div
-      class="containerX"
-      fxLayout="column"
-      formGroupName="blkGeneral">
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="E.T.A."
-          [matDatepicker]="eta"
-          formControlName="eta">
-        <mat-datepicker-toggle matSuffix [for]="eta"></mat-datepicker-toggle>
-        <mat-datepicker #eta></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field>
-        <input
-          matInput
-          placeholder="Delivery date"
-          [matDatepicker]="deliveryDate"
-          formControlName="deliveryDate">
-        <mat-datepicker-toggle matSuffix [for]="deliveryDate"></mat-datepicker-toggle>
-        <mat-datepicker #deliveryDate></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select
-          placeholder="This order belongs to the company"
-          formControlName="companyId"
-          required>
-          <mat-option
-            *ngFor="let company of companyOptions"
-            [value]="company.id">
-            {{ company.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field>
-        <mat-select
-          formControlName="thirdPartyId"
-          placeholder="Third party to invoice this order"
-          required>
-          <mat-option
-            *ngFor="let customer of customerOptions"
-            [value]="customer.id">
-            {{ customer.name }}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="formData.get('blkGeneral').get('thirdPartyId').hasError('required')">
-          The third-party is <strong>required</strong>
-        </mat-error>
-      </mat-form-field>
-
-    </div>
+  <mat-tab #other>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Edit Other data">
+        <mat-icon svgIcon="form"></mat-icon>
+      </button>
+      Other
+    </ng-template>
   </mat-tab>
 
 </mat-tab-group>

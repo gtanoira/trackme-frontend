@@ -1,9 +1,10 @@
 // Table: Entities
-export interface EntityModel {
+export interface ClientModel {
   id: string;
   name: string;
   alias?: string;
-  type: string;
   countryId: string;
+  countryName?: string | '';
   companyId: string;
+  companyName?: string | '';
 }

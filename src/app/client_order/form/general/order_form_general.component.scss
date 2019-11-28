@@ -1,0 +1,17 @@
+/* ******************
+ * LAYOUT
+*/
+.block-title {
+  margin: 0 auto;
+}
+
+.container-formData {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 300px;
+}

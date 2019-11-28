@@ -64,11 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
       'close',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/close.svg')
     );
-    // Data-Table
-    this.matIconRegistry.addSvgIcon(
-      'data-table',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/data-table.svg')
-    );
     // Delete Red
     this.matIconRegistry.addSvgIcon(
       'delete_red',
@@ -83,6 +78,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matIconRegistry.addSvgIcon(
       'form',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/form.svg')
+    );
+    // Grid
+    this.matIconRegistry.addSvgIcon(
+      'grid',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/grid_on-24px.svg')
     );
     // Home
     this.matIconRegistry.addSvgIcon(
