@@ -11,7 +11,8 @@
     formGroupName="general">
 
     <!-- Client -->
-    <mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Client</mat-label>
       <mat-select
         formControlName="clientId"
         placeholder="Client"
@@ -26,15 +27,30 @@
     </mat-form-field>
 
     <!-- Client Reference -->
-    <mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Client Purchase Orde</mat-label>
       <input
         matInput
         placeholder="Client Purchase Order"
         formControlName="clientRef">
     </mat-form-field>
 
+    <!-- Order Datetime -->
+    <mat-form-field appearance="fill">
+      <mat-label>Order date </mat-label>
+      <input
+        matInput
+        placeholder="Order date"
+        [matDatepicker]="orderDatetime"
+        formControlName="orderDatetime"
+        required>
+      <mat-datepicker-toggle matSuffix [for]="orderDatetime"></mat-datepicker-toggle>
+      <mat-datepicker #orderDatetime></mat-datepicker>
+    </mat-form-field>
+
     <!-- Order Type -->
-    <mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Order Type</mat-label>
       <mat-select
         placeholder="Order type"
         formControlName="orderType"
@@ -47,28 +63,9 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Applicant Name -->
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Applicant name"
-        formControlName="applicantName">
-    </mat-form-field>
-
-    <!-- Order Date -->
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Order date"
-        [matDatepicker]="orderDatetime"
-        formControlName="orderDatetime"
-        required>
-      <mat-datepicker-toggle matSuffix [for]="orderDatetime"></mat-datepicker-toggle>
-      <mat-datepicker #orderDatetime></mat-datepicker>
-    </mat-form-field>
-
     <!-- Shipment Method -->
-    <mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Shipment method</mat-label>
       <mat-select
         formControlName="shipmentMethod"
         placeholder="Shipment Method">
@@ -76,13 +73,14 @@
         <mat-option
           *ngFor="let method of shipmentOptions"
           [value]="method.id">
-          {{ method.name }}
+          <mat-icon svgIcon="{{method.name.toLowerCase()}}"></mat-icon>&nbsp;{{ method.name }}
         </mat-option>
       </mat-select>
     </mat-form-field>
 
     <!-- INCOTERM -->
-    <mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Incoterm</mat-label>
       <mat-select
         formControlName="incoterm"
         placeholder="Incoterm">
@@ -94,6 +92,79 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <!-- Pieces -->
+    <mat-form-field appearance="fill">
+      <mat-label>No. of pieces</mat-label>
+      <input
+        matInput
+        placeholder="Pieces"
+        formControlName="pieces">
+    </mat-form-field>
+
+    <!-- Delivery Date -->
+    <mat-form-field appearance="fill">
+      <mat-label>Date of delivery</mat-label>
+      <input
+        matInput
+        placeholder="Delivery date"
+        formControlName="deliveryDate"
+        disabled>
+        <mat-datepicker #deliveryDate></mat-datepicker>
+      </mat-form-field>
+
+    <!-- ETA -->
+    <mat-form-field appearance="fill">
+      <mat-label>Estimated Time of Arrival </mat-label>
+      <input
+        matInput
+        placeholder="E.T.A."
+        [matDatepicker]="eta"
+        formControlName="eta">
+      <mat-datepicker-toggle matSuffix [for]="eta"></mat-datepicker-toggle>
+      <mat-datepicker #eta></mat-datepicker>
+    </mat-form-field>
+
+    <!-- Legacy Order No -->
+    <mat-form-field appearance="fill">
+      <mat-label>Legacy Order No</mat-label>
+      <input
+        matInput
+        placeholder="Legacy order No"
+        formControlName="legacyOrderNo">
+    </mat-form-field>
+
+    <!-- Applicant Name -->
+    <mat-form-field appearance="fill">
+      <mat-label>Applicant name</mat-label>
+      <input
+        matInput
+        placeholder="Applicant name"
+        formControlName="applicantName">
+    </mat-form-field>
+
+    <!-- Third Party Id -->
+    <mat-form-field appearance="fill">
+      <mat-label>Third party id</mat-label>
+      <input
+        matInput
+        placeholder="Third party id"
+        formControlName="thirdPartyId"
+        required>
+    </mat-form-field>
+
+    <!-- Observations -->
+    <mat-form-field appearance="fill">
+      <mat-label>Observations</mat-label>
+      <textarea
+        matInput
+        placeholder="Observations"
+        formControlName="observations"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="2">
+      </textarea>
+   </mat-form-field>
 
     <!-- Button SAVE -->
     <button

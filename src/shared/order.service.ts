@@ -8,7 +8,6 @@ import { environment } from '../environments/environment';
 
 // Models
 import { OrderGridModel } from '../models/order_grid.model';
-import { OrderTabIdModel } from '../models/order_tab_id.model';
 import { OrderModel } from '../models/order.model';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class OrderService {
 
   // Obtain the order Id to create a new Tab
   // This is used in order_tabs.component.ts
-  private orderIdTab = new BehaviorSubject<OrderTabIdModel>(null);
+  private orderIdTab = new BehaviorSubject<OrderGridModel>(null);
   public  orderTab = this.orderIdTab.asObservable();
 
   constructor(
@@ -24,7 +23,7 @@ export class OrderService {
   ) { }
 
   // Edit a order and place it in a new tab
-  editOrder(orderData: OrderTabIdModel) {
+  editOrder(orderData: OrderGridModel) {
     // This next() send the orderData to the order_tabs.component and creates a new tab
     this.orderIdTab.next(orderData);
   }

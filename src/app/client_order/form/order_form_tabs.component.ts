@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 // Models
-import { OrderTabIdModel } from '../../../models/order_tab_id.model';
+import { OrderGridModel } from '../../../models/order_grid.model';
 import { OrderModel } from 'src/models/order.model';
 
 // Services
@@ -18,7 +18,7 @@ import { ErrorMessageService } from '../../../shared/error-message.service';
 export class OrderFormTabsComponent implements OnInit {
 
   // Get parameter's0 data
-  @Input() orderData: OrderTabIdModel;
+  @Input() orderData: OrderGridModel;
 
   // Define variables
   public formData: FormGroup;

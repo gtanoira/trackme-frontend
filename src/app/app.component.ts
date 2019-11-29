@@ -59,6 +59,11 @@ export class AppComponent implements OnInit, OnDestroy {
       'add_green',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/add_green.svg')
     );
+    // Air
+    this.matIconRegistry.addSvgIcon(
+      'air',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/air-24px.svg')
+    );
     // Close
     this.matIconRegistry.addSvgIcon(
       'close',
@@ -68,6 +73,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matIconRegistry.addSvgIcon(
       'delete_red',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/delete_red.svg')
+    );
+    // Edit
+    this.matIconRegistry.addSvgIcon(
+      'edit',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/edit-24px.svg')
     );
     // EnvironmentInfo
     this.matIconRegistry.addSvgIcon(
@@ -83,6 +93,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matIconRegistry.addSvgIcon(
       'grid',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/grid_on-24px.svg')
+    );
+    // Ground
+    this.matIconRegistry.addSvgIcon(
+      'ground',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/ground-24px.svg')
     );
     // Home
     this.matIconRegistry.addSvgIcon(
@@ -108,6 +123,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.matIconRegistry.addSvgIcon(
       'save',
       this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/save.svg')
+    );
+    // Sea
+    this.matIconRegistry.addSvgIcon(
+      'sea',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/images/sea-24px.svg')
     );
     // SpreadSheet
     this.matIconRegistry.addSvgIcon(

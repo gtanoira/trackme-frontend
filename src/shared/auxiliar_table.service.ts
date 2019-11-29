@@ -24,9 +24,9 @@ export class AuxiliarTableService {
   // Get Client Order Types Options
   getClientOrderTypes():  SelectOptions[] {
     return [
-      { id: 'P', name: 'PickUp by Company' },
+      { id: 'P', name: 'PickUp by your Company' },
       { id: 'I', name: 'PickUp by Client' },
-      { id: 'D', name: 'Delivery by Company' },
+      { id: 'D', name: 'Delivery by your Company' },
       { id: 'E', name: 'Delivery by Client' },
       { id: 'R', name: 'Replacement' }
     ];

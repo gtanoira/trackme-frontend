@@ -97,6 +97,14 @@ export class OrderFormGeneralComponent implements OnInit {
   get clientId() { return this.formData.get('general').get('clientId'); }
   get orderNo() { return this.formData.get('general').get('orderNo'); }
   get orderDatetime() { return this.formData.get('general').get('orderDatetime'); }
+  get orderType() { return this.formData.get('general').get('orderType'); }
+  get shipmentMethod() { return this.formData.get('general').get('shipmentMethod'); }
+  get incoterm() { return this.formData.get('general').get('incoterm'); }
+  get pieces() { return this.formData.get('general').get('pieces'); }
+  get deliveryDate() { return this.formData.get('general').get('deliveryDate'); }
+  get eta() { return this.formData.get('general').get('eta'); }
+  get thirdPartyId() { return this.formData.get('general').get('thirdPartyId'); }
+  get observations() { return this.formData.get('general').get('observations'); }
 
   /* ngAfterContentInit() {
     if (this.orderId.value != null) {

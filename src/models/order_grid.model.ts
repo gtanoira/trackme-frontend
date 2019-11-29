@@ -2,6 +2,7 @@ export interface OrderGridModel {
   id: number;
   companyName: string;
   clientName: string;
+  clientAlias: string;
   orderNo: number;
   type: string;
   clientRef?: string;

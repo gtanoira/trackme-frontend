@@ -11,7 +11,7 @@ import { OrderFormTabsComponent } from './form/order_form_tabs.component';
 import { OrderService } from '../../shared/order.service';
 
 // Models
-import { OrderTabIdModel } from '../../models/order_tab_id.model';
+import { OrderGridModel } from '../../models/order_grid.model';
 
 /**
  * Client Orders TAB manager
@@ -57,7 +57,7 @@ export class OrderTabsComponent implements OnDestroy  {
   }
 
   // Add a new Client Order Grid tab
-  addClientOrderGridTab() {
+  addOrderGridTab() {
 
     // Add the new tab component to the dynamic array
     this.ordersTabs.push({
@@ -73,9 +73,9 @@ export class OrderTabsComponent implements OnDestroy  {
   }
 
   // Add a new Client Order Form tab
-  addOrderFormTab(orderData: OrderTabIdModel = null) {
+  addOrderFormTab(orderData: OrderGridModel = null) {
     this.ordersTabs.push({
-      label: orderData ? orderData.tabId : 'NEW',
+      label: orderData ? `${orderData.type === 'WarehouseReceipt' ? 'WR' : 'SH'} #${orderData.orderNo} (${orderData.clientAlias})` : 'NEW',
       component: OrderFormTabsComponent,
       inputs: { orderData },
       outputs: {}
