@@ -11,7 +11,7 @@ export interface OrderModel {
   cancelDatetime: string;
   cancelUser: string;
   clientRef: string;
-  deliveryDate: string;
+  deliveryDatetime: string;
   eta: string;
   incoterm: string;
   legacyOrderNo: string;

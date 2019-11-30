@@ -7,11 +7,34 @@
 
 .container-formData {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 2em;
+}
+
+.container-left {
+  display: flex;
+  flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 620px;
+}
+
+.container-right {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 620px;
 }
 
 mat-form-field {
   width: 300px;
+}
+
+.observations {
+  width: 100%;
 }

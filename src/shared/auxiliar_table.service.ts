@@ -22,52 +22,18 @@ export class AuxiliarTableService {
   ) { }
 
   // Get Client Order Types Options
-  getClientOrderTypes():  SelectOptions[] {
-    return [
-      { id: 'P', name: 'PickUp by your Company' },
-      { id: 'I', name: 'PickUp by Client' },
-      { id: 'D', name: 'Delivery by your Company' },
-      { id: 'E', name: 'Delivery by Client' },
-      { id: 'R', name: 'Replacement' }
-    ];
-  }
-
-  // Get Order Status Options
-  getOrderStatus():  SelectOptions[] {
-    return [
-      { id: 'P', name: 'Pending' },
-      { id: 'C', name: 'Confirmed' },
-      { id: 'F', name: 'Finished' },
-      { id: 'A', name: 'Cancelled' }
-    ];
+  getOrderTypes():  Observable<SelectOptions[]> {
+    return this.http.get<SelectOptions[]>('assets/files/order_type_options.json');
   }
 
   // Get Shipment Methods
-  getShipmentMethods():  SelectOptions[] {
-    return [
-      { id: 'A', name: 'Air' },
-      { id: 'G', name: 'Ground' },
-      { id: 'S', name: 'Sea' },
-    ];
+  getShipmentMethods():  Observable<SelectOptions[]> {
+    return this.http.get<SelectOptions[]>('assets/files/shipment_method_options.json');
   }
 
   // Get Incoterms
-  getIncoterms():  SelectOptions[] {
-    return [
-      { id: '   ', name: '' },
-      { id: 'EXW', name: 'EXW - Ex Works' },
-      { id: 'FCA', name: 'FCA - Free Carrier' },
-      { id: 'FAS', name: 'FAS - Free Alongside Ship' },
-      { id: 'FOB', name: 'FOB - Free On Board' },
-      { id: 'CPT', name: 'CPT - Carriage Paid To' },
-      { id: 'CFR', name: 'CFR - Cost and Freight' },
-      { id: 'CIF', name: 'CIF - Cost, Insurance and Freight' },
-      { id: 'CIP', name: 'CIP - Carriage and Insurance Paid to' },
-      { id: 'DAT', name: 'DAT - Delivered At Terminal' },
-      { id: 'DAP', name: 'DAP - Delivered At Place' },
-      { id: 'DDU', name: 'DDU - Delivered Duty Unpaid' },
-      { id: 'DDP', name: 'DDP - Delivered Duty Paid' },
-    ];
+  getIncoterms():  Observable<SelectOptions[]> {
+    return this.http.get<SelectOptions[]>('assets/files/incoterm_options.json');
   }
 
 }

@@ -1,0 +1,15 @@
+[
+  { "id": "   ", "name": "" },
+  { "id": "EXW", "name": "EXW - Ex Works" },
+  { "id": "FCA", "name": "FCA - Free Carrier" },
+  { "id": "FAS", "name": "FAS - Free Alongside Ship" },
+  { "id": "FOB", "name": "FOB - Free On Board" },
+  { "id": "CPT", "name": "CPT - Carriage Paid To" },
+  { "id": "CFR", "name": "CFR - Cost and Freight" },
+  { "id": "CIF", "name": "CIF - Cost, Insurance and Freight" },
+  { "id": "CIP", "name": "CIP - Carriage and Insurance Paid to" },
+  { "id": "DAT", "name": "DAT - Delivered At Terminal" },
+  { "id": "DAP", "name": "DAP - Delivered At Place" },
+  { "id": "DDU", "name": "DDU - Delivered Duty Unpaid" },
+  { "id": "DDP", "name": "DDP - Delivered Duty Paid" }
+]

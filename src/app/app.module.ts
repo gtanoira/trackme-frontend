@@ -7,7 +7,6 @@ import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  MAT_DATE_LOCALE,
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
@@ -21,7 +20,6 @@ import {
   MatTabsModule
 } from '@angular/material';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatRadioModule } from '@angular/material/radio';
 
 // External Libraries
@@ -61,6 +59,35 @@ import { OrderGridComponent } from './client_order/grid/order_grid.component';
 // Order Form Components
 import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.component';
 import { OrderFormGeneralComponent } from './client_order/form/general/order_form_general.component';
+
+/* ***********************************************************************
+    DATE formatting settings
+*/
+import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+// Depending on whether rollup is used, moment needs to be imported differently.
+// Since Moment.js doesn't have a default export, we normally need to import using the `* as`
+// syntax. However, rollup creates a synthetic default module and we thus need to import it using
+// the `default as` syntax.
+// import * as moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+// import {default as _rollupMoment} from 'moment';
+
+// See the Moment.js docs for the meaning of these formats:
+// https://momentjs.com/docs/#/displaying/format/
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY HH:MM:ss',
+  },
+  display: {
+    dateInput: 'llll',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'lll',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+// *********************************************************************
 
 @NgModule({
   declarations: [
@@ -128,9 +155,22 @@ import { OrderFormGeneralComponent } from './client_order/form/general/order_for
     interceptorProviders,
     OrderEventService,
     WarehouseReceiptService,
+    // Moment DATE providers
     { provide: MAT_DATE_LOCALE,
       useValue: 'es-SP'
-    }
+    },
+    { provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+    { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS,
+      useValue: {useUtc: true}
+    },
+    // Set how to format and display dates
+    { provide: MAT_DATE_FORMATS,
+      useValue: MY_FORMATS    //MAT_MOMENT_DATE_FORMATS (default formats)
+    },
+
   ],
   bootstrap: [AppComponent]
 })

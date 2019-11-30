@@ -1,0 +1,5 @@
+[
+  { "id": "A", "name": "Air" },
+  { "id": "G", "name": "Ground" },
+  { "id": "S", "name": "Sea" }
+]

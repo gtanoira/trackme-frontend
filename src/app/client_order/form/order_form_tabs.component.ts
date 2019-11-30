@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+// Moment.js
+import * as moment from 'moment';
 
 // Models
 import { OrderGridModel } from '../../../models/order_grid.model';
@@ -54,6 +56,7 @@ export class OrderFormTabsComponent implements OnInit {
 
   // GETTERS
   get orderNo() { return this.formData.get('general').get('orderNo'); }
+  get thirdPartyId() { return this.formData.get('general').get('thirdPartyId'); }
 
   // Creates a empty Order Form
   private newFormData(): FormGroup {
@@ -79,12 +82,15 @@ export class OrderFormTabsComponent implements OnInit {
         cancelDatetime: [''],
         cancelUser: [''],
         clientRef: [''],
-        deliveryDate: [''],
+        deliveryDatetime: [{value: '', disabled: true}],
         eta: [''],
-        incoterm: ['FOB'],
-        legacyOrderNo: [''],
+        incoterm: ['   '],
+        legacyOrderNo: [{value: '', disabled: true}],
         observations: [''],
-        orderDatetime: [(new Date())],
+        orderDatetime: [{
+          value: moment(),
+          disabled: true
+        }],
         orderStatus: ['P'],
         orderType: ['P'],
         pieces: [0],
@@ -175,12 +181,21 @@ export class OrderFormTabsComponent implements OnInit {
         cancelDatetime: [data.cancelDatetime],
         cancelUser: [data.cancelUser],
         clientRef: [data.clientRef],
-        deliveryDate: [data.deliveryDate],
+        deliveryDatetime: [{
+          value: data.deliveryDatetime == null ? '' : data.deliveryDatetime,
+          disabled: true
+        }],
         eta: [data.eta],
         incoterm: [data.incoterm],
-        legacyOrderNo: [data.legacyOrderNo],
+        legacyOrderNo: [{
+          value: data.legacyOrderNo == null ? moment() : moment(data.legacyOrderNo),
+          disabled: true
+        }],
         observations: [data.observations],
-        orderDatetime: [data.orderDatetime],
+        orderDatetime: [{
+          value: data.orderDatetime,
+          disabled: true
+        }],
         orderStatus: [data.orderStatus],
         orderType: [data.orderType],
         pieces: [data.pieces],
@@ -245,6 +260,18 @@ export class OrderFormTabsComponent implements OnInit {
       })
 
     });
+  }
+
+  // Validator for clientID
+  validateClientId(control: FormControl): {[s: string]: boolean} {
+
+    if (control.value) {
+      // Set the Third Party Id if null
+      if (this.thirdPartyId.value === '') {
+        this.thirdPartyId.setValue(control.value);
+      }
+    }
+    return null;  // null means NO errors
   }
 
 }

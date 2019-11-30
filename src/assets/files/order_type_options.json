@@ -1,0 +1,6 @@
+[
+  { "id": "P", "name": "PickUp by your company" },
+  { "id": "D", "name": "Delivery by your company" },
+  { "id": "I", "name": "PickUp dy client" },
+  { "id": "E", "name": "Delivery by client" }
+]
