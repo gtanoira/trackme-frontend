@@ -144,12 +144,17 @@
       <!-- Third Party Id -->
       <mat-form-field appearance="fill">
         <mat-label>Third party id</mat-label>
-        <input
-          matInput
-          placeholder="Third party id"
+        <mat-select
           formControlName="thirdPartyId"
+          placeholder="Third Party Id"
           required>
-      </mat-form-field>
+          <mat-option
+            *ngFor="let client of clientOptions"
+            [value]="client.id">
+            {{ client.name }}
+          </mat-option>
+        </mat-select>
+        </mat-form-field>
 
       <!-- Observations -->
       <mat-form-field class="observations" appearance="fill">

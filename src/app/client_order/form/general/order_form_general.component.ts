@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, AfterContentInit, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, AfterContentInit, OnChanges } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
@@ -17,10 +17,19 @@ import { SelectOptions } from '../../../../models/select_options';
   styleUrls: ['./order_form_general.component.scss']
 })
 
-export class OrderFormGeneralComponent implements OnInit {
+export class OrderFormGeneralComponent implements OnInit, OnChanges {
 
   // Input Order Form as a parameters
   @Input() formData: FormGroup;
+  /* private _formData: FormGroup;
+  @Input() set formData(value: FormGroup) {
+    this._formData = value;
+
+    // Set form fields validators
+    this._formData.controls['general'].get['clientId'].setValidators([this.validateClientId.bind(this)]);
+    this._formData.controls['general'].get['clientId'].updateValueAndValidity();
+  }
+  get formData() { return this._formData; } */
 
   // Select-Options for fields
   public companyOptions: SelectOptions[];
@@ -38,8 +47,8 @@ export class OrderFormGeneralComponent implements OnInit {
     private auxiliarTableService: AuxiliarTableService,
     private orderService: OrderService,
     private entityService: EntityService,
-   ) {
-   }
+  ) {
+  }
 
   ngOnInit() {
 
@@ -59,11 +68,20 @@ export class OrderFormGeneralComponent implements OnInit {
     );
   }
 
+  ngOnChanges() {
+    // Set form fields validators
+    if (this.formData !== undefined) {
+      this.formData.get('general').get('clientId').setValidators(this.validateClientId.bind(this));
+      this.formData.get('general').get('clientId').updateValueAndValidity();
+    }
+  }
+
   // GETTERS
   get orderId() { return this.formData.get('general').get('id'); }
   get clientName() { return this.formData.get('general').get('clientName'); }
   get orderNo() { return this.formData.get('general').get('orderNo'); }
   get type() { return this.formData.get('general').get('type'); }
+  get thirdPartyId() { return this.formData.get('general').get('thirdPartyId'); }
 
   /* ngAfterContentInit() {
     if (this.orderId.value != null) {
@@ -78,6 +96,18 @@ export class OrderFormGeneralComponent implements OnInit {
     } else {
       this.showToEntityDropDown   = !this.showToEntityDropDown;
     }
+  }
+
+  // Validator for clientID
+  validateClientId(control: FormControl): {[s: string]: boolean} {
+
+    if (control.value) {
+      // Set the Third Party Id if null
+      if (this.thirdPartyId.value === '') {
+        this.thirdPartyId.setValue(control.value);
+      }
+    }
+    return null;  // null means NO errors
   }
 
   // Save the Order to the DBase

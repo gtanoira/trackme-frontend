@@ -173,8 +173,14 @@ export class OrderFormTabsComponent implements OnInit {
       // General block
       general: this.fb.group({
         id: [data.id],
-        companyId: [data.companyId],
-        clientId: [data.clientId],
+        companyId: [{
+          value: data.companyId,
+          disabled: true
+        }],
+        clientId: [{
+          value: data.clientId,
+          disabled: true
+        }],
         orderNo: [data.orderNo],
         type: [data.type],
         applicantName: [data.applicantName],
@@ -185,10 +191,12 @@ export class OrderFormTabsComponent implements OnInit {
           value: data.deliveryDatetime == null ? '' : data.deliveryDatetime,
           disabled: true
         }],
-        eta: [data.eta],
+        eta: [{
+          value: data.eta == null ? '' : data.eta,
+        }],
         incoterm: [data.incoterm],
         legacyOrderNo: [{
-          value: data.legacyOrderNo == null ? moment() : moment(data.legacyOrderNo),
+          value: data.legacyOrderNo,
           disabled: true
         }],
         observations: [data.observations],
@@ -260,18 +268,6 @@ export class OrderFormTabsComponent implements OnInit {
       })
 
     });
-  }
-
-  // Validator for clientID
-  validateClientId(control: FormControl): {[s: string]: boolean} {
-
-    if (control.value) {
-      // Set the Third Party Id if null
-      if (this.thirdPartyId.value === '') {
-        this.thirdPartyId.setValue(control.value);
-      }
-    }
-    return null;  // null means NO errors
   }
 
 }
