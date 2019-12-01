@@ -60,6 +60,7 @@ import { OrderGridComponent } from './client_order/grid/order_grid.component';
 import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.component';
 import { OrderFormGeneralComponent } from './client_order/form/general/order_form_general.component';
 import { OrderFormShipperComponent } from './client_order/form/shipper/order_form_shipper.component';
+import { OrderFormConsigneeComponent } from './client_order/form/consignee/order_form_consignee.component';
 
 /* ***********************************************************************
     DATE formatting settings
@@ -108,7 +109,8 @@ export const MY_FORMATS = {
     // Order Form
     OrderFormTabsComponent,
     OrderFormGeneralComponent,
-    OrderFormShipperComponent
+    OrderFormShipperComponent,
+    OrderFormConsigneeComponent
   ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent]),

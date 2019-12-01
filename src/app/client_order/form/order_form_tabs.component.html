@@ -45,6 +45,11 @@
       </button>
       Consignee
     </ng-template>
+    <!-- Consignee Component -->
+    <app-order-form-consignee
+      *ngIf="dataAvailable"
+      [formData]="formData">
+    </app-order-form-consignee>
   </mat-tab>
 
   <!-- EVENTS tab  -->

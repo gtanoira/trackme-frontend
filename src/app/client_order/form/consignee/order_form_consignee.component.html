@@ -1,20 +1,20 @@
-<!-- SHIPPER block -->
+<!-- CONSIGNEE block -->
 <div
   [formGroup]="formData">
 
   <div
     class="container-formData"
-    formGroupName="shipper">
+    formGroupName="consignee">
 
     <div class="container one">
 
-      <!-- Shipper -->
+      <!-- Consignee -->
       <mat-form-field appearance="fill">
-        <mat-label>Shipper</mat-label>
+        <mat-label>Consignee</mat-label>
         <input
           matInput
-          placeholder="Shipper"
-          formControlName="fromEntity">
+          placeholder="Consignee"
+          formControlName="toEntity">
       </mat-form-field>
 
       <!-- Address1 -->
@@ -23,7 +23,7 @@
         <textarea
           matInput
           placeholder="Address 1"
-          formControlName="fromAddress1"
+          formControlName="toAddress1"
           cdkAutosizeMinRows="2"
           cdkAutosizeMaxRows="2">
         </textarea>
@@ -35,7 +35,7 @@
         <textarea
           matInput
           placeholder="Address 2"
-          formControlName="fromAddress2"
+          formControlName="toAddress2"
           cdkAutosizeMinRows="2"
           cdkAutosizeMaxRows="2">
         </textarea>
@@ -50,7 +50,7 @@
         <input
           matInput
           placeholder="City"
-          formControlName="fromCity">
+          formControlName="toCity">
       </mat-form-field>
 
       <!-- Zipcode -->
@@ -59,7 +59,7 @@
         <input
           matInput
           placeholder="Zipcode"
-          formControlName="fromZipcode">
+          formControlName="toZipcode">
       </mat-form-field>
 
       <!-- State -->
@@ -68,14 +68,14 @@
         <input
           matInput
           placeholder="State"
-          formControlName="fromState">
+          formControlName="toState">
       </mat-form-field>
 
       <!-- Country -->
       <mat-form-field appearance="fill">
         <mat-label>Country</mat-label>
         <mat-select
-          formControlName="fromCountryId"
+          formControlName="toCountryId"
           placeholder="Country"
           required>
           <mat-option
@@ -96,7 +96,7 @@
         <input
           matInput
           placeholder="Contact"
-          formControlName="fromContact">
+          formControlName="toContact">
       </mat-form-field>
 
       <!-- Email -->
@@ -105,7 +105,7 @@
         <input
           matInput
           placeholder="Email"
-          formControlName="fromEmail">
+          formControlName="toEmail">
       </mat-form-field>
 
       <!-- Tel -->
@@ -114,7 +114,7 @@
         <input
           matInput
           placeholder="Telephone"
-          formControlName="fromTel">
+          formControlName="toTel">
       </mat-form-field>
 
 
