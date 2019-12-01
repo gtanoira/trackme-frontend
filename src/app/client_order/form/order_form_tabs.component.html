@@ -28,6 +28,11 @@
       </button>
       Shipper
     </ng-template>
+    <!-- Shipper Component -->
+    <app-order-form-shipper
+      *ngIf="dataAvailable"
+      [formData]="formData">
+    </app-order-form-shipper>
   </mat-tab>
 
   <!--  CONSIGNEE tab -->)

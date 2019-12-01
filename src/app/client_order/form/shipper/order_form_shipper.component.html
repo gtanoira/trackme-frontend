@@ -1,0 +1,123 @@
+<!-- GENERAL block -->
+<div
+  [formGroup]="formData">
+
+  <div
+    class="container-formData"
+    formGroupName="shipper">
+
+    <div class="container one">
+
+      <!-- Shipper -->
+      <mat-form-field appearance="fill">
+        <mat-label>Shipper</mat-label>
+        <input
+          matInput
+          placeholder="Shipper"
+          formControlName="fromEntity">
+      </mat-form-field>
+
+      <!-- Address1 -->
+      <mat-form-field appearance="fill">
+        <mat-label>Address 1</mat-label>
+        <textarea
+          matInput
+          placeholder="Address 1"
+          formControlName="fromAddress1"
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="2">
+        </textarea>
+      </mat-form-field>
+
+      <!-- Address2 -->
+      <mat-form-field appearance="fill">
+        <mat-label>Address 2</mat-label>
+        <textarea
+          matInput
+          placeholder="Address 2"
+          formControlName="fromAddress2"
+          cdkAutosizeMinRows="2"
+          cdkAutosizeMaxRows="2">
+        </textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="container two">
+
+      <!-- City -->
+      <mat-form-field appearance="fill">
+        <mat-label>City</mat-label>
+        <input
+          matInput
+          placeholder="City"
+          formControlName="fromCity">
+      </mat-form-field>
+
+      <!-- Zipcode -->
+      <mat-form-field appearance="fill">
+        <mat-label>Zipcode</mat-label>
+        <input
+          matInput
+          placeholder="Zipcode"
+          formControlName="fromZipcode">
+      </mat-form-field>
+
+      <!-- State -->
+      <mat-form-field appearance="fill">
+        <mat-label>State</mat-label>
+        <input
+          matInput
+          placeholder="State"
+          formControlName="fromState">
+      </mat-form-field>
+
+      <!-- Country -->
+      <mat-form-field appearance="fill">
+        <mat-label>Country</mat-label>
+        <mat-select
+          formControlName="fromCountryId"
+          placeholder="Country"
+          required>
+          <mat-option
+            *ngFor="let data of countryOptions"
+            [value]="data.id">
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div class="container three">
+
+      <!-- Contact -->
+      <mat-form-field appearance="fill">
+        <mat-label>Contact</mat-label>
+        <input
+          matInput
+          placeholder="Contact"
+          formControlName="fromContact">
+      </mat-form-field>
+
+      <!-- Email -->
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input
+          matInput
+          placeholder="Email"
+          formControlName="fromEmail">
+      </mat-form-field>
+
+      <!-- Tel -->
+      <mat-form-field appearance="fill">
+        <mat-label>Telephone</mat-label>
+        <input
+          matInput
+          placeholder="Telephone"
+          formControlName="fromTel">
+      </mat-form-field>
+
+
+ </div>  <!-- container-right -->
+  </div>
+</div>
