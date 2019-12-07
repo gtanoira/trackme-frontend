@@ -62,6 +62,11 @@
       </button>
       Events
     </ng-template>
+    <!-- Events Component -->
+    <app-order-form-events
+      *ngIf="dataAvailable"
+      [formData]="formData">
+    </app-order-form-events>
   </mat-tab>
 
   <!--  OTHER tab -->)

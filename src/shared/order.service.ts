@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 // Models
 import { OrderGridModel } from '../models/order_grid.model';
 import { OrderModel } from '../models/order.model';
+import { OrderEventModel } from '../models/order_event.model';
 
 @Injectable()
 export class OrderService {
@@ -23,27 +24,27 @@ export class OrderService {
   ) { }
 
   // Edit a order and place it in a new tab
-  editOrder(orderData: OrderGridModel) {
+  public editOrder(orderData: OrderGridModel) {
     // This next() send the orderData to the order_tabs.component and creates a new tab
     this.orderIdTab.next(orderData);
   }
 
   // Get all orders to Grid format
-  getOrdersGrid():  Observable<OrderGridModel[]> {
+  public getOrdersGrid():  Observable<OrderGridModel[]> {
     return this.http.get<OrderGridModel[]>(
       `${environment.envData.dataBaseServer}/api/v1/orders/grid.json`
     );
   }
 
   // Get one order by orderId
-  getOrderById(orderId: number):  Observable<OrderModel> {
+  public getOrderById(orderId: number):  Observable<OrderModel> {
     return this.http.get<OrderModel>(
       `${environment.envData.dataBaseServer}/api/v1/orders/${(orderId == null) ? 0 : orderId}.json`
     );
   }
 
   // Update a client order by Id
-  updClientOrderById(orderId: number, formData: FormGroup): Observable<any> {
+  public updClientOrderById(orderId: number, formData: FormGroup): Observable<any> {
 
     // Save form data
     const vformData = formData.value;
@@ -112,6 +113,24 @@ export class OrderService {
       return this.http.patch(`${environment.envData.dataBaseServer}/api/v1/client_orders/${orderId}.json`, clientOrder);
     }
 
+  }
+
+  /* ******************************************************************************************************
+     Order EVENTS
+  * ******************************************************************************************************/
+
+  // Get ALL the events of an order
+  public getAllOrderEvents(orderId: number):  Observable<OrderEventModel[]> {
+    return this.http.get<OrderEventModel[]>(
+      `${environment.envData.dataBaseServer}/api/v1/orders/${(orderId == null) ? 0 : orderId}/order_events.json`
+    );
+  }
+
+  // Add a event to a Customer Order
+  public addEventToOrder(orderId: number, orderEvent: OrderEventModel) {
+
+    // Add the new event in the DBase
+    return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/events.json`, orderEvent);
   }
 
 }

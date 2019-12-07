@@ -34,10 +34,8 @@ import { CountryService } from '../shared/country.service';
 import { OrderService } from '../shared/order.service';
 import { EntityService } from '../shared/entity.service';
 import { ErrorMessageService } from '../shared/error-message.service';
-import { EventTypeService } from '../shared/event_type.service';
+import { EventService } from '../shared/event.service';
 import { HeightService } from '../shared/height.service';
-import { OrderEventService } from '../shared/order_event.service';
-import { WarehouseReceiptService } from '../shared/warehouse_receipt.service';
 
 // Directives
 import { OnlyNumbersDirective, ToUppercaseDirective, NumberFormatterDirective } from '../directives/formatter.directive';
@@ -61,6 +59,7 @@ import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.comp
 import { OrderFormGeneralComponent } from './client_order/form/general/order_form_general.component';
 import { OrderFormShipperComponent } from './client_order/form/shipper/order_form_shipper.component';
 import { OrderFormConsigneeComponent } from './client_order/form/consignee/order_form_consignee.component';
+import { OrderFormEventsComponent } from './client_order/form/events/order_form_events.component';
 
 /* ***********************************************************************
     DATE formatting settings
@@ -110,7 +109,8 @@ export const MY_FORMATS = {
     OrderFormTabsComponent,
     OrderFormGeneralComponent,
     OrderFormShipperComponent,
-    OrderFormConsigneeComponent
+    OrderFormConsigneeComponent,
+    OrderFormEventsComponent
   ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent]),
@@ -153,12 +153,10 @@ export const MY_FORMATS = {
     OrderService,
     EntityService,
     ErrorMessageService,
-    EventTypeService,
+    EventService,
     HeightService,
     HttpClientModule,
     interceptorProviders,
-    OrderEventService,
-    WarehouseReceiptService,
     // Moment DATE providers
     { provide: MAT_DATE_LOCALE,
       useValue: 'es-SP'

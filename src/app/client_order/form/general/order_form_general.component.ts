@@ -21,15 +21,6 @@ export class OrderFormGeneralComponent implements OnInit, OnChanges {
 
   // Input Order Form as a parameters
   @Input() formData: FormGroup;
-  /* private _formData: FormGroup;
-  @Input() set formData(value: FormGroup) {
-    this._formData = value;
-
-    // Set form fields validators
-    this._formData.controls['general'].get['clientId'].setValidators([this.validateClientId.bind(this)]);
-    this._formData.controls['general'].get['clientId'].updateValueAndValidity();
-  }
-  get formData() { return this._formData; } */
 
   // Select-Options for fields
   public companyOptions: SelectOptions[];

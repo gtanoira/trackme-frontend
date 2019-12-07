@@ -1,0 +1,41 @@
+
+<div class="container">
+  <!-- Error or On-hold events messages -->
+  <div class="error-message"></div>
+
+  <div class="status-bar">
+    <div
+      *ngFor="let bar of trackingMilestones | async"
+      class="status-bar-element">
+
+      <!-- Show only tracking Milestones for placeOrder > 0 (0: is special) -->
+      <ng-container *ngIf="bar.placeOrder > 0">
+
+        <!-- Shipment method icon and last event message -->
+        <div
+          *ngIf="lastEventData.placeOrder === bar.placeOrder"
+          class="last-event">
+          <mat-icon svgIcon="{{lastEventData.shipmentMethod}}"></mat-icon>
+          <p class="last-event-date">{{lastEventData.createdAt}}</p>
+          <p class="last-event-message">{{lastEventData.message}}</p>
+        </div>
+        <div
+          *ngIf="lastEventData.placeOrder !== bar.placeOrder"
+          class="last-event">
+        </div>
+
+        <!-- Tracking milestone status bar -->
+        <div
+          class="tracking-milestone">
+          <div
+            [ngStyle]="{'background-color': 'light' + bar.cssColor}"
+            class="trkMilestone-box"></div>
+          <p class="trkMilestone-text">{{bar.name}}</p>
+        </div>
+
+      </ng-container>
+
+    </div>
+  </div>
+
+</div>
