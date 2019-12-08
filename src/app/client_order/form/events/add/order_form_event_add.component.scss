@@ -1,0 +1,27 @@
+/* ***********************
+ * LAYOUT
+ */
+.container-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.form-field {
+  margin-right: 1em;
+  margin-bottom: 1em;
+}
+
+.observations {
+  width: 300px;
+}
+
+/* ***********************
+ * TYPOGRAPHY
+ */
+ ::ng-deep .mat-optgroup-label {
+   color: white;
+   background-color: black;
+   font-weight: 700;
+ }
+

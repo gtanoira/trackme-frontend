@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 
+// External libraries
+import * as moment from 'moment';
+
 // Environment
 import { environment } from '../environments/environment';
 
@@ -10,6 +13,7 @@ import { environment } from '../environments/environment';
 import { OrderGridModel } from '../models/order_grid.model';
 import { OrderModel } from '../models/order.model';
 import { OrderEventModel } from '../models/order_event.model';
+import { LastEventDataModel } from 'src/models/last_event_data.model';
 
 @Injectable()
 export class OrderService {
@@ -18,6 +22,16 @@ export class OrderService {
   // This is used in order_tabs.component.ts
   private orderIdTab = new BehaviorSubject<OrderGridModel>(null);
   public  orderTab = this.orderIdTab.asObservable();
+
+  // Define a BehaviorSubject to LastEvent of an order
+  public lastOrderEvent = new Subject<LastEventDataModel>();
+
+  // Define variables
+  private shipmentMethodIcon = {
+    'A': 'air',
+    'S': 'ship',
+    'G': 'ground'
+  };
 
   constructor(
     private http: HttpClient
@@ -131,6 +145,45 @@ export class OrderService {
 
     // Add the new event in the DBase
     return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/events.json`, orderEvent);
+  }
+
+  // Save a new event to an order
+  public newOrderEvent(orderId: number, orderEventData: object): Observable<any> {
+    return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/order_events.json`, orderEventData);
+  }
+
+  // Set lastOrderEvent subject
+  public setLastOrderEvent(orderId: number): void {
+
+    this.http.get<LastEventDataModel>(
+      `${environment.envData.dataBaseServer}/api/v1/orders/${(orderId == null) ? 0 : orderId}/order_events/last_event.json`
+    ).subscribe(
+      data => {
+        if (data) {
+          this.lastOrderEvent.next({
+            createdAt: data['createdAt'] === null ? '' : moment(data['createdAt']).format('DD-MMM-YYYY'),
+            placeOrder: data['placeOrder'],
+            message: data['message'],
+            shipmentMethod: this.shipmentMethodIcon[data['shipmentMethod']]
+          });
+        } else {
+          this.lastOrderEvent.next({
+            createdAt: '',
+            placeOrder: 1,
+            message: 'No events yet',
+            shipmentMethod: this.shipmentMethodIcon['A']
+          });
+        }
+      },
+      err => {
+        this.lastOrderEvent.next({
+          createdAt: '',
+          placeOrder: 1,
+          message: 'No events yet',
+          shipmentMethod: this.shipmentMethodIcon['A']
+        });
+      }
+    );
   }
 
 }

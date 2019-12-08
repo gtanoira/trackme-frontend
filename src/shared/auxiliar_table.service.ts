@@ -22,18 +22,23 @@ export class AuxiliarTableService {
   ) { }
 
   // Get Client Order Types Options
-  getOrderTypes():  Observable<SelectOptions[]> {
+  public getOrderTypes():  Observable<SelectOptions[]> {
     return this.http.get<SelectOptions[]>('assets/files/order_type_options.json');
   }
 
   // Get Shipment Methods
-  getShipmentMethods():  Observable<SelectOptions[]> {
+  public getShipmentMethods():  Observable<SelectOptions[]> {
     return this.http.get<SelectOptions[]>('assets/files/shipment_method_options.json');
   }
 
   // Get Incoterms
-  getIncoterms():  Observable<SelectOptions[]> {
+  public getIncoterms():  Observable<SelectOptions[]> {
     return this.http.get<SelectOptions[]>('assets/files/incoterm_options.json');
+  }
+
+  //  Get Scope Options
+  public getScopeOptions(): Observable<SelectOptions[]> {
+    return this.http.get<SelectOptions[]>('assets/files/scope_options.json');
   }
 
 }

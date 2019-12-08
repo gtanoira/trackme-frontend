@@ -21,6 +21,7 @@ import {
 } from '@angular/material';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatDividerModule} from '@angular/material/divider';
 
 // External Libraries
 import { DynamicModule } from 'ng-dynamic-component';
@@ -60,6 +61,8 @@ import { OrderFormGeneralComponent } from './client_order/form/general/order_for
 import { OrderFormShipperComponent } from './client_order/form/shipper/order_form_shipper.component';
 import { OrderFormConsigneeComponent } from './client_order/form/consignee/order_form_consignee.component';
 import { OrderFormEventsComponent } from './client_order/form/events/order_form_events.component';
+// Order Form Events Components
+import { OrderFormEventAddComponent } from './client_order/form/events/add/order_form_event_add.component';
 
 /* ***********************************************************************
     DATE formatting settings
@@ -110,7 +113,9 @@ export const MY_FORMATS = {
     OrderFormGeneralComponent,
     OrderFormShipperComponent,
     OrderFormConsigneeComponent,
-    OrderFormEventsComponent
+    OrderFormEventsComponent,
+    // Order Form events
+    OrderFormEventAddComponent
   ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent]),
@@ -123,6 +128,7 @@ export const MY_FORMATS = {
     MatCheckboxModule,
     MatChipsModule,
     MatDatepickerModule,
+    MatDividerModule,
     MatIconModule,
     MatInputModule,
     MatMenuModule,

@@ -53,7 +53,8 @@
         <mat-label>Shipment method</mat-label>
         <mat-select
           formControlName="shipmentMethod"
-          placeholder="Shipment Method">
+          placeholder="Shipment Method"
+          required>
           <mat-option
             *ngFor="let method of shipmentOptions | async"
             [value]="method.id">

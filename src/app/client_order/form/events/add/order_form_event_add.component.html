@@ -1,0 +1,67 @@
+
+<div [formGroup]="orderEventForm">
+
+  <div class="container-form">
+
+    <!-- Event Id -->
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Event</mat-label>
+      <mat-select
+        formControlName="eventId"
+        required>
+        <mat-optgroup
+          *ngFor="let group of trackingMilestonesGroup"
+          [label]="group.name"
+          [ngStyle]="{'background-color': 'black'}"
+          [disabled]="group.disabled"
+          class="group-label">
+
+          <mat-option
+            *ngFor="let event of group.events"
+            [value]="event.id">
+            {{event.name}}
+          </mat-option>
+
+        </mat-optgroup>
+      </mat-select>
+      <mat-error>The event is <strong>required</strong></mat-error>
+    </mat-form-field>
+
+    <!-- Scope -->
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Scope</mat-label>
+      <mat-select
+        placeholder="Scope"
+        formControlName="scope"
+        required>
+        <mat-option
+          *ngFor="let data of scopeOptions | async"
+          [value]="data.id">
+          {{ data.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Observations -->
+    <mat-form-field class="form-field observations" appearance="fill">
+      <mat-label>Observations</mat-label>
+      <input
+        matInput
+        placeholder="Observations"
+        formControlName="observations">
+    </mat-form-field>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button
+      mat-raised-button
+      [disabled]="orderEventForm.invalid"
+      (click)="newOrderEvent()"
+      color="primary">
+      Save
+    </button>
+  </div>
+</div>
+
