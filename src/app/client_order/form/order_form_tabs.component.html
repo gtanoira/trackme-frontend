@@ -69,15 +69,32 @@
     </app-order-form-events>
   </mat-tab>
 
-  <!--  OTHER tab -->)
-  <mat-tab #other>
+  <!-- ITEM's tab  -->
+  <mat-tab #items>
     <ng-template mat-tab-label>
       <button
         mat-icon-button
-        title="Edit Other data">
+        title="Edit Items data">
         <mat-icon svgIcon="edit"></mat-icon>
       </button>
-      Other
+      Items
+    </ng-template>
+    <!-- Items Component -->
+    <!-- <app-order-form-events
+      *ngIf="dataAvailable"
+      [formData]="formData">
+    </app-order-form-events> -->
+  </mat-tab>
+
+  <!-- DOCUMENTS tab  -->
+  <mat-tab #documents>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Add/Remove Documents">
+        <mat-icon svgIcon="edit"></mat-icon>
+      </button>
+      Documents
     </ng-template>
   </mat-tab>
 

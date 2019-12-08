@@ -161,6 +161,7 @@ export class OrderService {
       data => {
         if (data) {
           this.lastOrderEvent.next({
+            orderId: data['orderId'],
             createdAt: data['createdAt'] === null ? '' : moment(data['createdAt']).format('DD-MMM-YYYY'),
             placeOrder: data['placeOrder'],
             message: data['message'],
@@ -168,6 +169,7 @@ export class OrderService {
           });
         } else {
           this.lastOrderEvent.next({
+            orderId: null,
             createdAt: '',
             placeOrder: 1,
             message: 'No events yet',
@@ -177,6 +179,7 @@ export class OrderService {
       },
       err => {
         this.lastOrderEvent.next({
+          orderId: null,
           createdAt: '',
           placeOrder: 1,
           message: 'No events yet',

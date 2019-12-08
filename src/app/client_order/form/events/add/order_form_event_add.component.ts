@@ -131,23 +131,29 @@ export class OrderFormEventAddComponent implements OnInit {
 
   // Save a new event
   public newOrderEvent() {
-    const orderEventData = {
-      'eventId': this.eventId.value,
-      'userId': this.userId.value,
-      'scope': this.scope.value,
-      'observations': this.observations.value
-    };
 
-    this.orderService.newOrderEvent(this.orderId, orderEventData).subscribe(
-      data => {
-        this.errorMessageService.changeErrorMessage(data['message']);
-        // Fire the render of the Tracking Status Bar
-        this.orderService.setLastOrderEvent(this.orderId);
-      },
-      err => {
-        this.errorMessageService.changeErrorMessage(err);
-      }
-    );
+    if (!this.orderId) {
+      this.errorMessageService.changeErrorMessage('TRK-0003(I): the order must be saved prior to this action');
+
+    } else {
+      const orderEventData = {
+        'eventId': this.eventId.value,
+        'userId': this.userId.value,
+        'scope': this.scope.value,
+        'observations': this.observations.value
+      };
+
+      this.orderService.newOrderEvent(this.orderId, orderEventData).subscribe(
+        data => {
+          this.errorMessageService.changeErrorMessage(data['message']);
+          // Fire the render of the Tracking Status Bar
+          this.orderService.setLastOrderEvent(this.orderId);
+        },
+        err => {
+          this.errorMessageService.changeErrorMessage(err);
+        }
+      );
+    }
   }
 
 }

@@ -26,7 +26,13 @@ export class OrderFormEventsComponent implements OnInit {
   // Define variables
   public dataAvailable = false;
   public  trackingMilestones: Observable<TrackingMilestoneModel[]>;
-  public  lastEventData: LastEventDataModel;
+  public  lastEventData: LastEventDataModel = {
+    orderId: null,
+    createdAt: '',
+    placeOrder: 1,
+    message: 'No events yet',
+    shipmentMethod: 'air'
+  };
 
   // Define subscriptions
   private subsOrderLastEvent: Subscription;   // Last order event
@@ -39,8 +45,12 @@ export class OrderFormEventsComponent implements OnInit {
     // Subscribe to last event order changes
     this.subsOrderLastEvent = this.orderService.lastOrderEvent.subscribe(
       data => {
-        this.lastEventData = data;
-        this.dataAvailable = true;
+        if (data['orderId'] !== null && data['orderId'] === this.orderId.value) {
+          this.lastEventData = data;
+          this.dataAvailable = true;
+        } else {
+          this.dataAvailable = true;
+        }
       }
     );
 
