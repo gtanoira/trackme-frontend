@@ -14,6 +14,7 @@ import { OrderGridModel } from '../models/order_grid.model';
 import { OrderModel } from '../models/order.model';
 import { OrderEventModel } from '../models/order_event.model';
 import { LastEventDataModel } from 'src/models/last_event_data.model';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class OrderService {
@@ -23,8 +24,11 @@ export class OrderService {
   private orderIdTab = new BehaviorSubject<OrderGridModel>(null);
   public  orderTab = this.orderIdTab.asObservable();
 
-  // Define a BehaviorSubject to LastEvent of an order
-  public lastOrderEvent = new Subject<LastEventDataModel>();
+  // Define Subjects to LastEvent of an order
+  public lastOrderEventPrivate = new Subject<LastEventDataModel>();
+  public lastOrderEventPublic = new Subject<LastEventDataModel>();
+  // Define Subject for new order event
+  public newDBaseEvent = new Subject<boolean>();
 
   // Define variables
   private shipmentMethodIcon = {
@@ -147,44 +151,70 @@ export class OrderService {
     return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/events.json`, orderEvent);
   }
 
-  // Save a new event to an order
+  // Save a new order event
   public newOrderEvent(orderId: number, orderEventData: object): Observable<any> {
-    return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/order_events.json`, orderEventData);
+    return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/order_events.json`, orderEventData).pipe(
+      tap(
+        data => this.newDBaseEvent.next(true)
+      )
+    );
   }
 
   // Set lastOrderEvent subject
-  public setLastOrderEvent(orderId: number): void {
+  public setLastOrderEvent(orderId: number, scope?: string | 'private'): void {
+
+    // Empty last order event
+    const emptyEvent: LastEventDataModel = {
+      orderId: null,
+      createdAt: '',
+      placeOrder: 1,
+      message: 'No events yet',
+      observations: 'No info',
+      shipmentMethod: this.shipmentMethodIcon['A'],
+      trackingMilestoneName: '',
+      scope: 'private'
+    };
 
     this.http.get<LastEventDataModel>(
-      `${environment.envData.dataBaseServer}/api/v1/orders/${(orderId == null) ? 0 : orderId}/order_events/last_event.json`
+      `${environment.envData.dataBaseServer}/api/v1/orders/${(orderId == null) ? 0 : orderId}/order_events/last_event/${scope}.json`
     ).subscribe(
       data => {
         if (data) {
-          this.lastOrderEvent.next({
-            orderId: data['orderId'],
-            createdAt: data['createdAt'] === null ? '' : moment(data['createdAt']).format('DD-MMM-YYYY'),
-            placeOrder: data['placeOrder'],
-            message: data['message'],
-            shipmentMethod: this.shipmentMethodIcon[data['shipmentMethod']]
-          });
+
+          // Save the data
+          const lastEvent: LastEventDataModel = data;
+          // Modify some key values
+          lastEvent['createdAt'] = data['createdAt'] === null ? '' : moment(data['createdAt']).format('DD-MMM-YYYY');
+          lastEvent['observations'] = data['observations'] === '' ? 'No info' : data['observations'];
+          lastEvent['shipmentMethod'] = this.shipmentMethodIcon[data['shipmentMethod']];
+
+          // Save private scope
+          this.lastOrderEventPrivate.next(lastEvent);
+          // Save public scope
+          if (scope === 'public') {
+            this.lastOrderEventPublic.next(lastEvent);
+          }
+
         } else {
-          this.lastOrderEvent.next({
-            orderId: null,
-            createdAt: '',
-            placeOrder: 1,
-            message: 'No events yet',
-            shipmentMethod: this.shipmentMethodIcon['A']
-          });
+
+          // Save private scope
+          this.lastOrderEventPrivate.next(emptyEvent);
+          // Save public scope
+          if (scope === 'public') {
+            this.lastOrderEventPublic.next(emptyEvent);
+          }
+
         }
       },
       err => {
-        this.lastOrderEvent.next({
-          orderId: null,
-          createdAt: '',
-          placeOrder: 1,
-          message: 'No events yet',
-          shipmentMethod: this.shipmentMethodIcon['A']
-        });
+
+        // Save private scope
+        this.lastOrderEventPrivate.next(emptyEvent);
+        // Save public scope
+        if (scope === 'public') {
+          this.lastOrderEventPublic.next(emptyEvent);
+        }
+
       }
     );
   }

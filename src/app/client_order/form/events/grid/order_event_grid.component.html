@@ -1,0 +1,12 @@
+<ag-grid-angular
+  class="container ag-theme-balham"
+  #OrderFormGrid
+  [columnDefs]="columnDefs"
+  [defaultColDef]="defaultColDef"
+  [overlayLoadingTemplate]="overlayLoadingTemplate"
+  [loadingOverlayComponent]="loadingOverlayComponent"
+  [loadingOverlayComponentParams]="loadingOverlayComponentParams"
+  [frameworkComponents]="frameworkComponents"
+  (gridReady)="onGridReady($event)">
+</ag-grid-angular>
+

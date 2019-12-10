@@ -1,8 +1,5 @@
 
-<div class="container" *ngIf="dataAvailable">
-
-  <h2>Tracking status bar</h2>
-  <h4 class="subtitle">Private mode</h4>
+<div *ngIf="dataAvailable">
 
   <!-- Order On-Hold or Stopped -->
   <div
@@ -46,29 +43,4 @@
 
     </div>
   </div>
-</div>
-
-<mat-divider class="divider"></mat-divider>
-
-<!-- public or client tracking status bar-->
-<div class="container">
-  <h2>Tracking status bar</h2>
-  <h4 class="subtitle">Public or Client mode</h4>
-  <app-order-event-public [orderId]="orderId.value"></app-order-event-public>
-</div>
-
-<mat-divider class="divider"></mat-divider>
-
-<!-- New Order Event -->
-<div class="container">
-  <h2>New event</h2>
-  <app-order-event-add [orderId]="orderId.value"></app-order-event-add>
-</div>
-
-<mat-divider class="divider"></mat-divider>
-
-<!-- Order's Event Grid -->
-<div class="container">
-  <h2>All events</h2>
-  <app-order-event-grid [orderId]="orderId.value"></app-order-event-grid>
 </div>

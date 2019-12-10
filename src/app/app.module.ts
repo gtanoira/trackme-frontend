@@ -62,7 +62,9 @@ import { OrderFormShipperComponent } from './client_order/form/shipper/order_for
 import { OrderFormConsigneeComponent } from './client_order/form/consignee/order_form_consignee.component';
 import { OrderFormEventsComponent } from './client_order/form/events/order_form_events.component';
 // Order Form Events Components
-import { OrderFormEventAddComponent } from './client_order/form/events/add/order_form_event_add.component';
+import { OrderEventAddComponent } from './client_order/form/events/add/order_event_add.component';
+import { OrderEventGridComponent } from './client_order/form/events/grid/order_event_grid.component';
+import { OrderEventPublicComponent } from './client_order/form/events/public/order_event_public.component';
 
 /* ***********************************************************************
     DATE formatting settings
@@ -115,7 +117,9 @@ export const MY_FORMATS = {
     OrderFormConsigneeComponent,
     OrderFormEventsComponent,
     // Order Form events
-    OrderFormEventAddComponent
+    OrderEventAddComponent,
+    OrderEventGridComponent,
+    OrderEventPublicComponent
   ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent]),

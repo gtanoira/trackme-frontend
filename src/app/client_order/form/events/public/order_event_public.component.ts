@@ -3,23 +3,22 @@ import { FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
 // Models
-import { LastEventDataModel } from '../../../../models/last_event_data.model';
+import { LastEventDataModel } from '../../../../../models/last_event_data.model';
 import { TrackingMilestoneModel } from 'src/models/tracking_milestone.model';
 
 // Services
-import { OrderService } from '../../../../shared/order.service';
-import { EventService } from '../../../../shared/event.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { OrderService } from '../../../../../shared/order.service';
+import { EventService } from '../../../../../shared/event.service';
 
 @Component({
-  selector: 'app-order-form-events',
-  templateUrl: './order_form_events.component.html',
-  styleUrls: ['./order_form_events.component.scss']
+  selector: 'app-order-event-public',
+  templateUrl: './order_event_public.component.html',
+  styleUrls: ['./order_event_public.component.scss']
 })
-export class OrderFormEventsComponent implements OnInit {
+export class OrderEventPublicComponent implements OnInit {
 
   // Input Order Form as a parameters
-  @Input() formData: FormGroup;
+  @Input() orderId: number;
 
   // Define variables
   public dataAvailable = false;
@@ -48,9 +47,9 @@ export class OrderFormEventsComponent implements OnInit {
   ) {
 
     // Subscribe to last event order changes
-    this.subsOrderLastEvent = this.orderService.lastOrderEventPrivate.subscribe(
+    this.subsOrderLastEvent = this.orderService.lastOrderEventPublic.subscribe(
       data => {
-        if (data['orderId'] !== null && data['orderId'] === this.orderId.value) {
+        if (data['orderId'] !== null && data['orderId'] === this.orderId && data['scope'] === 'public') {
           this.lastEventData = data;
           this.dataAvailable = true;
           // Check for Order On-Hold or Stopped
@@ -73,16 +72,12 @@ export class OrderFormEventsComponent implements OnInit {
 
   }
 
-  // GETTERS
-  get orderId() { return this.formData.get('general').get('id'); }
-  get shipmentMethod() { return this.formData.get('general').get('shipmentMethod'); }
-
   ngOnInit() {
     // Get all tracking Milestones
     this.trackingMilestones = this.eventService.getAllTrackingMilestones();
 
     // Set last event order
-    this.orderService.setLastOrderEvent(this.orderId.value, 'private');
+    this.orderService.setLastOrderEvent(this.orderId, 'public');
   }
 
   ngDestroy() {

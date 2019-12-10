@@ -3,5 +3,8 @@ export interface LastEventDataModel {
   createdAt: string;
   placeOrder: number;
   message: string;
+  observations: string;
   shipmentMethod: string;
+  trackingMilestoneName: string;
+  scope: string;
 }

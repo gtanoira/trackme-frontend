@@ -8,4 +8,6 @@ export interface OrderEventModel {
   createdAt: string;
   observations: string;
   scope: string;
+  placeOrder: number;
+  trackingMilestoneName: string;
 }

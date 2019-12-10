@@ -93,22 +93,20 @@
     <div
       class="error-absolute"
       [ngClass]="errorLineClasses">
-
-    <!-- Icon Close -->
-    <div
-      mat-button
-      (click)="errorMessageService.changeErrorMessage('')"
-      matTooltip="Close">
-      <mat-icon
-        class="error-close"
-        svgIcon="close">
-      </mat-icon>
-    </div>
-
-    <!-- Mensaje -->
-    <div>
-      {{ errorMessage }}
-    </div>
+      <!-- Icon Close -->
+      <div
+        mat-button
+        (click)="errorMessageService.changeErrorMessage('')"
+        matTooltip="Close">
+        <mat-icon
+          class="error-close"
+          svgIcon="close">
+        </mat-icon>
+      </div>
+      <!-- Mensaje -->
+      <div>
+        {{ errorMessage }}
+      </div>
     </div>
 
     <!-- Programs -->

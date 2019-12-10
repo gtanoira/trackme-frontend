@@ -26,11 +26,11 @@ interface TrackingMilestoneGroup {
 }
 
 @Component({
-  selector: 'app-order-form-event-add',
-  templateUrl: './order_form_event_add.component.html',
-  styleUrls: ['./order_form_event_add.component.scss']
+  selector: 'app-order-event-add',
+  templateUrl: './order_event_add.component.html',
+  styleUrls: ['./order_event_add.component.scss']
 })
-export class OrderFormEventAddComponent implements OnInit {
+export class OrderEventAddComponent implements OnInit {
 
   // Input parameters
   @Input() orderId: number;
@@ -119,7 +119,7 @@ export class OrderFormEventAddComponent implements OnInit {
 
   }
 
-  // Validator for scope
+  // Validator for event
   validateEventId(control: FormControl): {[s: string]: boolean} {
 
     if (control.value) {
@@ -146,8 +146,8 @@ export class OrderFormEventAddComponent implements OnInit {
       this.orderService.newOrderEvent(this.orderId, orderEventData).subscribe(
         data => {
           this.errorMessageService.changeErrorMessage(data['message']);
-          // Fire the render of the Tracking Status Bar
-          this.orderService.setLastOrderEvent(this.orderId);
+          // Render the Tracking Status Bar on Screen
+          this.orderService.setLastOrderEvent(this.orderId, this.scope.value);
         },
         err => {
           this.errorMessageService.changeErrorMessage(err);
