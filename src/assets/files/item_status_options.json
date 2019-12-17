@@ -1,0 +1,6 @@
+[
+  { "id": "onhand", "name": "On-Hand" },
+  { "id": "intransit", "name": "In-Transit" },
+  { "id": "delivered", "name": "Delivered" },
+  { "id": "deleted", "name": "Deleted" }
+]

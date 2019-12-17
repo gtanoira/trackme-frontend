@@ -9,6 +9,7 @@ import { OrderFormTabsComponent } from './form/order_form_tabs.component';
 
 // Services
 import { OrderService } from '../../shared/order.service';
+import { AuthsService } from 'src/shared/auths.service';
 
 // Models
 import { OrderGridModel } from '../../models/order_grid.model';
@@ -37,8 +38,10 @@ export class OrderTabsComponent implements OnDestroy  {
 
   // Define Subscription
   private subsOrderData: Subscription;
+  private subsUserChange: Subscription;
 
   constructor (
+    private authsService: AuthsService,
     private orderService: OrderService,
   ) {
 
@@ -46,14 +49,22 @@ export class OrderTabsComponent implements OnDestroy  {
     this.subsOrderData = this.orderService.orderTab.subscribe(
       orderData => {
         if (orderData) {
-          this.addOrderFormTab(orderData);
+          this.addOrderFormTab(orderData.type, orderData);
         }
       }
     );
+
+    // Subscribe to User change
+    this.subsUserChange = this.authsService.currentUser.subscribe(
+      // Re-initilize ordersTabs
+      data => this.ordersTabs = []
+    );
+
   }
 
   ngOnDestroy() {
     this.subsOrderData.unsubscribe();
+    this.subsUserChange.unsubscribe();
   }
 
   // Add a new Client Order Grid tab
@@ -73,11 +84,14 @@ export class OrderTabsComponent implements OnDestroy  {
   }
 
   // Add a new Client Order Form tab
-  addOrderFormTab(orderData: OrderGridModel = null) {
+  addOrderFormTab(type: string, orderData: OrderGridModel | null) {
+    const labelOrderNo = orderData ? `#${orderData.orderNo}` : '#New';
+    const tabLabel = ((type === 'WarehouseReceipt') ? 'WR' : 'SH') + ' ' + labelOrderNo;
+
     this.ordersTabs.push({
-      label: orderData ? `${orderData.type === 'WarehouseReceipt' ? 'WR' : 'SH'} #${orderData.orderNo} (${orderData.clientAlias})` : 'NEW',
+      label: tabLabel,
       component: OrderFormTabsComponent,
-      inputs: { orderData },
+      inputs: { type, orderData },
       outputs: {}
     });
 

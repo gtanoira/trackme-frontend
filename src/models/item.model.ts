@@ -1,28 +1,32 @@
-// Models defined for Database Tables
-
-// Table: customer_orders
-export interface ItemsModel {
-  id: number;
-  customerId: number;
-  companyId: number;
+export interface ItemModel {
+  id?: number;
   itemId: string;
-  itemType: number;
-  status: number;
-  deletedBy: string;
-  deletedCause: string;
-  manufacter: string;
-  model: string;
-  partNumber: string;
-  serialNumber: string;
-  condition: number;
-  contents: string;
-  unitLength: number;
-  width: number;
-  height: number;
-  length: number;
-  unitWeight: number;
-  weight: number;
-  unitVolume: number;
-  volumeWeight: number;
-  internalorderId: number;
+  warehouseId: number;
+  clientId: number;
+  orderId: number;
+  itemType: string;
+  status: string;
+  statusName?: string;
+  quantity: number;
+  deletedBy?: string;
+  deletedCause?: string;
+  deletedDatetime?: string;
+  observations?: string;
+  imageFilename?: string;
+  contentFilename?: string;
+  manufacter?: string;
+  model?: string;
+  partNumber?: string;
+  serialNumber?: string;
+  uaNumber?: string;
+  condition: string;
+  conditionName?: string;
+  unitLength?: string;
+  width?: number | 0;
+  height?: number | 0;
+  length?: number | 0;
+  unitWeight?: string;
+  weight?: number | 0;
+  unitVolume?: string;
+  volumeWeight?: number | 0;
 }

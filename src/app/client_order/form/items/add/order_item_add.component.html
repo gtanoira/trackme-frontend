@@ -1,0 +1,134 @@
+
+<div [formGroup]="itemForm">
+
+  <div class="container">
+
+    <h2 class="subtitle">Select warehouse</h2>
+    <div class="container-block">
+
+      <!-- Warehouse -->
+      <mat-form-field
+        class="form-field"
+        appearance="fill">
+        <mat-label>Warehouse</mat-label>
+        <mat-select
+          placeholder="Warehouse"
+          formControlName="warehouseId"
+          required>
+          <mat-option
+            *ngFor="let data of warehouseOptions | async"
+            [value]="data.id">
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Item Type -->
+      <mat-form-field
+        class="form-field"
+        appearance="fill">
+        <mat-label>Type of item to scan</mat-label>
+        <mat-select
+          placeholder="Type of item to scan"
+          formControlName="itemType"
+          required>
+          <mat-option
+            *ngFor="let data of itemTypeOptions | async"
+            [value]="data.id">
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Item condition -->
+      <mat-form-field
+        class="form-field"
+        appearance="fill">
+        <mat-label>Item condition</mat-label>
+        <mat-select
+          placeholder="Item condition"
+          formControlName="condition"
+          required>
+          <mat-option
+            *ngFor="let data of conditionOptions | async"
+            [value]="data.id">
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <mat-divider class="divider"></mat-divider>
+
+    <h2 class="subtitle">Add {{itemTitle}}</h2>
+    <div class="container-block">
+
+      <!-- Item ID -->
+      <mat-form-field class="form-field" appearance="fill">
+        <mat-label>Item id</mat-label>
+        <input
+          matInput
+          placeholder="Item ID"
+          formControlName="itemId"
+          required>
+        <mat-error>The item ID cannot be null</mat-error>
+      </mat-form-field>
+
+      <!-- DECO type -->
+      <ng-container *ngIf="itemType.value === 'deco'">
+
+        <!-- Part Number -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Part number</mat-label>
+          <input
+            matInput
+            placeholder="Part number"
+            formControlName="partNumber"
+            required>
+        </mat-form-field>
+
+        <!-- Serial Number -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Serial number</mat-label>
+          <input
+            matInput
+            placeholder="Serial number"
+            formControlName="serialNumber"
+            required>
+        </mat-form-field>
+
+        <!-- UA Number -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>UA number</mat-label>
+          <input
+            matInput
+            placeholder="UA number"
+            formControlName="uaNumber">
+        </mat-form-field>
+
+      </ng-container>
+
+      <!-- Add button -->
+      <div class="add-button">
+        <button
+          mat-raised-button
+          [disabled]="itemForm.invalid"
+          (click)="newOrderItem()"
+          color="primary">
+          Save
+        </button>
+      </div>
+
+    </div>
+
+    <mat-divider class="divider"></mat-divider>
+
+    <h2 class="subtitle">Order's items</h2>
+    <div class="container-block">
+      <app-order-item-grid [orderId]="orderId.value"></app-order-item-grid>
+    </div>
+
+  </div>
+</div>
+

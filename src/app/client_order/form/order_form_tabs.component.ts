@@ -19,7 +19,9 @@ import { ErrorMessageService } from '../../../shared/error-message.service';
 })
 export class OrderFormTabsComponent implements OnInit {
 
-  // Get parameter's0 data
+  // Get parameter's data
+  // tslint:disable-next-line: no-input-rename
+  @Input('type') typeOfOrder: string;  // WarehouseReceipt or Shipment
   @Input() orderData: OrderGridModel;
 
   // Define variables
@@ -49,17 +51,18 @@ export class OrderFormTabsComponent implements OnInit {
       );
     } else {
       // Set a new order
-      this.formData = this.newFormData();
+      this.formData = this.newFormData(this.typeOfOrder);
       this.dataAvailable = true;
     }
   }
 
   // GETTERS
   get orderNo() { return this.formData.get('general').get('orderNo'); }
+  get type() { return this.formData.get('general').get('type'); }
   get thirdPartyId() { return this.formData.get('general').get('thirdPartyId'); }
 
   // Creates a empty Order Form
-  private newFormData(): FormGroup {
+  private newFormData(type: string): FormGroup {
     return this.fb.group({
       /*
        * Form Properties (mode property)
@@ -77,7 +80,7 @@ export class OrderFormTabsComponent implements OnInit {
         companyId: [this.authsService.getAllowCompanies()[0]],
         clientId: [null],
         orderNo: ['NEW'],
-        type: ['Shipment'],
+        type: [type],
         applicantName: [''],
         cancelDatetime: [''],
         cancelUser: [''],
@@ -188,12 +191,10 @@ export class OrderFormTabsComponent implements OnInit {
         cancelUser: [data.cancelUser],
         clientRef: [data.clientRef],
         deliveryDatetime: [{
-          value: data.deliveryDatetime == null ? '' : data.deliveryDatetime,
+          value: data.deliveryDatetime === null ? '' : data.deliveryDatetime,
           disabled: true
         }],
-        eta: [{
-          value: data.eta == null ? '' : data.eta,
-        }],
+        eta: [data.eta === null ? '' : data.eta],
         incoterm: [data.incoterm],
         legacyOrderNo: [{
           value: data.legacyOrderNo,
@@ -268,6 +269,36 @@ export class OrderFormTabsComponent implements OnInit {
       })
 
     });
+  }
+
+  // Save the Order to the DBase
+  public saveOrder() {
+
+    // Clear message
+    this.errorMessageService.changeErrorMessage('');
+    console.log('*** save fromData:', this.formData);
+
+    // Check form validity
+    if (this.formData.invalid) {
+      this.errorMessageService.changeErrorMessage('TRK-0002(E): the form is invalid. Please check required fields and retry.');
+    } else {
+      // WarehouseReceipt
+      if (this.type.value === 'WarehouseReceipt') {
+
+        this.orderService.saveWarehouseReceipt(this.formData).subscribe(
+          data => {
+            this.errorMessageService.changeErrorMessage(data.message);
+          },
+          err => {
+            this.errorMessageService.changeErrorMessage(err);
+          }
+        );
+
+        // Shipment
+      } else {
+        console.log('*** PASO 99');
+      }
+    }
   }
 
 }

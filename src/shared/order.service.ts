@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { tap, map } from 'rxjs/operators';
 
 // External libraries
 import * as moment from 'moment';
@@ -14,7 +15,10 @@ import { OrderGridModel } from '../models/order_grid.model';
 import { OrderModel } from '../models/order.model';
 import { OrderEventModel } from '../models/order_event.model';
 import { LastEventDataModel } from 'src/models/last_event_data.model';
-import { tap } from 'rxjs/operators';
+import { ItemModel } from 'src/models/item.model';
+
+// Services
+import { AuxiliarTableService } from './auxiliar_table.service';
 
 @Injectable()
 export class OrderService {
@@ -27,19 +31,37 @@ export class OrderService {
   // Define Subjects to LastEvent of an order
   public lastOrderEventPrivate = new Subject<LastEventDataModel>();
   public lastOrderEventPublic = new Subject<LastEventDataModel>();
+
   // Define Subject for new order event
   public newDBaseEvent = new Subject<boolean>();
+  public newDBaseItem = new Subject<boolean>();
 
-  // Define variables
+  // Define Options
   private shipmentMethodIcon = {
     'A': 'air',
     'S': 'ship',
     'G': 'ground'
   };
+  private conditionOptions = [];
+  private statusOptions = [];
 
   constructor(
+    private auxiliarTableService: AuxiliarTableService,
     private http: HttpClient
-  ) { }
+  ) {
+    this.initOptions();
+  }
+
+  private initOptions() {
+    // Item Condition Options
+    this.auxiliarTableService.getItemConditions().subscribe(
+      data => { this.conditionOptions = data; console.log('*** conditionOptions:', this.conditionOptions); }
+    );
+    // Item Status Options
+    this.auxiliarTableService.getItemStatus().subscribe(
+      data => this.statusOptions = data
+    );
+  }
 
   // Edit a order and place it in a new tab
   public editOrder(orderData: OrderGridModel) {
@@ -62,73 +84,87 @@ export class OrderService {
   }
 
   // Update a client order by Id
-  public updClientOrderById(orderId: number, formData: FormGroup): Observable<any> {
+  public saveWarehouseReceipt(formData: FormGroup): Observable<any> {
 
-    // Save form data
-    const vformData = formData.value;
-    // Map data before send
-    const clientOrder = {
-      // Order data
-      companyId:     vformData.blkGeneral.companyId,
-      clientId:    vformData.blkGeneral.clientId,
-      orderNo:       vformData.blkGeneral.orderNo,
-      orderStatus:   vformData.blkGeneral.orderStatus,
-      oldOrderNo:    vformData.blkGeneral.oldOrderNo,
+    // Map data before sending to DBase
+    const orderToSave = {
       // Block General
-      orderDate:     vformData.blkGeneral.orderDate,
-      custRef:       vformData.blkGeneral.custRef,
-      orderType:     vformData.blkGeneral.orderType,
-      applicantName: vformData.blkGeneral.applicantName,
-      incoterm:      vformData.blkGeneral.incoterm,
-      shipmentMethod: vformData.blkGeneral.shipmentMethod,
-      // Events
-      eventsScope:   vformData.blkGeneral.eventsScope,
-      // Other
-      eta:           vformData.blkGeneral.eta,
-      deliveryDate:  vformData.blkGeneral.deliveryDate,
-      thirdPartyId:  vformData.blkGeneral.thirdPartyId,
-      // Observations
-      observations:  vformData.blkGeneral.observations,
-      pieces:        vformData.blkGeneral.pieces,
-      // Block From
-      fromEntity:    vformData.blkFrom.fromEntity,
-      fromAddress1:  vformData.blkFrom.fromAddress1,
-      fromAddress2:  vformData.blkFrom.fromAddress2,
-      fromCity:      vformData.blkFrom.fromCity,
-      fromZipcode:   vformData.blkFrom.fromZipcode,
-      fromState:     vformData.blkFrom.fromState,
-      fromCountryId: vformData.blkFrom.fromCountryId,
-      fromContact:   vformData.blkFrom.fromContact,
-      fromEmail:     vformData.blkFrom.fromEmail,
-      fromTel:       vformData.blkFrom.fromTel,
-      // Block To
-      toEntity:      vformData.blkTo.toEntity,
-      toAddress1:    vformData.blkTo.toAddress1,
-      toAddress2:    vformData.blkTo.toAddress2,
-      toCity:        vformData.blkTo.toCity,
-      toZipcode:     vformData.blkTo.toZipcode,
-      toState:       vformData.blkTo.toState,
-      toCountryId:   vformData.blkTo.toCountryId,
-      toContact:     vformData.blkFrom.toContact,
-      toEmail:       vformData.blkFrom.toEmail,
-      toTel:         vformData.blkFrom.toTel
+      companyId: formData.value.general.companyId,
+      clientId: formData.value.general.clientId,
+      orderNo: formData.value.general.orderNo,
+      applicantName: formData.value.general.applicantName,
+      clientRef: formData.value.general.clientRef,
+      deliveryDatetime: formData.value.general.deliveryDatetime,
+      eta: formData.value.general.eta,
+      incoterm: formData.value.general.incoterm,
+      legacyOrderNo: formData.value.general.legacyOrderNo,
+      observations: formData.value.general.observations,
+      orderDatetime: formData.value.general.orderDatetime,
+      orderStatus: formData.value.general.orderStatus,
+      orderType: formData.value.general.orderType,
+      pieces: formData.value.general.pieces,
+      shipmentMethod: formData.value.general.shipmentMethod,
+      thirdPartyId: formData.value.general.thirdPartyId,
+      // Block Shipper
+      fromEntity: formData.value.shipper.fromEntity,
+      fromAddress1: formData.value.shipper.fromAddress1,
+      fromAddress2: formData.value.shipper.fromAddress2,
+      fromCity: formData.value.shipper.fromCity,
+      fromZipcode: formData.value.shipper.fromZipcode,
+      fromState: formData.value.shipper.fromState,
+      fromCountryId: formData.value.shipper.fromCountryId,
+      fromContact: formData.value.shipper.fromContact,
+      fromEmail: formData.value.shipper.fromEmail,
+      fromTel: formData.value.shipper.fromTel,
+      // Block Consignee
+      toEntity: formData.value.consignee.toEntity,
+      toAddress1: formData.value.consignee.toAddress1,
+      toAddress2: formData.value.consignee.toAddress2,
+      toCity: formData.value.consignee.toCity,
+      toZipcode: formData.value.consignee.toZipcode,
+      toState: formData.value.consignee.toState,
+      toCountryId: formData.value.consignee.toCountryId,
+      toContact: formData.value.consignee.toContact,
+      toEmail: formData.value.consignee.toEmail,
+      toTel: formData.value.consignee.toTel,
+      // Block Ground
+      groundEntity: formData.value.carrier.groundEntity,
+      groundBookingNo: formData.value.carrier.groundBookingNo,
+      groundDepartureCity: formData.value.carrier.groundDepartureCity,
+      groundDepartureDate: formData.value.carrier.groundDepartureDate,
+      groundArrivalCity: formData.value.carrier.groundArrivalCity,
+      groundArrivalDate: formData.value.carrier.groundArrivalDate,
+      // Block Air
+      airEntity: formData.value.carrier.airEntity,
+      airWaybillNo: formData.value.carrier.airWaybillNo,
+      airDepartureCity: formData.value.carrier.airDepartureCity,
+      airDepartureDate: formData.value.carrier.airDepartureDate,
+      airArrivalCity: formData.value.carrier.airArrivalCity,
+      airArrivalDate: formData.value.carrier.airArrivalDate,
+      // Block Sea
+      seaEntity: formData.value.carrier.seaEntity,
+      seaBillLandingNo: formData.value.carrier.seaBillLandingNo,
+      seaBookingNo: formData.value.carrier.seaBookingNo,
+      seaContainersNo: formData.value.carrier.seaContainersNo,
+      seaDepartureCity: formData.value.carrier.seaDepartureCity,
+      seaDepartureDate: formData.value.carrier.seaDepartureDate,
+      seaArrivalCity: formData.value.carrier.seaArrivalCity,
+      seaArrivalDate: formData.value.carrier.seaArrivalDate
     };
 
-    if (vformData.formProperties.mode === 'INSERT') {
+    if (formData.get('general').get('type').value === 'WarehouseReceipt') {
 
-      /*
-          INSERT new Order into the DBase
-      */
-      // Add the new client order in the DBase
-      return this.http.post(`${environment.envData.dataBaseServer}/api/v1/client_orders.json`, clientOrder);
+      // Warehouse Receipt process
+      if (formData.get('general').get('orderNo').value === 'NEW') {
 
-    } else {
+        // New warehouse receipt
+        return this.http.post(`${environment.envData.dataBaseServer}/api/v1/warehouse_receipts`, orderToSave);
+      } else {
 
-      /*
-          UPDATE a existing Order to the DBase
-      */
-      // Add the new client order in the DBase
-      return this.http.patch(`${environment.envData.dataBaseServer}/api/v1/client_orders/${orderId}.json`, clientOrder);
+        // Edit warehouse receipt
+        // tslint:disable-next-line: max-line-length
+        return this.http.patch(`${environment.envData.dataBaseServer}/api/v1/warehouse_receipts/${formData.value.general.id}.json`, orderToSave);
+      }
     }
 
   }
@@ -216,6 +252,38 @@ export class OrderService {
         }
 
       }
+    );
+  }
+
+  /* ******************************************************************************************************
+     Order ITEMS
+  * ******************************************************************************************************/
+
+  // Get all the items of an order
+  public getAllOrderItems(orderId: number):  Observable<ItemModel[]> {
+    return this.http.get<ItemModel[]>(
+      `${environment.envData.dataBaseServer}/api/v1/orders/${(orderId == null) ? 0 : orderId}/items.json`
+    ).pipe(
+      map(
+        data => {
+          const auxArray: ItemModel[] = [];
+          data.forEach((el: ItemModel) => {
+            el['conditionName'] = this.conditionOptions.find(option => option.id === el.condition ).name;
+            el['statusName'] = this.statusOptions.find(option => option.id === el.status ).name;
+            auxArray.push(el);
+          });
+          return auxArray;
+        }
+      )
+    );
+  }
+
+  // Save a new order item
+  public newOrderItem(orderId: number, orderItemData: ItemModel): Observable<any> {
+    return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/items.json`, orderItemData).pipe(
+      tap(
+        data => this.newDBaseItem.next(true)
+      )
     );
   }
 

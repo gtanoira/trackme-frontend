@@ -1,0 +1,17 @@
+/*
+  This will position the FAB in the bottom-right corner.
+  Modify to fit your design's requirements.
+*/
+
+.app-fab--absolute {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+@media(min-width: 1024px) {
+   .app-fab--absolute {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}

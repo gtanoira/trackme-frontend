@@ -1,0 +1,6 @@
+[
+  { "id": "original", "name": "New" },
+  { "id": "used", "name": "Used" },
+  { "id": "failed", "name": "Failed" },
+  { "id": "repaired", "name": "Repaired" }
+]

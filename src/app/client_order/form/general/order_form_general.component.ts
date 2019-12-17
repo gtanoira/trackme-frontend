@@ -8,8 +8,9 @@ import { OrderService } from '../../../../shared/order.service';
 import { EntityService } from '../../../../shared/entity.service';
 import { ErrorMessageService } from '../../../../shared/error-message.service';
 
-// Structures and models
+// Models
 import { SelectOptions } from '../../../../models/select_options';
+import { ClientModel } from '../../../../models/client.model';
 
 @Component({
   selector: 'app-order-form-general',
@@ -24,7 +25,7 @@ export class OrderFormGeneralComponent implements OnInit, OnChanges {
 
   // Select-Options for fields
   public companyOptions: SelectOptions[];
-  public clientOptions: SelectOptions[];
+  public clientOptions: ClientModel[];
   public orderTypeOptions: Observable<SelectOptions[]>;
   public shipmentOptions: Observable<SelectOptions[]>;
   public incotermOptions: Observable<SelectOptions[]>;
@@ -96,46 +97,16 @@ export class OrderFormGeneralComponent implements OnInit, OnChanges {
       // Set the Third Party Id if null
       if (this.thirdPartyId.value === '') {
         this.thirdPartyId.setValue(control.value);
+      } else if (this.thirdPartyId.value !== control.value) {
+        this.errorMessageService.changeErrorMessage('TRK-0008(I): please check the value for THIRD PARTY ID.')
       }
+
+      // Set the companyId base on the client selected
+      this.formData.get('general').get('companyId').setValue(
+        this.clientOptions.find(el => el.id === control.value).companyId
+      );
     }
     return null;  // null means NO errors
-  }
-
-  // Save the Order to the DBase
-  saveOrder(orderId) {
-
-    // Clear message
-    this.errorMessageService.changeErrorMessage('');
-    // Save order
-    this.orderService.updClientOrderById(orderId, this.formData).subscribe(
-      data => {
-
-        // Re-set the order for QUERY modality
-        if (this.formData.value.formProperties.mode === 'INSERT') {
-          this.formData.value.formProperties.mode = 'QUERY';
-          this.formData.get('blkGeneral').get('clientId').disable();
-          this.formData.get('blkGeneral').get('companyId').disable();
-          this.formData.get('blkGeneral').get('orderNo').setValue(data['orderNo']);
-          // this.orderId = data['id'];
-          // Output message
-          this.errorMessageService.changeErrorMessage(
-            `The new client order #${this.orderNo.value} was created succesfuly`
-          );
-          setTimeout(() => { this.errorMessageService.changeErrorMessage(''); }, 10000);
-        } else {
-          this.formData.value.formProperties.mode = 'QUERY';
-          // Output message
-          this.errorMessageService.changeErrorMessage(
-            `The order #${this.orderNo.value} was updated succesfuly`
-          );
-          setTimeout(() => { this.errorMessageService.changeErrorMessage(''); }, 10000);
-        }
-      },
-      err => {
-        this.errorMessageService.changeErrorMessage(err);
-      }
-    );
-
   }
 
 }

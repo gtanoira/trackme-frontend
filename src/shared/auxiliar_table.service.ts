@@ -11,6 +11,9 @@ import { environment } from '../environments/environment';
 
 // Models
 import { SelectOptions } from '../models/select_options';
+import { ItemTypeModel } from 'src/models/item_type.model';
+import { ItemConditionModel } from 'src/models/item_condition.model';
+import { ItemStatusModel } from 'src/models/item_status.model';
 
 @Injectable()
 export class AuxiliarTableService {
@@ -22,23 +25,38 @@ export class AuxiliarTableService {
   ) { }
 
   // Get Client Order Types Options
-  public getOrderTypes():  Observable<SelectOptions[]> {
+  public getOrderTypes(): Observable<SelectOptions[]> {
     return this.http.get<SelectOptions[]>('assets/files/order_type_options.json');
   }
 
-  // Get Shipment Methods
-  public getShipmentMethods():  Observable<SelectOptions[]> {
-    return this.http.get<SelectOptions[]>('assets/files/shipment_method_options.json');
+  // Get Incoterms
+  public getIncoterms(): Observable<SelectOptions[]> {
+    return this.http.get<SelectOptions[]>('assets/files/incoterm_options.json');
   }
 
-  // Get Incoterms
-  public getIncoterms():  Observable<SelectOptions[]> {
-    return this.http.get<SelectOptions[]>('assets/files/incoterm_options.json');
+  // Get Item Types
+  public getItemTypes(): Observable<ItemTypeModel[]> {
+    return this.http.get<ItemTypeModel[]>('assets/files/item_type_options.json');
+  }
+
+  // Get Item Conditions
+  public getItemConditions(): Observable<ItemConditionModel[]> {
+    return this.http.get<ItemConditionModel[]>('assets/files/item_condition_options.json');
+  }
+
+  // Get Item Status
+  public getItemStatus(): Observable<ItemStatusModel[]> {
+    return this.http.get<ItemStatusModel[]>('assets/files/item_status_options.json');
   }
 
   //  Get Scope Options
   public getScopeOptions(): Observable<SelectOptions[]> {
     return this.http.get<SelectOptions[]>('assets/files/scope_options.json');
+  }
+
+  // Get Shipment Methods
+  public getShipmentMethods(): Observable<SelectOptions[]> {
+    return this.http.get<SelectOptions[]>('assets/files/shipment_method_options.json');
   }
 
 }
