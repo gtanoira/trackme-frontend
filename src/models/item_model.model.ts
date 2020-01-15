@@ -3,6 +3,7 @@ export interface ItemModelModel {
   clientId: number;
   clientName?: string;
   model: string;
+  manufacter: string;
   unitLength?: string | 'cm';
   width?: number | 0;
   height?: number | 0;

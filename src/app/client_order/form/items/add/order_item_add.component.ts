@@ -73,6 +73,7 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       status: ['onhand'],
       quantity: [1],
       model: [''],
+      manufacter: [''],
       partNumber: [''],
       serialNumber: [''],
       uaNumber: [''],
@@ -113,6 +114,8 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
         // Set unit measures to the item
         const itemModel = this.itemModelsOptions.find(el => el.model === this.model.value);
         if (itemModel) {
+          // the model exists
+          this.itemForm.get('manufacter').setValue(itemModel.manufacter);
           this.itemForm.get('unitLength').setValue(itemModel.unitLength);
           this.itemForm.get('width').setValue(itemModel.width);
           this.itemForm.get('length').setValue(itemModel.length);
@@ -122,6 +125,8 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
           this.itemForm.get('unitVolumetric').setValue(itemModel.unitVolumetric);
           this.itemForm.get('volumeWeight').setValue(itemModel.volumeWeight);
         } else {
+          // The model does not exists
+          this.itemForm.get('manufacter').setValue('');
           this.itemForm.get('width').setValue(0);
           this.itemForm.get('length').setValue(0);
           this.itemForm.get('height').setValue(0);
@@ -187,6 +192,8 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
         'uaNumber': this.itemForm.get('uaNumber').value,
         'condition': this.itemForm.get('condition').value,
         'model': this.itemForm.get('model').value,
+        'manufacter': this.itemForm.get('manufacter').value,
+        'description': this.itemForm.get('description').value,
         'width': this.itemForm.get('width').value,
         'length': this.itemForm.get('length').value,
         'height': this.itemForm.get('height').value,
@@ -201,8 +208,6 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       this.orderService.newOrderItem(this.orderId.value, orderItemData).subscribe(
         data => {
           this.errorMessageService.changeErrorMessage(data['message']);
-          // Render the Tracking Status Bar on Screen
-          // this.orderService.setLastOrderEvent(this.orderId, this.scope.value);
         },
         err => {
           this.errorMessageService.changeErrorMessage(err);
@@ -213,6 +218,7 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       const itemModel: ItemModelModel = {
         'clientId': this.formData.get('general').get('clientId').value,
         'model': this.itemForm.get('model').value,
+        'manufacter': this.itemForm.get('manufacter').value,
         'width': this.itemForm.get('width').value,
         'length': this.itemForm.get('length').value,
         'height': this.itemForm.get('height').value,
@@ -223,7 +229,10 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
         'volumeWeight': this.itemForm.get('volumeWeight').value
       };
       this.entityService.saveClientItemModels(itemModel).subscribe(
-        data => data,
+        data => {
+          // Add the new item model to itemModelsOptions
+          this.itemModelsOptions.push(itemModel);
+        },
         err => err
       );
 

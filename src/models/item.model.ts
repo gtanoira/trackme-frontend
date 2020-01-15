@@ -12,7 +12,7 @@ export interface ItemModel {
   deletedBy?: string;
   deletedDatetime?: string;
   deletedCause?: string;
-  observations?: string;
+  description?: string;
   imageFilename?: string;
   contentFilename?: string;
   manufacter?: string;

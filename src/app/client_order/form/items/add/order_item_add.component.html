@@ -124,22 +124,41 @@
             formControlName="uaNumber">
         </mat-form-field>
 
-        <!-- Model -->
-        <ng-container
-          *ngIf="itemModelsOptions">
-            <ng-select
-              class="form-field"
-              [items]="itemModelsOptions"
-              [addTag]="true"
-              bindLabel="model"
-              bindValue="model"
-              dropdownPosition="auto"
-              labelForId="Model"
-              placeholder="Model"
-              [virtualScroll]="true"
-              formControlName="model">
-            </ng-select>
+        <!-- Quantity -->
+        <ng-container *ngIf="itemType.value === 'generic'">
+          <mat-form-field class="form-field" appearance="fill">
+            <mat-label>Quantity</mat-label>
+            <input
+              matInput
+              placeholder="Quantity"
+              formControlName="quantity">
+          </mat-form-field>
         </ng-container>
+
+        <!-- Model -->
+        <ng-container *ngIf="itemModelsOptions">
+          <ng-select
+            class="form-field"
+            [items]="itemModelsOptions"
+            [addTag]="true"
+            bindLabel="model"
+            bindValue="model"
+            dropdownPosition="auto"
+            labelForId="Model"
+            placeholder="Model"
+            [virtualScroll]="true"
+            formControlName="model">
+          </ng-select>
+        </ng-container>
+
+        <!-- Manufacter -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Manufacter</mat-label>
+          <input
+            matInput
+            placeholder="Manufacter"
+            formControlName="manufacter">
+        </mat-form-field>
 
         <!-- Description -->
         <mat-form-field class="form-field" appearance="fill">
