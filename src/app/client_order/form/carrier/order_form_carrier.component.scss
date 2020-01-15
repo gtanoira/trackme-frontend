@@ -1,0 +1,39 @@
+/* ******************
+ * LAYOUT
+*/
+.container-formData {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 2em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.one {
+  order: 1;
+}
+
+.two {
+  order: 2;
+}
+
+@media (min-width: 680px) {
+  .container-formData {
+    justify-content: space-between;
+  }
+}
+
+@media (min-width: 930px) {
+  .container-formData {
+    justify-content: space-evenly;
+    padding: 2em 0;
+  }
+}

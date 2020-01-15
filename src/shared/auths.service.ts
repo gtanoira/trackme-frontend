@@ -240,40 +240,17 @@ export class AuthsService {
   }
 
   /* ******************************************************
-   * PROGRAM schema authorizations
+   * COMPANY schema authorizations
   */
-  // Validate if the user can access a PROGRAM
-  public programAccess(programId: string): boolean {
+  // Get all the company's id the user can access
+  public getAllowCompanies(): number[] {
+    const companies: number[] = this.userAuthorizationsCache['companiesAllow'] ? this.userAuthorizationsCache['companiesAllow'] : [];
 
-    // Asignar FALSE, ya que por defecto, NO se tiene acceso al menos que se especifique lo contrario
-    // Para tener acceso a un programa, basta con que el ID del programa figure dentro del JSON
-    // de authorizations del usuario
-    let retorno = false;
-
-    // Is there a login user?
-    if (this.currentUserValue) {
-
-      // Obtener las authorizations del programId
-      const programAuthorizations: object = this.userAuthorizationsCache[programId];
-      if (programAuthorizations) {
-
-        // Chequear si existe por las dudas la propiedad "access"
-        if (programAuthorizations['access'] && programAuthorizations['access'] === 'off') {
-          retorno = false;
-        } else {
-          retorno = true;
-        }
-
-      } else {
-        // NO tiene acceso al programa
-        retorno = false;
-      }
-
-    } else {
-      // No hay un usuario logueado
-      retorno = false;
+    if (!companies) {
+      companies.push(this.currentUserValue.companyId);
     }
-    return retorno;
+
+    return companies;
   }
 
   /* ******************************************************
@@ -349,17 +326,67 @@ export class AuthsService {
   }
 
   /* ******************************************************
-   * COMPANY schema authorizations
+   * PROGRAM schema authorizations
   */
-  // Get all the company's id the user can access
-  public getAllowCompanies(): number[] {
-    const companies: number[] = this.userAuthorizationsCache['companiesAllow'] ? this.userAuthorizationsCache['companiesAllow'] : [];
+  // Validate if the user can access a PROGRAM
+  public programAccess(programId: string): boolean {
 
-    if (!companies) {
-      companies.push(this.currentUserValue.companyId);
+    // Asignar FALSE, ya que por defecto, NO se tiene acceso al menos que se especifique lo contrario
+    // Para tener acceso a un programa, basta con que el ID del programa figure dentro del JSON
+    // de authorizations del usuario
+    let retorno = false;
+
+    // Is there a login user?
+    if (this.currentUserValue) {
+
+      // Obtener las authorizations del programId
+      const programAuthorizations: object = this.userAuthorizationsCache[programId];
+      if (programAuthorizations) {
+
+        // Chequear si existe por las dudas la propiedad "access"
+        if (programAuthorizations['access'] && programAuthorizations['access'] === 'off') {
+          retorno = false;
+        } else {
+          retorno = true;
+        }
+
+      } else {
+        // NO tiene acceso al programa
+        retorno = false;
+      }
+
+    } else {
+      // No hay un usuario logueado
+      retorno = false;
     }
-
-    return companies;
+    return retorno;
   }
 
+  /* ******************************************************
+   * USER DEFAULTS schema authorizations
+  */
+  // User default LANGUAGE
+  public userDefaultLanguage(): string {
+    return this.userAuthorizationsCache['userDefaults'] ? this.userAuthorizationsCache['userDefaults']['language'] : 'en';
+  }
+
+  // User default UNIT LENGTH
+  public userDefaultUnitLength(): string {
+    return this.userAuthorizationsCache['userDefaults'] ? this.userAuthorizationsCache['userDefaults']['unitLength'] : 'inch';
+  }
+
+  // User default UNIT WEIGHT
+  public userDefaultUnitWeight(): string {
+    return this.userAuthorizationsCache['userDefaults'] ? this.userAuthorizationsCache['userDefaults']['unitWeight'] : 'pound';
+  }
+
+  // User default UNIT VOLUMETRIC
+  public userDefaultUnitVolumetric(): string {
+    return this.userAuthorizationsCache['userDefaults'] ? this.userAuthorizationsCache['userDefaults']['unitVolumetric'] : 'kg3';
+  }
+
+  // User default WAREHOUSE
+  public userDefaultWarehouse(): number {
+    return this.userAuthorizationsCache['userDefaults'] ? this.userAuthorizationsCache['userDefaults']['warehouseId'] : null;
+  }
 }

@@ -21,7 +21,9 @@ import {
 } from '@angular/material';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 // External Libraries
 import { DynamicModule } from 'ng-dynamic-component';
@@ -61,6 +63,7 @@ import { OrderFormTabsComponent } from './client_order/form/order_form_tabs.comp
 import { OrderFormGeneralComponent } from './client_order/form/general/order_form_general.component';
 import { OrderFormShipperComponent } from './client_order/form/shipper/order_form_shipper.component';
 import { OrderFormConsigneeComponent } from './client_order/form/consignee/order_form_consignee.component';
+import { OrderFormCarrierComponent } from './client_order/form/carrier/order_form_carrier.component';
 import { OrderFormEventsComponent } from './client_order/form/events/order_form_events.component';
 // Order Form Events Components
 import { OrderEventAddComponent } from './client_order/form/events/add/order_event_add.component';
@@ -69,6 +72,7 @@ import { OrderEventPublicComponent } from './client_order/form/events/public/ord
 // Item's components
 import { OrderItemAddComponent } from './client_order/form/items/add/order_item_add.component';
 import { OrderItemGridComponent } from './client_order/form/items/grid/order_item_grid.component';
+import { ActionButtonsComponent } from './client_order/form/items/grid/action_buttons.component';
 
 /* ***********************************************************************
     DATE formatting settings
@@ -119,17 +123,19 @@ export const MY_FORMATS = {
     OrderFormGeneralComponent,
     OrderFormShipperComponent,
     OrderFormConsigneeComponent,
+    OrderFormCarrierComponent,
     OrderFormEventsComponent,
     // Order Form events
     OrderEventAddComponent,
     OrderEventGridComponent,
     OrderEventPublicComponent,
     // Item's
+    ActionButtonsComponent,
     OrderItemAddComponent,
     OrderItemGridComponent
   ],
   imports: [
-    AgGridModule.withComponents([AgGridLoadingComponent]),
+    AgGridModule.withComponents([AgGridLoadingComponent, ActionButtonsComponent]),
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -150,6 +156,7 @@ export const MY_FORMATS = {
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+    NgSelectModule,
     ReactiveFormsModule,
     routing,
     // Orders (dynamic's component))

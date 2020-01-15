@@ -3,7 +3,7 @@
 
   <div class="container">
 
-    <h2 class="subtitle">Select warehouse</h2>
+    <h2 class="subtitle">Select defaults</h2>
     <div class="container-block">
 
       <!-- Warehouse -->
@@ -25,7 +25,7 @@
 
       <!-- Item Type -->
       <mat-form-field
-        class="form-field"
+        class="form-field half-size"
         appearance="fill">
         <mat-label>Type of item to scan</mat-label>
         <mat-select
@@ -42,7 +42,7 @@
 
       <!-- Item condition -->
       <mat-form-field
-        class="form-field"
+        class="form-field half-size"
         appearance="fill">
         <mat-label>Item condition</mat-label>
         <mat-select
@@ -57,11 +57,28 @@
         </mat-select>
       </mat-form-field>
 
+      <!-- Unit Length -->
+      <mat-form-field
+        class="form-field half-size"
+        appearance="fill">
+        <mat-label>Length unit</mat-label>
+        <mat-select
+          placeholder="Length unit"
+          formControlName="unitLength"
+          required>
+          <mat-option
+            *ngFor="let data of unitLengthOptions | async"
+            [value]="data.id">
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
     </div>
 
     <mat-divider class="divider"></mat-divider>
 
-    <h2 class="subtitle">Add {{itemTitle}}</h2>
+    <h2 class="subtitle">Add a new {{itemTitle}} item</h2>
     <div class="container-block">
 
       <!-- Item ID -->
@@ -75,8 +92,8 @@
         <mat-error>The item ID cannot be null</mat-error>
       </mat-form-field>
 
-      <!-- DECO type -->
-      <ng-container *ngIf="itemType.value === 'deco'">
+      <!-- DECO and/or GENERIC type -->
+      <ng-container *ngIf="itemType.value === 'deco' || itemType.value === 'generic'">
 
         <!-- Part Number -->
         <mat-form-field class="form-field" appearance="fill">
@@ -107,6 +124,68 @@
             formControlName="uaNumber">
         </mat-form-field>
 
+        <!-- Model -->
+        <ng-container
+          *ngIf="itemModelsOptions">
+            <ng-select
+              class="form-field"
+              [items]="itemModelsOptions"
+              [addTag]="true"
+              bindLabel="model"
+              bindValue="model"
+              dropdownPosition="auto"
+              labelForId="Model"
+              placeholder="Model"
+              [virtualScroll]="true"
+              formControlName="model">
+            </ng-select>
+        </ng-container>
+
+        <!-- Description -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Description</mat-label>
+          <input
+            matInput
+            placeholder="Description"
+            formControlName="description">
+        </mat-form-field>
+
+        <!-- WIDTH -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Width ({{unitLength.value}})</mat-label>
+          <input
+            matInput
+            placeholder="Width"
+            formControlName="width">
+        </mat-form-field>
+
+        <!-- LENGTH -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Length ({{unitLength.value}})</mat-label>
+          <input
+            matInput
+            placeholder="Length"
+            formControlName="length">
+        </mat-form-field>
+
+        <!-- HEIGHT -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Height ({{unitLength.value}})</mat-label>
+          <input
+            matInput
+            placeholder="Height"
+            formControlName="height">
+        </mat-form-field>
+
+        <!-- WEIGHT -->
+        <mat-form-field class="form-field" appearance="fill">
+          <mat-label>Weight ({{unitWeight.value}})</mat-label>
+          <input
+            matInput
+            placeholder="Weight"
+            formControlName="weight">
+        </mat-form-field>
+
       </ng-container>
 
       <!-- Add button -->
@@ -114,7 +193,7 @@
         <button
           mat-raised-button
           [disabled]="itemForm.invalid"
-          (click)="newOrderItem()"
+          (click)="createOrderItem()"
           color="primary">
           Save
         </button>

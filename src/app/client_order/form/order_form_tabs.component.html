@@ -53,6 +53,23 @@
     </app-order-form-consignee>
   </mat-tab>
 
+  <!--  CARRIER tab -->)
+  <mat-tab #carrier>
+    <ng-template mat-tab-label>
+      <button
+        mat-icon-button
+        title="Edit Carrier data">
+        <mat-icon svgIcon="edit"></mat-icon>
+      </button>
+      Carrier
+    </ng-template>
+    <!-- Consignee Component -->
+    <app-order-form-carrier
+      *ngIf="dataAvailable"
+      [formData]="formData">
+    </app-order-form-carrier>
+  </mat-tab>
+
   <!-- EVENTS tab  -->
   <mat-tab #events>
     <ng-template mat-tab-label>

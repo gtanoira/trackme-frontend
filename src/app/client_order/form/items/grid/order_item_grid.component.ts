@@ -12,6 +12,9 @@ import { OrderService } from 'src/shared/order.service';
 import { AgGridLoadingComponent } from 'src/shared/ag-grid_loading.component';
 import { CustomTooltipComponent } from 'src/shared/custom-tooltip.component';
 
+// Components
+import { ActionButtonsComponent } from './action_buttons.component';
+
 @Component({
   selector: 'app-order-item-grid',
   templateUrl: './order_item_grid.component.html',
@@ -42,6 +45,14 @@ export class OrderItemGridComponent implements OnInit, OnDestroy {
     // Define columns of the ag-grid
     this.columnDefs = [
       {
+        headerName: 'Actions',
+        cellRenderer: 'buttonRenderer',
+        width: 80
+      }, {
+        headerName: 'Warehouse',
+        field: 'warehouseName',
+        width: 140
+      }, {
         headerName: 'Type',
         field: 'itemType',
         width: 90
@@ -73,6 +84,14 @@ export class OrderItemGridComponent implements OnInit, OnDestroy {
         headerName: 'UA No.',
         field: 'uaNumber',
         width: 150
+      }, {
+        headerName: 'Model',
+        field: 'model',
+        width: 130
+      }, {
+        headerName: 'Description',
+        field: 'description',
+        width: 130
       }
     ];
     this.defaultColDef = {
@@ -82,7 +101,8 @@ export class OrderItemGridComponent implements OnInit, OnDestroy {
     };
     this.frameworkComponents = {
       customLoadingOverlay: AgGridLoadingComponent,
-      customTooltip: CustomTooltipComponent
+      customTooltip: CustomTooltipComponent,
+      buttonRenderer: ActionButtonsComponent
     };
     this.loadingOverlayComponent = 'customLoadingOverlay';
     this.loadingOverlayComponentParams = { loadingMessage: 'Loading ...' };
@@ -128,7 +148,6 @@ export class OrderItemGridComponent implements OnInit, OnDestroy {
     this.orderService.getAllOrderItems(this.orderId).subscribe(
       data => {
         this.gridApi.setRowData(data);
-        console.log('*** orderItems:', data);
       }
     );
   }

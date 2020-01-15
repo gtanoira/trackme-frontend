@@ -2,15 +2,16 @@ export interface ItemModel {
   id?: number;
   itemId: string;
   warehouseId: number;
+  warehouseName?: string;
   clientId: number;
+  clientName?: string;
   orderId: number;
   itemType: string;
   status: string;
-  statusName?: string;
   quantity: number;
   deletedBy?: string;
-  deletedCause?: string;
   deletedDatetime?: string;
+  deletedCause?: string;
   observations?: string;
   imageFilename?: string;
   contentFilename?: string;
@@ -27,6 +28,6 @@ export interface ItemModel {
   length?: number | 0;
   unitWeight?: string;
   weight?: number | 0;
-  unitVolume?: string;
+  unitVolumetric?: string;
   volumeWeight?: number | 0;
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import {FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input, AfterViewInit, AfterContentInit, OnChanges } from '@angular/core';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 // Services
@@ -10,12 +10,12 @@ import { SelectOptions } from '../../../../models/select_options';
 import { CountryModel } from '../../../../models/country.model';
 
 @Component({
-  selector: 'app-order-form-consignee',
-  templateUrl: './order_form_consignee.component.html',
-  styleUrls: ['./order_form_consignee.component.scss']
+  selector: 'app-order-form-carrier',
+  templateUrl: './order_form_carrier.component.html',
+  styleUrls: ['./order_form_carrier.component.scss']
 })
 
-export class OrderFormConsigneeComponent implements OnInit {
+export class OrderFormCarrierComponent implements OnInit {
 
   // Input Order Form as a parameters
   @Input() formData: FormGroup;
@@ -42,5 +42,9 @@ export class OrderFormConsigneeComponent implements OnInit {
       }
     );
   }
+
+  // GETTERS
+  get shipmentMethod() { return this.formData.get('general').get('shipmentMethod'); }
+
 
 }

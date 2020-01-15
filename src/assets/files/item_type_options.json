@@ -1,4 +1,6 @@
 [
   { "id": "deco", "name": "Decoder" },
-  { "id": "box", "name": "Box" }
+  { "id": "box", "name": "Box" },
+  { "id": "pallet", "name": "Pallete" },
+  { "id": "generic", "name": "Generic Item" }
 ]

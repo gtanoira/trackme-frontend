@@ -5,13 +5,14 @@
 
 .app-fab--absolute {
   position: fixed;
+  z-index: 100;
   bottom: 1rem;
   right: 1rem;
 }
 
 @media(min-width: 1024px) {
    .app-fab--absolute {
-    bottom: 1.5rem;
-    right: 1.5rem;
+    bottom: 2rem;
+    right: 2rem;
   }
 }

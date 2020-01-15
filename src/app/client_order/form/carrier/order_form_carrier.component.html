@@ -1,0 +1,249 @@
+<!-- CARRIER block -->
+<div
+  [formGroup]="formData">
+
+  <div
+    class="container-formData"
+    formGroupName="carrier">
+
+    <div class="container one">
+
+      <ng-container [ngSwitch]="shipmentMethod.value">
+
+        <!-- GROUND -->
+        <ng-container *ngSwitchCase="'G'">
+          <h2>Ground</h2>
+          <!-- Carrier -->
+          <mat-form-field appearance="fill">
+            <mat-label>Carrier</mat-label>
+            <input
+              matInput
+              placeholder="Carrier"
+              formControlName="groundEntity">
+          </mat-form-field>
+
+          <!-- Ground Booking No -->
+          <mat-form-field appearance="fill">
+            <mat-label>Booking No</mat-label>
+            <input
+              matInput
+              placeholder="Booking No"
+              formControlName="groundBookingNo">
+          </mat-form-field>
+        </ng-container>
+
+        <!-- AIR -->
+        <ng-container *ngSwitchCase="'A'">
+          <h2>Air</h2>
+          <!-- Carrier -->
+          <mat-form-field appearance="fill">
+            <mat-label>Carrier</mat-label>
+            <input
+              matInput
+              placeholder="Carrier"
+              formControlName="airEntity">
+          </mat-form-field>
+
+          <!-- Ground Booking No -->
+          <mat-form-field appearance="fill">
+            <mat-label>Waybill No</mat-label>
+            <input
+              matInput
+              placeholder="Waybill No"
+              formControlName="airWaybillNo">
+          </mat-form-field>
+        </ng-container>
+
+        <!-- SEA -->
+        <ng-container *ngSwitchCase="'S'">
+          <h2>Sea</h2>
+          <!-- Carrier -->
+          <mat-form-field appearance="fill">
+            <mat-label>Carrier</mat-label>
+            <input
+              matInput
+              placeholder="Carrier"
+              formControlName="seaEntity">
+          </mat-form-field>
+
+          <!-- Bill Landing No -->
+          <mat-form-field appearance="fill">
+            <mat-label>Bill landing No</mat-label>
+            <input
+              matInput
+              placeholder="Bill landing No"
+              formControlName="seaBillLandingNo">
+          </mat-form-field>
+
+          <!-- Booking No -->
+          <mat-form-field appearance="fill">
+            <mat-label>Booking No</mat-label>
+            <input
+              matInput
+              placeholder="Booking No"
+              formControlName="seaBookingNo">
+          </mat-form-field>
+
+          <!-- Containers No -->
+          <mat-form-field appearance="fill">
+            <mat-label>Containers No</mat-label>
+            <textarea
+              matInput
+              placeholder="Containers No"
+              formControlName="seaContainersNo"
+              cdkAutosizeMinRows="2"
+              cdkAutosizeMaxRows="2">
+            </textarea>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="container two">
+      <ng-container [ngSwitch]="shipmentMethod.value">
+
+        <!-- GROUND -->
+        <ng-container *ngSwitchCase="'G'">
+
+          <!-- Departure city -->
+          <mat-form-field appearance="fill">
+            <mat-label>Departure city</mat-label>
+            <input
+              matInput
+              placeholder="Departure city"
+              formControlName="groundDepartureCity">
+          </mat-form-field>
+
+          <!-- Departure Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Departure date</mat-label>
+            <input
+              matInput
+              placeholder="Departure date"
+              [matDatepicker]="groundDepartureDate"
+              formControlName="groundDepartureDate">
+            <mat-datepicker-toggle matSuffix [for]="groundDepartureDate"></mat-datepicker-toggle>
+            <mat-datepicker #groundDepartureDate></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Arrival city -->
+          <mat-form-field appearance="fill">
+            <mat-label>Arrival city</mat-label>
+            <input
+              matInput
+              placeholder="Arrival city"
+              formControlName="groundArrivalCity">
+          </mat-form-field>
+
+          <!-- Arrival Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Arrival date</mat-label>
+            <input
+              matInput
+              placeholder="Arrival date"
+              [matDatepicker]="groundArrivalDate"
+              formControlName="groundArrivalDate">
+            <mat-datepicker-toggle matSuffix [for]="groundArrivalDate"></mat-datepicker-toggle>
+            <mat-datepicker #groundArrivalDate></mat-datepicker>
+          </mat-form-field>
+
+        </ng-container>
+
+        <!-- AIR -->
+        <ng-container *ngSwitchCase="'A'">
+
+          <!-- Departure city -->
+          <mat-form-field appearance="fill">
+            <mat-label>Departure city</mat-label>
+            <input
+              matInput
+              placeholder="Departure city"
+              formControlName="airDepartureCity">
+          </mat-form-field>
+
+          <!-- Departure Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Departure date</mat-label>
+            <input
+              matInput
+              placeholder="Departure date"
+              [matDatepicker]="airDepartureDate"
+              formControlName="airDepartureDate">
+            <mat-datepicker-toggle matSuffix [for]="airDepartureDate"></mat-datepicker-toggle>
+            <mat-datepicker #airDepartureDate></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Arrival city -->
+          <mat-form-field appearance="fill">
+            <mat-label>Arrival city</mat-label>
+            <input
+              matInput
+              placeholder="Arrival city"
+              formControlName="airArrivalCity">
+          </mat-form-field>
+
+          <!-- Arrival Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Arrival date</mat-label>
+            <input
+              matInput
+              placeholder="Arrival date"
+              [matDatepicker]="airArrivalDate"
+              formControlName="airArrivalDate">
+            <mat-datepicker-toggle matSuffix [for]="airArrivalDate"></mat-datepicker-toggle>
+            <mat-datepicker #airArrivalDate></mat-datepicker>
+          </mat-form-field>
+
+        </ng-container>
+
+        <!-- SEA -->
+        <ng-container *ngSwitchCase="'S'">
+
+          <!-- Departure city -->
+          <mat-form-field appearance="fill">
+            <mat-label>Departure city</mat-label>
+            <input
+              matInput
+              placeholder="Departure city"
+              formControlName="seaDepartureCity">
+          </mat-form-field>
+
+          <!-- Departure Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Departure date</mat-label>
+            <input
+              matInput
+              placeholder="Departure date"
+              [matDatepicker]="seaDepartureDate"
+              formControlName="seaDepartureDate">
+            <mat-datepicker-toggle matSuffix [for]="seaDepartureDate"></mat-datepicker-toggle>
+            <mat-datepicker #seaDepartureDate></mat-datepicker>
+          </mat-form-field>
+
+          <!-- Arrival city -->
+          <mat-form-field appearance="fill">
+            <mat-label>Arrival city</mat-label>
+            <input
+              matInput
+              placeholder="Arrival city"
+              formControlName="seaArrivalCity">
+          </mat-form-field>
+
+          <!-- Arrival Date -->
+          <mat-form-field appearance="fill">
+            <mat-label>Arrival date</mat-label>
+            <input
+              matInput
+              placeholder="Arrival date"
+              [matDatepicker]="seaArrivalDate"
+              formControlName="seaArrivalDate">
+            <mat-datepicker-toggle matSuffix [for]="seaArrivalDate"></mat-datepicker-toggle>
+            <mat-datepicker #seaArrivalDate></mat-datepicker>
+          </mat-form-field>
+
+        </ng-container>
+      </ng-container>
+
+    </div>
+  </div>
+</div>

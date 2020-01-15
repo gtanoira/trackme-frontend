@@ -1,6 +1,8 @@
+@import 'src/variables.scss';
+
 /* ***********************
  * LAYOUT
- */
+ *************************/
 .container {
   display: flex;
   flex-direction: column;
@@ -14,14 +16,30 @@
   flex-wrap: wrap;
 }
 
+.divider {
+  margin-bottom: 1em;
+}
+
 .form-field {
   margin-right: 1em;
   margin-bottom: 1em;
+  width: $FIELDS-CONTROL-FULLSIZE;
 }
+
+/* .half-size {
+  width: $FIELDS-CONTROL-HALFSIZE;
+}
+
+@media (max-width: 680px) {
+  .half-size {
+    width: $FIELDS-CONTROL-FULLSIZE;
+  }
+} */
 
 .add-button {
   margin-top: 12px;
 }
+
 
 /* ***********************
  * TYPOGRAPHY

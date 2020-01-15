@@ -55,7 +55,7 @@ export class OrderService {
   private initOptions() {
     // Item Condition Options
     this.auxiliarTableService.getItemConditions().subscribe(
-      data => { this.conditionOptions = data; console.log('*** conditionOptions:', this.conditionOptions); }
+      data => this.conditionOptions = data
     );
     // Item Status Options
     this.auxiliarTableService.getItemStatus().subscribe(
@@ -191,6 +191,7 @@ export class OrderService {
   public newOrderEvent(orderId: number, orderEventData: object): Observable<any> {
     return this.http.post(`${environment.envData.dataBaseServer}/api/v1/orders/${orderId}/order_events.json`, orderEventData).pipe(
       tap(
+        // Refresh table
         data => this.newDBaseEvent.next(true)
       )
     );
