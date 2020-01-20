@@ -1,49 +1,51 @@
-import {Component, ViewEncapsulation} from '@angular/core';
-import {ITooltipAngularComp} from 'ag-grid-angular';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ITooltipAngularComp } from 'ag-grid-angular';
 
 @Component({
-    selector: 'app-tooltip-component',
-    template: `
-        <div class="custom-tooltip">
-            <p><span>Fecha válida en SAP</span></p>
-            <p>{{data.fechaCotizacion}}</p>
-        </div>`,
-    styles: [
-        `
-            :host {
-                position: absolute;
-                width: 150px;
-                height: 50px;
-                border: 1px solid cornflowerblue;
-                overflow: hidden;
-                pointer-events: none;
-                transition: opacity 1s;
-                background-color: lightyellow;
-            }
+  selector: 'app-tooltip-component',
+  template:
+    `
+      <div class="custom-tooltip">
+        <p><span>Fecha válida en SAP</span></p>
+        <p>{{data.fechaCotizacion}}</p>
+      </div>
+    `,
+  styles: [
+    `
+      :host {
+        position: absolute;
+        width: 150px;
+        height: 50px;
+        border: 1px solid cornflowerblue;
+        overflow: hidden;
+        pointer-events: none;
+        transition: opacity 1s;
+        background-color: lightyellow;
+      }
 
-            :host.ag-tooltip-hiding {
-                opacity: 0;
-            }
+      :host.ag-tooltip-hiding {
+        opacity: 0;
+      }
 
-            .custom-tooltip p {
-                margin: 5px;
-                white-space: nowrap;
-            }
+      .custom-tooltip p {
+        margin: 5px;
+        white-space: nowrap;
+      }
 
-            .custom-tooltip p:first-of-type {
-                font-weight: bold;
-            }
-        `
-    ]
+      .custom-tooltip p:first-of-type {
+        font-weight: bold;
+      }
+    `
+  ]
 })
 export class CustomTooltipComponent implements ITooltipAngularComp {
 
-    private params: any;
-    public  data: any;
+  private params: any;
+  public data: any;
 
-    agInit(params): void {
-        this.params = params;
-        this.data = params.api.getRowNode(params.rowIndex).data;
-        this.data.color = this.params.color || 'white';
-    }
+  agInit(params): void {
+    this.params = params;
+    this.data = params.api.getRowNode(params.rowIndex).data;
+    this.data.color = this.params.color || 'white';
+  }
 }

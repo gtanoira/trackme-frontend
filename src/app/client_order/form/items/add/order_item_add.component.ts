@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, CheckboxControlValueAccessor, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
 // Shared function
@@ -42,7 +42,7 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
   private triggerUnitLength: Subscription;
 
   // Select options
-  public warehouseOptions: Observable<WarehouseModel[]> = this.stockService.getAllWarehouses();
+  public warehouseOptions: WarehouseModel[];
   public itemTypeOptions: Observable<ItemTypeModel[]> = this.auxiliarTableService.getItemTypes();
   public conditionOptions: Observable<ItemConditionModel[]> = this.auxiliarTableService.getItemConditions();
   public itemModelsOptions: ItemModelModel[];
@@ -69,7 +69,7 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       unitWeight: [this.authsService.userDefaultUnitWeight()],
       unitVolumetric: [this.authsService.userDefaultUnitVolumetric()],
       // Item's data
-      itemId: [''],
+      itemId: ['', [Validators.minLength(7),  this.validateItemId.bind(this)]],
       status: ['onhand'],
       quantity: [1],
       model: [''],
@@ -106,6 +106,12 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
     this.entityService.getClientItemModels(this.clientId.value).subscribe(
       data => this.itemModelsOptions = data,
       err => this.itemModelsOptions = []
+    );
+
+    // Get all Warehouses
+    this.stockService.getAllWarehouses().subscribe(
+      data => this.warehouseOptions = data,
+      err => this.warehouseOptions = []
     );
 
     // Trigger for model
@@ -245,12 +251,18 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Validator for event
-  validateEventId(control: FormControl): {[s: string]: boolean} {
+  // Validator for intemId
+  validateItemId(control: FormControl): {[s: string]: boolean} {
 
-    if (control.value) {
-      // Set the scope
-      // this.scope.setValue(this.events.find(el => el.id === control.value).scope);
+    if (control.value && control.value.length >= 6) {
+      /* The format itemId must be YYYYWWNNNNNNNN  where:
+       *    YYYY: year
+       *    WW: id warehouse where was first entered
+       *    NNNNNNNN: number
+       *
+       *  This ID must be unique and the WW (warehouse ID) must exists in this account
+      */
+      return this.warehouseOptions.find(el => el.alias === control.value.substring(4, 6)) === undefined ? {'warehouseExists': false} : null;
     }
     return null;  // null means NO errors
   }

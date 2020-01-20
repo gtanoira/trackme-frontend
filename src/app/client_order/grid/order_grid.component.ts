@@ -119,15 +119,8 @@ export class OrderGridComponent implements OnInit {
         width: 210
       }, {
         headerName: 'Status',
+        field: 'status',
         width: 100,
-        valueGetter: function(params) {
-          switch(params.data.orderStatus) {
-            case 'P': return 'Pending'; break;
-            case 'C': return 'Confirmed'; break;
-            case 'F': return 'Finalized'; break;
-            case 'A': return 'Cancelled'; break;
-          }
-        },
         filter: 'agTextColumnFilter',
       }
     ];

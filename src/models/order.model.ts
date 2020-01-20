@@ -17,7 +17,7 @@ export interface OrderModel {
   legacyOrderNo: string;
   observations: string;
   orderDatetime: string;
-  orderStatus: string;
+  status: string;
   orderType: string;
   pieces: number;
   shipmentMethod: string;

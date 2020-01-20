@@ -7,21 +7,23 @@
     <div class="container-block">
 
       <!-- Warehouse -->
-      <mat-form-field
-        class="form-field"
-        appearance="fill">
-        <mat-label>Warehouse</mat-label>
-        <mat-select
-          placeholder="Warehouse"
-          formControlName="warehouseId"
-          required>
-          <mat-option
-            *ngFor="let data of warehouseOptions | async"
-            [value]="data.id">
-            {{ data.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <ng-container *ngIf="warehouseOptions">
+        <mat-form-field
+          class="form-field"
+          appearance="fill">
+          <mat-label>Warehouse</mat-label>
+          <mat-select
+            placeholder="Warehouse"
+            formControlName="warehouseId"
+            required>
+            <mat-option
+              *ngFor="let data of warehouseOptions"
+              [value]="data.id">
+              {{ data.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
 
       <!-- Item Type -->
       <mat-form-field
@@ -88,8 +90,10 @@
           matInput
           placeholder="Item ID"
           formControlName="itemId"
-          required>
-        <mat-error>The item ID cannot be null</mat-error>
+          required />
+        <mat-error *ngIf="!itemId">The item ID cannot be null</mat-error>
+        <mat-error *ngIf="itemId.errors?.minLength">The item ID must be 7 characters minimum</mat-error>
+        <mat-error *ngIf="!itemId.errors?.warehouseExists">The warehouse id {{itemId.value.substring(4,6)}} doesn't exists</mat-error>
       </mat-form-field>
 
       <!-- DECO and/or GENERIC type -->

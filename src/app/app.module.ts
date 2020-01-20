@@ -43,6 +43,7 @@ import { StockService } from '../shared/stock.service';
 
 // Directives
 import { OnlyNumbersDirective, ToUppercaseDirective, NumberFormatterDirective } from '../directives/formatter.directive';
+import { ItemIdDirective } from 'src/directives/item_id_formatter.directive';
 
 // Interceptors
 import { interceptorProviders } from '../interceptors/interceptors';
@@ -108,6 +109,7 @@ export const MY_FORMATS = {
     AppComponent,
     AgGridLoadingComponent,
     // Directives
+    ItemIdDirective,
     NumberFormatterDirective,
     OnlyNumbersDirective,
     ToUppercaseDirective,

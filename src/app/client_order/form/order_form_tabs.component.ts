@@ -94,7 +94,7 @@ export class OrderFormTabsComponent implements OnInit {
           value: moment(),
           disabled: true
         }],
-        orderStatus: ['P'],
+        status: ['loading'],
         orderType: ['P'],
         pieces: [0],
         shipmentMethod: ['A'],
@@ -205,7 +205,7 @@ export class OrderFormTabsComponent implements OnInit {
           value: data.orderDatetime,
           disabled: true
         }],
-        orderStatus: [data.orderStatus],
+        status: [data.status],
         orderType: [data.orderType],
         pieces: [data.pieces],
         shipmentMethod: [data.shipmentMethod],

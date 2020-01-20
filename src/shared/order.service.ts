@@ -100,7 +100,7 @@ export class OrderService {
       legacyOrderNo: formData.value.general.legacyOrderNo,
       observations: formData.value.general.observations,
       orderDatetime: formData.value.general.orderDatetime,
-      orderStatus: formData.value.general.orderStatus,
+      status: formData.value.general.status,
       orderType: formData.value.general.orderType,
       pieces: formData.value.general.pieces,
       shipmentMethod: formData.value.general.shipmentMethod,

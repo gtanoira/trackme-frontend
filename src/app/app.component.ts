@@ -5,6 +5,7 @@
 import { Component, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material/icon';
+import { Subscription } from 'rxjs';
 
 // Services
 import { ErrorMessageService } from '../shared/error-message.service';
@@ -12,7 +13,7 @@ import { AuthsService } from '../shared/auths.service';
 
 // Environment
 import { environment } from '../environments/environment';
-import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',

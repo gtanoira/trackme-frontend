@@ -44,10 +44,10 @@ export class OnlyNumbersDirective {
  *  Directive:  Force to Uppercase Letters
  *
  *  Usage inside form (HTML):
- *    <input [(toUppercase)]='customerInfo.firstName' type='text'>
+ *    <input appToUppercase ... />
 */
 @Directive({
-  selector: '[toUppercase]',
+  selector: '[appToUppercase]',
   host: {
     '[value]': 'toUppercase',
     '(input)': 'format($event.target.value)'
