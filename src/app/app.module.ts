@@ -7,6 +7,7 @@ import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
@@ -34,11 +35,12 @@ import { AuthsService } from '../shared/auths.service';
 import { AuxiliarTableService } from '../shared/auxiliar_table.service';
 import { CompanyService } from '../shared/company.service';
 import { CountryService } from '../shared/country.service';
-import { OrderService } from '../shared/order.service';
 import { EntityService } from '../shared/entity.service';
 import { ErrorMessageService } from '../shared/error-message.service';
 import { EventService } from '../shared/event.service';
 import { HeightService } from '../shared/height.service';
+import { ItemService } from '../shared/item.service';
+import { OrderService } from '../shared/order.service';
 import { StockService } from '../shared/stock.service';
 
 // Directives
@@ -55,6 +57,9 @@ import { MainComponent } from './main_menu/main.component';
 
 // Authentication & Authorization
 import { LoginComponent } from './login/login.component';
+
+// Dialog Modal Components
+import { DialogModalComponent } from 'src/shared/dialog/dialog.component';
 
 // Orders Components
 import { OrderTabsComponent } from './client_order/order_tabs.component';
@@ -107,6 +112,7 @@ export const MY_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
+    DialogModalComponent,
     AgGridLoadingComponent,
     // Directives
     ItemIdDirective,
@@ -136,12 +142,16 @@ export const MY_FORMATS = {
     OrderItemAddComponent,
     OrderItemGridComponent
   ],
+  entryComponents: [
+    DialogModalComponent
+  ],
   imports: [
     AgGridModule.withComponents([AgGridLoadingComponent, ActionButtonsComponent]),
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     HttpClientModule,
+    MatAutocompleteModule,
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -181,6 +191,7 @@ export const MY_FORMATS = {
     ErrorMessageService,
     EventService,
     HeightService,
+    ItemService,
     HttpClientModule,
     StockService,
     interceptorProviders,

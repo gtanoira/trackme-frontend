@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, CheckboxControlValueAccessor, Validators } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
 
 // Shared function
 import { changeUnits } from 'src/shared/unitConversions';
@@ -38,7 +39,6 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
   public itemTitle = 'item';
 
   // Define triggers
-  private triggerModel: Subscription;
   private triggerUnitLength: Subscription;
 
   // Select options
@@ -46,6 +46,7 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
   public itemTypeOptions: Observable<ItemTypeModel[]> = this.auxiliarTableService.getItemTypes();
   public conditionOptions: Observable<ItemConditionModel[]> = this.auxiliarTableService.getItemConditions();
   public itemModelsOptions: ItemModelModel[];
+  public filteredModels: Observable<ItemModelModel[]>;
   public unitLengthOptions: Observable<UnitLengthModel[]> = this.auxiliarTableService.getUnitLengthOptions();
   public unitWeightOptions: Observable<UnitWeightModel[]> = this.auxiliarTableService.getUnitWeightOptions();
   public unitVolumetricOptions: Observable<UnitVolumetricModel[]> = this.auxiliarTableService.getUnitVolumetricOptions();
@@ -72,7 +73,7 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       itemId: ['', [Validators.minLength(7),  this.validateItemId.bind(this)]],
       status: ['onhand'],
       quantity: [1],
-      model: [''],
+      model: ['', this.validateModel.bind(this)],
       manufacter: [''],
       partNumber: [''],
       serialNumber: [''],
@@ -114,33 +115,10 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       err => this.warehouseOptions = []
     );
 
-    // Trigger for model
-    this.triggerModel = this.model.valueChanges.subscribe(
-      data => {
-        // Set unit measures to the item
-        const itemModel = this.itemModelsOptions.find(el => el.model === this.model.value);
-        if (itemModel) {
-          // the model exists
-          this.itemForm.get('manufacter').setValue(itemModel.manufacter);
-          this.itemForm.get('unitLength').setValue(itemModel.unitLength);
-          this.itemForm.get('width').setValue(itemModel.width);
-          this.itemForm.get('length').setValue(itemModel.length);
-          this.itemForm.get('height').setValue(itemModel.height);
-          this.itemForm.get('unitWeight').setValue(itemModel.unitWeight);
-          this.itemForm.get('weight').setValue(itemModel.weight);
-          this.itemForm.get('unitVolumetric').setValue(itemModel.unitVolumetric);
-          this.itemForm.get('volumeWeight').setValue(itemModel.volumeWeight);
-        } else {
-          // The model does not exists
-          this.itemForm.get('manufacter').setValue('');
-          this.itemForm.get('width').setValue(0);
-          this.itemForm.get('length').setValue(0);
-          this.itemForm.get('height').setValue(0);
-          this.itemForm.get('weight').setValue(0);
-          this.itemForm.get('volumeWeight').setValue(0);
-
-        }
-      }
+    // Trigger for model (mat-autocomplete)
+    this.filteredModels = this.model.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value))
     );
 
     // Trigger for Unit Length
@@ -154,28 +132,19 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.triggerModel.unsubscribe();
     this.triggerUnitLength.unsubscribe();
   }
 
-  // Validator for Warehouse and Item Type
-  enableItemId(control: FormControl): {[s: string]: boolean} {
-    if (this.itemForm) {
-      if (this.warehouseId.valid && this.itemType.valid) {
-        this.itemId.enable();
-      } else {
-        this.itemId.disable();
-      }
-      // Set item Title
-      this.itemTitle = this.itemType.value;
-      // Enable or disable UA Number
-      if (this.itemType.value === 'generic') {
-        this.uaNumber.disable();
-      } else {
-        this.uaNumber.enable();
-      }
-    }
-    return null;
+  // Display value for mat-autocomplete
+  public displayFn(subject) {
+    // subject es el contenido de [value] en <mat-option>
+    return subject ? subject : undefined;
+  }
+
+  // Filter para mat-autocomplete 'model'
+  private _filter(value: string): ItemModelModel[] {
+    const filterValue = typeof value === 'string' ? value.toLowerCase() : value;
+    return this.itemModelsOptions.filter(el => el.model.toLowerCase().includes(filterValue));
   }
 
   // Save a new event
@@ -251,8 +220,10 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
     }
   }
 
+
+
   // Validator for intemId
-  validateItemId(control: FormControl): {[s: string]: boolean} {
+  public validateItemId(control: FormControl): {[s: string]: boolean} {
 
     if (control.value && control.value.length >= 6) {
       /* The format itemId must be YYYYWWNNNNNNNN  where:
@@ -265,6 +236,56 @@ export class OrderItemAddComponent implements OnInit, OnDestroy {
       return this.warehouseOptions.find(el => el.alias === control.value.substring(4, 6)) === undefined ? {'warehouseExists': false} : null;
     }
     return null;  // null means NO errors
+  }
+
+  // Validator for Warehouse and Item Type
+  public enableItemId(control: FormControl): {[s: string]: boolean} {
+    if (this.itemForm) {
+      if (this.warehouseId.valid && this.itemType.valid) {
+        this.itemId.enable();
+      } else {
+        this.itemId.disable();
+      }
+      // Set item Title
+      this.itemTitle = this.itemType.value;
+      // Enable or disable UA Number
+      if (this.itemType.value === 'generic') {
+        this.uaNumber.disable();
+      } else {
+        this.uaNumber.enable();
+      }
+    }
+    return null;
+  }
+
+  // Validator for model
+  public validateModel(control: FormControl): {[s: string]: boolean} {
+    if (this.itemModelsOptions) {
+      // Set unit measures to the item
+      const itemModel = this.itemModelsOptions.find(el => el.model === control.value);
+      console.log('***itemModel:', itemModel, control.value);
+      if (itemModel) {
+        // the model exists
+        this.itemForm.get('manufacter').setValue(itemModel.manufacter);
+        this.itemForm.get('unitLength').setValue(itemModel.unitLength);
+        this.itemForm.get('width').setValue(itemModel.width);
+        this.itemForm.get('length').setValue(itemModel.length);
+        this.itemForm.get('height').setValue(itemModel.height);
+        this.itemForm.get('unitWeight').setValue(itemModel.unitWeight);
+        this.itemForm.get('weight').setValue(itemModel.weight);
+        this.itemForm.get('unitVolumetric').setValue(itemModel.unitVolumetric);
+        this.itemForm.get('volumeWeight').setValue(itemModel.volumeWeight);
+      } else {
+        // The model does not exists
+        this.itemForm.get('manufacter').setValue('');
+        this.itemForm.get('width').setValue(0);
+        this.itemForm.get('length').setValue(0);
+        this.itemForm.get('height').setValue(0);
+        this.itemForm.get('weight').setValue(0);
+        this.itemForm.get('volumeWeight').setValue(0);
+      }
+    }
+    return null;
   }
 
 }

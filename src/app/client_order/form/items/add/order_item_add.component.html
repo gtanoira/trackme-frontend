@@ -141,18 +141,26 @@
 
         <!-- Model -->
         <ng-container *ngIf="itemModelsOptions">
-          <ng-select
+          <mat-form-field
             class="form-field"
-            [items]="itemModelsOptions"
-            [addTag]="true"
-            bindLabel="model"
-            bindValue="model"
-            dropdownPosition="auto"
-            labelForId="Model"
-            placeholder="Model"
-            [virtualScroll]="true"
-            formControlName="model">
-          </ng-select>
+            appearance="fill">
+            <mat-label>Model</mat-label>
+            <input
+              type="text"
+              matInput
+              formControlName="model"
+              [matAutocomplete]="autoModel"
+            />
+            <mat-autocomplete
+              #autoModel="matAutocomplete"
+              [displayWith]="displayFn">
+              <mat-option
+                *ngFor="let data of filteredModels | async"
+                [value]="data.model">
+                {{ data.model }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
         </ng-container>
 
         <!-- Manufacter -->

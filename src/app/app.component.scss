@@ -9,7 +9,7 @@
   /* display: flex;
   flex-direction: row;
   width: 100%; */
-  position: relative;
+  position: sticky;/* relative */;
   z-index: 1000;
   box-shadow: 0 3px 5px -1px rgba(0,0,0,.2), 0 6px 10px 0 rgba(0,0,0,.14), 0 1px 18px 0 rgba(0,0,0,.12);
 }
@@ -19,6 +19,10 @@
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+}
+
+.header-button {
+  padding: 0 0.5em 0 0;
 }
 
 .mat-button {
@@ -91,8 +95,11 @@
 /* ****************************
  * TYPOGRAPHY
 */
-.main-title {
-  display: none;
+.title-attr {
+  /* like a h5 for mobile */
+  font-size: .83em;
+  padding-left: 0.5em;
+  padding-top: 3px;
 }
 
 .subtitle {
@@ -103,6 +110,21 @@
 @media (min-width: 600px) {
   .main-title {
     display: inline-block;
+  }
+
+  .title-attr {
+    /* like a h3 for web */
+    font-size: 1.17em;
+  }
+
+  .hide {
+    display: block;
+  }
+}
+
+@media (max-width: 320px) {
+  .hide-button {
+    display: none;
   }
 }
 

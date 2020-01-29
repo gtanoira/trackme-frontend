@@ -1,10 +1,11 @@
+<!-- Main Title -->
 <mat-toolbar
   class="header"
   color="primary">
 
   <!-- Main Menu (HOME) -->
   <a
-    class="mainmenu-button"
+    class="header-button"
     mat-button
     (click)="showMainMenu()">
     <mat-icon
@@ -15,15 +16,15 @@
   </a>
 
   <!-- Title -->
-  <h2 class="main-title">Send Box -&nbsp;</h2>
-  <h2 class="subtitle">{{ programSubtitle }}</h2>
+  <!-- SendBox LOGO goes here -->
+  <h3 class="title-attr subtitle">{{ programSubtitle }}</h3>
 
   <!-- Options -->
   <div class="header-right">
 
     <!-- Main Menu (HOME) -->
     <a
-      class="header-button"
+      class="header-button hide-button"
       mat-button
       (click)="showMainMenu()">
       <mat-icon
@@ -63,7 +64,6 @@
     <!-- Logout -->
     <a
       class="header-button"
-      class="toolbar-logout"
       mat-button
       (click)="logoutBtn()">
       <mat-icon
@@ -76,7 +76,7 @@
 
 </mat-toolbar>
 
-<!-- Main Structure -->
+<!-- Main Body -->
 <div class="container">
 
   <!-- Main Menu -->
