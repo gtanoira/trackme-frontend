@@ -92,6 +92,15 @@
   margin: 0 auto;
 }
 
+.hide-button {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .hide-button {
+    display: inline;
+  }
+}
 /* ****************************
  * TYPOGRAPHY
 */
@@ -115,16 +124,6 @@
   .title-attr {
     /* like a h3 for web */
     font-size: 1.17em;
-  }
-
-  .hide {
-    display: block;
-  }
-}
-
-@media (max-width: 320px) {
-  .hide-button {
-    display: none;
   }
 }
 
